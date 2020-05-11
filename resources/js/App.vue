@@ -9,7 +9,10 @@
 		  <div class="collapse navbar-collapse" id="navbarSupportedContent">
 		    <ul class="navbar-nav ml-auto">
 		      <li class="nav-item">
-		      	<router-link class="nav-link" :to="{name: 'inicio'}">Inicio</router-link>
+		      	<router-link class="nav-link" :to="{name: 'inicio'}" exact>Inicio</router-link>
+		      </li>
+		      <li class="nav-item">
+		      	<router-link class="nav-link" :to="{name: 'ListCiudadanos'}">Ciudadanos</router-link>
 		      </li>
 		      <li class="nav-item">
 		      	<router-link class="nav-link" :to="{name: 'solicitudes'}">Solicitudes</router-link>
@@ -38,7 +41,7 @@
 
 		<div class="container mt-5">
 			<transition name="slide-fade" mode="out-in">
-	            <router-view :key="$route.fullPath"></router-view>
+	            <router-view ></router-view>
 	        </transition>
         </div>
 	</div>
