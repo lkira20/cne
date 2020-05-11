@@ -56452,14 +56452,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
       component: _components_CiudadanosCreate__WEBPACK_IMPORTED_MODULE_9__["default"],
       name: 'ciudadanosCreate'
     }]
-  }
-  /*
-  {
-    path: '/ciudadanos/create',
-    name: 'ciudadanosCreate',
-    component: ciudadanosCreate
-  }*/
-  ],
+  }],
   mode: 'history' // elimina el hash de las url
 
 }));

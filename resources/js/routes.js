@@ -55,12 +55,7 @@ export default new Router({
                 {path: '', component: ListCiudadanos, name: 'ListCiudadanos'},
                 {path: 'create', component: ciudadanosCreate, name: 'ciudadanosCreate'}
             ]
-        },/*
-        {
-            path: '/ciudadanos/create',
-            name: 'ciudadanosCreate',
-            component: ciudadanosCreate
-        }*/
+        }
 
     ],
 
