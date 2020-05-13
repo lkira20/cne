@@ -16,7 +16,7 @@ class CiudadanoController extends Controller
     public function index()
     {
         //
-        $ciudadanos = Dato::where('datoable_type', 'App\Ciudadano')->paginate();
+        $ciudadanos = Dato::orderBy('id', 'DESC')->where('datoable_type', 'App\Ciudadano')->paginate();
         //devulve la lista de ciudadanos 
         return response()->json($ciudadanos);
 
@@ -34,10 +34,21 @@ class CiudadanoController extends Controller
         //creo el ciudadano
         $ciudadano = Ciudadano::create();
         // le inserto los datos
-        $datos = Dato::create(['name' => 'bruno', 'apellido' => 'diaz', 'ci' => 4321423, 'email' => 'bruno@gmail.com', 'datoable_type' => 'App\Ciudadano', 'datoable_id' => $ciudadano->id]);
+        $datos = Dato::create(['name' => $request->name, 'apellido' => $request->apellido, 'ci' => $request->ci, 'email' => $request->email, 'datoable_type' => 'App\Ciudadano', 'datoable_id' => $ciudadano->id]);
 
         return response()->json($datos);
     }
+
+    public function show($id)
+    {
+    
+        $ciudadano = Ciudadano::findOrFail($id);
+
+        $ciudadano = $ciudadano->datos;
+
+        return response()->json($ciudadano);
+    }
+
 
     /**
      * Display the specified resource.
@@ -74,7 +85,7 @@ class CiudadanoController extends Controller
         //
 
         $ciudadano = Ciudadano::findOrFail($id);
-        $datos = Dato::where('datoable_type', 'App/Ciudadano')->where('datoable_id', $ciudadano->id);
+      
         //borro los datos
         $ciudadano->datos->delete();
         //borro el ciudadano

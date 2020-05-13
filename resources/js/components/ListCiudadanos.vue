@@ -12,14 +12,14 @@
 		    </tr>
 		  </thead>
 		  <tbody>
-		    <tr v-for="ciudadano of lista" :key="ciudadano.id">
+		    <tr v-for="(ciudadano, index) in lista" :key="ciudadano.id">
 		      <th scope="row">{{ ciudadano.name }}</th>
 		      <td>{{ ciudadano.apellido }}</td>
 		      <td>{{ ciudadano.ci }}</td>
 		      <td>{{ ciudadano.email }}</td>
 		      <td>
-		      	<button class="btn btn-link">editar</button>
-		      	<button class="btn btn-danger">Eliminar</button>
+		      	<router-link class="btn btn-link" :to="{name: 'ciudadanosEdit', params: {id: ciudadano.datoable_id}}">editar</router-link>
+		      	<button class="btn btn-danger" @click='eliminar(ciudadano.datoable_id, index)'>Eliminar</button>
 		      </td>
 		    </tr>
 		  </tbody>
@@ -38,15 +38,28 @@
 			lista: []
 			}
 		},
-		method(){
+		methods:{
+			eliminar(id, index){
+	
+				axios.delete('/api/ciudadano/'+id).then(datos => {
+				//console.log(datos.data.datos);
 
+					let eliminado = this.lista.splice(index, 1);
+					
+					console.log(eliminado);
+				
+				});
+		
+			}
 		},
 		created(){
 
 			axios.get('/api/ciudadano').then(datos => {
 				console.log(datos.data);
 				this.lista = datos.data.data;
+
 			});
+
 		}
 	}
 

@@ -12,9 +12,10 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-//RUTAS DE CIUDADANOS
 
+//RUTAS DE CIUDADANOS
 Route::apiResource('api/ciudadano', 'CiudadanoController');
+Route::get('api/ciudadano/show/{id}', 'CiudadanoController@show');
 
 Route::get('/prueba', function(){
 	
@@ -27,6 +28,13 @@ Route::get('/', function () {
 });
 
 Route::get('/{any}', function () {
+    return view('home');
+})->where('{any}', '.*');
+
+Route::get('ciudadanos/{any}', function () {
+    return view('home');
+})->where('{any}', '.*');
+Route::get('ciudadanos/edit/{any}', function () {
     return view('home');
 })->where('{any}', '.*');
 

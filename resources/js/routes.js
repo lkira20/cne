@@ -10,6 +10,7 @@ import tramites from './views/Tramites'
 import ciudadanos from './views/Ciudadanos'
 import ciudadanosCreate from './components/CiudadanosCreate'
 import ListCiudadanos from './components/ListCiudadanos'
+import ciudadanosEdit from './components/CiudadanosEdit'
 
 
 Vue.use(Router)
@@ -52,8 +53,9 @@ export default new Router({
             name: 'ciudadanos',
             component: ciudadanos,
             children: [
-                {path: '', component: ListCiudadanos, name: 'ListCiudadanos'},
-                {path: 'create', component: ciudadanosCreate, name: 'ciudadanosCreate'}
+                {path: '/', component: ListCiudadanos, name: 'ListCiudadanos'},
+                {path: 'create', component: ciudadanosCreate, name: 'ciudadanosCreate'},
+                {path: 'edit/:id', component: ciudadanosEdit, name: 'ciudadanosEdit', props: true},
             ]
         }
 

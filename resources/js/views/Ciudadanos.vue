@@ -2,7 +2,7 @@
 	<div>
 		<h1 class="text-center">Ciudadanos</h1>
 
-		<router-view :key="$route.fullPath"></router-view>
+		<router-view></router-view>
 
 	</div>
 </template>

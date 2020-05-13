@@ -1,7 +1,7 @@
 <template>
 	<div class="card p-3 shadow">
-		<form @submit.prevent='registrar' method="post">
-			<h2>Registrar Ciudadano</h2>
+		<form @submit.prevent='editar' method="post">
+			<h2>Editar ciudadano </h2>
 		  <div class="form-row">
 		    <div class="col-12 col-md-6 form-group">
 		    	<label for="inputEmail4">Nombre</label>
@@ -20,7 +20,7 @@
 		    	<input type="email" class="form-control" placeholder="email" name="email" v-model="email">
 		    </div>
 		    <div>
-		    	<button class="btn btn-primary">Registrar</button>
+		    	<button type="submit" class="btn btn-primary">editar</button>
 		    </div>
 		  </div>
 		</form>
@@ -30,6 +30,7 @@
 <script type="text/javascript">
 
 	export default{
+		props: ['id'],
 		data(){
 			return {
 				ciudadano: {},
@@ -39,25 +40,35 @@
 				email: ''
 			}
 		},
-		methods: {
-			registrar(){
-				//establecer objeto de envio
+		methods:{
+			editar(){
+				//objeto de envio
 				this.ciudadano.name = this.nombre;
 				this.ciudadano.apellido = this.apellido;
 				this.ciudadano.ci = this.cedula;
 				this.ciudadano.email = this.email;
-				//enviar
-				
-				axios.post('/api/ciudadano', this.ciudadano).then(response => {
-					console.log(response);
 
-					this.$router.push({path: '/ciudadanos/', params: {success: 'usuario creado exitosamente'}});
-				}).catch(e => {
-					console.log(e);
+				axios.put('/api/ciudadano/'+this.id, this.ciudadano).then(datos => {
+					console.log(datos);
+					this.$router.push({path: '/ciudadanos/'});
 				});
-				
 			}
-		}
+		},
+		created(){
+			
+			axios.get('/api/ciudadano/show/'+this.id).then(datos => {
+				console.log(this.ciudadano);
+
+				this.ciudadano = datos.data;
+				console.log(this.ciudadano);
+				//le asigno el valor a los campos
+				this.nombre = this.ciudadano.name;
+				this.apellido = this.ciudadano.apellido;
+				this.cedula = this.ciudadano.ci;
+				this.email = this.ciudadano.email;
+			});
+
+		},
 	}
 
 </script>

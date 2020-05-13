@@ -1999,7 +1999,126 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      ciudadano: {},
+      nombre: '',
+      apellido: '',
+      cedula: null,
+      email: ''
+    };
+  },
+  methods: {
+    registrar: function registrar() {
+      var _this = this;
+
+      //establecer objeto de envio
+      this.ciudadano.name = this.nombre;
+      this.ciudadano.apellido = this.apellido;
+      this.ciudadano.ci = this.cedula;
+      this.ciudadano.email = this.email; //enviar
+
+      axios.post('/api/ciudadano', this.ciudadano).then(function (response) {
+        console.log(response);
+
+        _this.$router.push({
+          path: '/ciudadanos/',
+          params: {
+            success: 'usuario creado exitosamente'
+          }
+        });
+      })["catch"](function (e) {
+        console.log(e);
+      });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CiudadanosEdit.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/CiudadanosEdit.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['id'],
+  data: function data() {
+    return {
+      ciudadano: {},
+      nombre: '',
+      apellido: '',
+      cedula: null,
+      email: ''
+    };
+  },
+  methods: {
+    editar: function editar() {
+      var _this = this;
+
+      //objeto de envio
+      this.ciudadano.name = this.nombre;
+      this.ciudadano.apellido = this.apellido;
+      this.ciudadano.ci = this.cedula;
+      this.ciudadano.email = this.email;
+      axios.put('/api/ciudadano/' + this.id, this.ciudadano).then(function (datos) {
+        console.log(datos);
+
+        _this.$router.push({
+          path: '/ciudadanos/'
+        });
+      });
+    }
+  },
+  created: function created() {
+    var _this2 = this;
+
+    axios.get('/api/ciudadano/show/' + this.id).then(function (datos) {
+      console.log(_this2.ciudadano);
+      _this2.ciudadano = datos.data;
+      console.log(_this2.ciudadano); //le asigno el valor a los campos
+
+      _this2.nombre = _this2.ciudadano.name;
+      _this2.apellido = _this2.ciudadano.apellido;
+      _this2.cedula = _this2.ciudadano.ci;
+      _this2.email = _this2.ciudadano.email;
+    });
+  }
+});
 
 /***/ }),
 
@@ -2182,13 +2301,24 @@ __webpack_require__.r(__webpack_exports__);
       lista: []
     };
   },
-  method: function method() {},
+  methods: {
+    eliminar: function eliminar(id, index) {
+      var _this = this;
+
+      axios["delete"]('/api/ciudadano/' + id).then(function (datos) {
+        //console.log(datos.data.datos);
+        var eliminado = _this.lista.splice(index, 1);
+
+        console.log(eliminado);
+      });
+    }
+  },
   created: function created() {
-    var _this = this;
+    var _this2 = this;
 
     axios.get('/api/ciudadano').then(function (datos) {
       console.log(datos.data);
-      _this.lista = datos.data.data;
+      _this2.lista = datos.data.data;
     });
   }
 });
@@ -39176,15 +39306,19 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card p-3 shadow" }, [
-      _c("form", [
+  return _c("div", { staticClass: "card p-3 shadow" }, [
+    _c(
+      "form",
+      {
+        attrs: { method: "post" },
+        on: {
+          submit: function($event) {
+            $event.preventDefault()
+            return _vm.registrar($event)
+          }
+        }
+      },
+      [
         _c("h2", [_vm._v("Registrar Ciudadano")]),
         _vm._v(" "),
         _c("div", { staticClass: "form-row" }, [
@@ -39192,8 +39326,25 @@ var staticRenderFns = [
             _c("label", { attrs: { for: "inputEmail4" } }, [_vm._v("Nombre")]),
             _vm._v(" "),
             _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.nombre,
+                  expression: "nombre"
+                }
+              ],
               staticClass: "form-control",
-              attrs: { type: "text", placeholder: "nombre", name: "Nombre" }
+              attrs: { type: "text", placeholder: "nombre", name: "Nombre" },
+              domProps: { value: _vm.nombre },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.nombre = $event.target.value
+                }
+              }
             })
           ]),
           _vm._v(" "),
@@ -39203,8 +39354,29 @@ var staticRenderFns = [
             ]),
             _vm._v(" "),
             _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.apellido,
+                  expression: "apellido"
+                }
+              ],
               staticClass: "form-control",
-              attrs: { type: "text", placeholder: "apellido", name: "apellido" }
+              attrs: {
+                type: "text",
+                placeholder: "apellido",
+                name: "apellido"
+              },
+              domProps: { value: _vm.apellido },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.apellido = $event.target.value
+                }
+              }
             })
           ]),
           _vm._v(" "),
@@ -39212,8 +39384,25 @@ var staticRenderFns = [
             _c("label", { attrs: { for: "inputEmail4" } }, [_vm._v("Cedula")]),
             _vm._v(" "),
             _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.cedula,
+                  expression: "cedula"
+                }
+              ],
               staticClass: "form-control",
-              attrs: { type: "number", placeholder: "cedula", name: "cedula" }
+              attrs: { type: "number", placeholder: "cedula", name: "cedula" },
+              domProps: { value: _vm.cedula },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.cedula = $event.target.value
+                }
+              }
             })
           ]),
           _vm._v(" "),
@@ -39221,18 +39410,208 @@ var staticRenderFns = [
             _c("label", { attrs: { for: "inputEmail4" } }, [_vm._v("Email")]),
             _vm._v(" "),
             _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.email,
+                  expression: "email"
+                }
+              ],
               staticClass: "form-control",
-              attrs: { type: "email", placeholder: "email", name: "email" }
+              attrs: { type: "email", placeholder: "email", name: "email" },
+              domProps: { value: _vm.email },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.email = $event.target.value
+                }
+              }
             })
           ]),
           _vm._v(" "),
-          _c("div", [
-            _c("button", { staticClass: "btn btn-primary" }, [
-              _vm._v("Registrar")
-            ])
-          ])
+          _vm._m(0)
         ])
-      ])
+      ]
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c("button", { staticClass: "btn btn-primary" }, [_vm._v("Registrar")])
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CiudadanosEdit.vue?vue&type=template&id=00d0e27e&":
+/*!*****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/CiudadanosEdit.vue?vue&type=template&id=00d0e27e& ***!
+  \*****************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "card p-3 shadow" }, [
+    _c(
+      "form",
+      {
+        attrs: { method: "post" },
+        on: {
+          submit: function($event) {
+            $event.preventDefault()
+            return _vm.editar($event)
+          }
+        }
+      },
+      [
+        _c("h2", [_vm._v("Editar ciudadano ")]),
+        _vm._v(" "),
+        _c("div", { staticClass: "form-row" }, [
+          _c("div", { staticClass: "col-12 col-md-6 form-group" }, [
+            _c("label", { attrs: { for: "inputEmail4" } }, [_vm._v("Nombre")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.nombre,
+                  expression: "nombre"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text", placeholder: "nombre", name: "Nombre" },
+              domProps: { value: _vm.nombre },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.nombre = $event.target.value
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-12 col-md-6 form-group" }, [
+            _c("label", { attrs: { for: "inputEmail4" } }, [
+              _vm._v("Apellido")
+            ]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.apellido,
+                  expression: "apellido"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: {
+                type: "text",
+                placeholder: "apellido",
+                name: "apellido"
+              },
+              domProps: { value: _vm.apellido },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.apellido = $event.target.value
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-12 col-md-6 form-group" }, [
+            _c("label", { attrs: { for: "inputEmail4" } }, [_vm._v("Cedula")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.cedula,
+                  expression: "cedula"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "number", placeholder: "cedula", name: "cedula" },
+              domProps: { value: _vm.cedula },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.cedula = $event.target.value
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-12 col-md-6 form-group" }, [
+            _c("label", { attrs: { for: "inputEmail4" } }, [_vm._v("Email")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.email,
+                  expression: "email"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "email", placeholder: "email", name: "email" },
+              domProps: { value: _vm.email },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.email = $event.target.value
+                }
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _vm._m(0)
+        ])
+      ]
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", [
+      _c(
+        "button",
+        { staticClass: "btn btn-primary", attrs: { type: "submit" } },
+        [_vm._v("editar")]
+      )
     ])
   }
 ]
@@ -39663,7 +40042,7 @@ var render = function() {
       _vm._v(" "),
       _c(
         "tbody",
-        _vm._l(_vm.lista, function(ciudadano) {
+        _vm._l(_vm.lista, function(ciudadano, index) {
           return _c("tr", { key: ciudadano.id }, [
             _c("th", { attrs: { scope: "row" } }, [
               _vm._v(_vm._s(ciudadano.name))
@@ -39675,7 +40054,38 @@ var render = function() {
             _vm._v(" "),
             _c("td", [_vm._v(_vm._s(ciudadano.email))]),
             _vm._v(" "),
-            _vm._m(1, true)
+            _c(
+              "td",
+              [
+                _c(
+                  "router-link",
+                  {
+                    staticClass: "btn btn-link",
+                    attrs: {
+                      to: {
+                        name: "ciudadanosEdit",
+                        params: { id: ciudadano.datoable_id }
+                      }
+                    }
+                  },
+                  [_vm._v("editar")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-danger",
+                    on: {
+                      click: function($event) {
+                        return _vm.eliminar(ciudadano.datoable_id, index)
+                      }
+                    }
+                  },
+                  [_vm._v("Eliminar")]
+                )
+              ],
+              1
+            )
           ])
         }),
         0
@@ -39700,16 +40110,6 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Opciones")])
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("button", { staticClass: "btn btn-link" }, [_vm._v("editar")]),
-      _vm._v(" "),
-      _c("button", { staticClass: "btn btn-danger" }, [_vm._v("Eliminar")])
     ])
   }
 ]
@@ -40274,7 +40674,7 @@ var render = function() {
     [
       _c("h1", { staticClass: "text-center" }, [_vm._v("Ciudadanos")]),
       _vm._v(" "),
-      _c("router-view", { key: _vm.$route.fullPath })
+      _c("router-view")
     ],
     1
   )
@@ -55805,6 +56205,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/CiudadanosEdit.vue":
+/*!****************************************************!*\
+  !*** ./resources/js/components/CiudadanosEdit.vue ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _CiudadanosEdit_vue_vue_type_template_id_00d0e27e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./CiudadanosEdit.vue?vue&type=template&id=00d0e27e& */ "./resources/js/components/CiudadanosEdit.vue?vue&type=template&id=00d0e27e&");
+/* harmony import */ var _CiudadanosEdit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./CiudadanosEdit.vue?vue&type=script&lang=js& */ "./resources/js/components/CiudadanosEdit.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _CiudadanosEdit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _CiudadanosEdit_vue_vue_type_template_id_00d0e27e___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _CiudadanosEdit_vue_vue_type_template_id_00d0e27e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/CiudadanosEdit.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/CiudadanosEdit.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************!*\
+  !*** ./resources/js/components/CiudadanosEdit.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CiudadanosEdit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./CiudadanosEdit.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CiudadanosEdit.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_CiudadanosEdit_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/CiudadanosEdit.vue?vue&type=template&id=00d0e27e&":
+/*!***********************************************************************************!*\
+  !*** ./resources/js/components/CiudadanosEdit.vue?vue&type=template&id=00d0e27e& ***!
+  \***********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CiudadanosEdit_vue_vue_type_template_id_00d0e27e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./CiudadanosEdit.vue?vue&type=template&id=00d0e27e& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/CiudadanosEdit.vue?vue&type=template&id=00d0e27e&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CiudadanosEdit_vue_vue_type_template_id_00d0e27e___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_CiudadanosEdit_vue_vue_type_template_id_00d0e27e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/ExampleComponent.vue":
 /*!******************************************************!*\
   !*** ./resources/js/components/ExampleComponent.vue ***!
@@ -56396,6 +56865,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _views_Ciudadanos__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./views/Ciudadanos */ "./resources/js/views/Ciudadanos.vue");
 /* harmony import */ var _components_CiudadanosCreate__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/CiudadanosCreate */ "./resources/js/components/CiudadanosCreate.vue");
 /* harmony import */ var _components_ListCiudadanos__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/ListCiudadanos */ "./resources/js/components/ListCiudadanos.vue");
+/* harmony import */ var _components_CiudadanosEdit__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/CiudadanosEdit */ "./resources/js/components/CiudadanosEdit.vue");
+
 
 
 
@@ -56444,13 +56915,18 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
     name: 'ciudadanos',
     component: _views_Ciudadanos__WEBPACK_IMPORTED_MODULE_8__["default"],
     children: [{
-      path: '',
+      path: '/',
       component: _components_ListCiudadanos__WEBPACK_IMPORTED_MODULE_10__["default"],
       name: 'ListCiudadanos'
     }, {
       path: 'create',
       component: _components_CiudadanosCreate__WEBPACK_IMPORTED_MODULE_9__["default"],
       name: 'ciudadanosCreate'
+    }, {
+      path: 'edit/:id',
+      component: _components_CiudadanosEdit__WEBPACK_IMPORTED_MODULE_11__["default"],
+      name: 'ciudadanosEdit',
+      props: true
     }]
   }],
   mode: 'history' // elimina el hash de las url
