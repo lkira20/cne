@@ -16,7 +16,7 @@ class CreateSolicitudsTable extends Migration
         Schema::create('solicituds', function (Blueprint $table) {
             $table->id();
             $table->date('fecha');
-            $table->string('descripcion');
+            $table->text('descripcion');
             $table->boolean('status');
             $table->bigInteger('ciudadano_id')->unsigned()->nullable();
 

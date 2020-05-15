@@ -12,7 +12,7 @@ class CiudadanoSeeder extends Seeder
     public function run()
     {
         //
-        factory(App\Ciudadano::class, 10)->create()->each(function ($ciudadano) {
+        factory(App\Ciudadano::class, 150)->create()->each(function ($ciudadano) {
 
         	$persona = $ciudadano->datos()->save(factory(App\Dato::class)->make());
         });

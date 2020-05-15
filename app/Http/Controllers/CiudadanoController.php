@@ -13,14 +13,27 @@ class CiudadanoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-        $ciudadanos = Dato::orderBy('id', 'DESC')->where('datoable_type', 'App\Ciudadano')->paginate();
         //devulve la lista de ciudadanos 
-        return response()->json($ciudadanos);
-
         
+        $ciudadanos = Dato::orderBy('id', 'DESC')->where('datoable_type', 'App\Ciudadano')->paginate(3);
+        
+        return response()->json(['pagination' => [
+                                    'total' => $ciudadanos->total(),
+                                    'current_page' => $ciudadanos->currentPage(),
+                                    'per_page' => $ciudadanos->perPage(),
+                                    'last_page' => $ciudadanos->lastPage(),
+                                    'from' => $ciudadanos->firstItem(),
+                                    'to' => $ciudadanos->lastItem()
+                                ],
+                                'ciudadanos' => $ciudadanos
+                            ]);
+        /*
+        $ciudadanos = Dato::orderBy('id', 'DESC')->where('datoable_type', 'App\Ciudadano')->get();
+
+        return response()->json($ciudadanos);
+        */
     }
 
     /**

@@ -28,10 +28,16 @@ Vue.component('App', require('./App.vue').default);
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
+
+ //PLUGIN DE PAGINACION
+import VuePaginate from 'vue-paginate';
+Vue.use(VuePaginate);
+/////////////////////////////////////
 import router from './routes'
 
 const app = new Vue({
     el: '#app',
-    router
+    router,
+    VuePaginate
   
 });
