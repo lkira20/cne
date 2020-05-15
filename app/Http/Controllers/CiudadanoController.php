@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Dato;
 use App\Ciudadano;
+use App\Http\Requests\CiudadanoRequest;
 
 class CiudadanoController extends Controller
 {
@@ -17,7 +18,7 @@ class CiudadanoController extends Controller
     {
         //devulve la lista de ciudadanos 
         
-        $ciudadanos = Dato::orderBy('id', 'DESC')->where('datoable_type', 'App\Ciudadano')->paginate(3);
+        $ciudadanos = Dato::orderBy('id', 'DESC')->where('datoable_type', 'App\Ciudadano')->paginate();
         
         return response()->json(['pagination' => [
                                     'total' => $ciudadanos->total(),
@@ -42,7 +43,7 @@ class CiudadanoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CiudadanoRequest $request)
     {
         //creo el ciudadano
         $ciudadano = Ciudadano::create();
@@ -78,7 +79,7 @@ class CiudadanoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CiudadanoRequest $request, $id)
     {
         //
         $ciudadano = Ciudadano::findOrFail($id);

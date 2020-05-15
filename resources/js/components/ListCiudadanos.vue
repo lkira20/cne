@@ -1,6 +1,6 @@
 <template>
 	<div class="card shadow">
-		<h1 class="text-center">Lista <router-link class="btn btn-primary" :to="{name: 'ciudadanosCreate'}">Nuevo</router-link></h1>
+		<h2 class="text-center">Lista <router-link class="btn btn-primary" :to="{name: 'ciudadanosCreate'}">Nuevo</router-link></h2>
 		<table class="table">
 			<thead>
 		    	<tr>
@@ -12,19 +12,19 @@
 		    	</tr>
 		  	</thead>
 		  	<tbody>
-		  		<tr v-for="keep in keeps">
-		  			<td scope="row">{{ keep.name }}</td>
+		  		<tr v-for="(keep,index) in keeps">
+		  			<td>{{ keep.name }}</td>
 				    <td>{{ keep.apellido }}</td>
 				    <td>{{ keep.ci }}</td>
 				    <td>{{ keep.email }}</td>
 				    <td>
-				    <router-link class="btn btn-link" :to="{name: 'ciudadanosEdit', params: {id: keep.datoable_id}}">editar</router-link>
-				    <button class="btn btn-danger" @click='eliminar(keep.datoable_id, index)'>Eliminar</button>
+				    <router-link class="btn btn-link btn-block" :to="{name: 'ciudadanosEdit', params: {id: keep.datoable_id}}">editar</router-link>
+				    <button class="btn btn-danger btn-block" @click='eliminar(keep.datoable_id, index)'>Eliminar</button>
 				    </td>
 		  		</tr>
 		  	</tbody>
 		  	<tfoot>
-		  		<td>
+		  		<tr>
 		  			<td colspan="5">
 				  		<nav>
 				  			<ul class="pagination">
@@ -50,30 +50,6 @@
 				  	</td>
 		  		</tr>
 		  	</tfoot>
-		  	<!--
-			<paginate name="lista" :list="lista" :per="5" tag="tbody" ref ="paginator">
-				<tr v-for="ciudadano in paginated('lista')">
-					<td scope="row">{{ ciudadano.name }}</td>
-				    <td>{{ ciudadano.apellido }}</td>
-				    <td>{{ ciudadano.ci }}</td>
-				    <td>{{ ciudadano.email }}</td>
-				    <td>
-				    <router-link class="btn btn-link" :to="{name: 'ciudadanosEdit', params: {id: ciudadano.datoable_id}}">editar</router-link>
-				    <button class="btn btn-danger" @click='eliminar(ciudadano.datoable_id, index)'>Eliminar</button>
-				    </td>
-				</tr>
-			</paginate>
-			<tfoot >
-				<tr>
-					<td colspan="5">
-						<paginate-links for="lista" :limit="10" :show-step-links="true" :classes="{'ul': 'pagination', 'li': 'page-item', 'a': 'page-link'}"></paginate-links>
-						<span v-if ="$refs.paginator ">
-  						Ver resultados de {{$refs.paginator.pageItemsCount}}
-						</span >
-					</td>
-				</tr>
-			</tfoot>
-			-->
 		</table>
 	</div>
 </template>
@@ -137,7 +113,7 @@
 				axios.delete('/api/ciudadano/'+id).then(datos => {
 				//console.log(datos.data.datos);
 
-					let eliminado = this.lista.splice(index, 1);
+					let eliminado = this.keeps.splice(index, 1);
 					
 					console.log(eliminado);
 				

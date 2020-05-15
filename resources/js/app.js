@@ -33,7 +33,15 @@ Vue.component('App', require('./App.vue').default);
 import VuePaginate from 'vue-paginate';
 Vue.use(VuePaginate);
 /////////////////////////////////////
-import router from './routes'
+//VUE-ROUTER
+import router from './routes';
+//vue-BOOTSTRAP
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
+Vue.use(BootstrapVue);
+Vue.use(IconsPlugin);
+
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 const app = new Vue({
     el: '#app',
