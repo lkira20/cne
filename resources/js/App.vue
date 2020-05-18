@@ -15,7 +15,7 @@
 		      	<router-link class="nav-link" :to="{name: 'ListCiudadanos'}">Ciudadanos</router-link>
 		      </li>
 		      <li class="nav-item">
-		      	<router-link class="nav-link" :to="{name: 'solicitudes'}">Solicitudes</router-link>
+		      	<router-link class="nav-link" :to="{name: 'ListaSolicitudes'}">Solicitudes</router-link>
 		      </li>
 		      <li class="nav-item">
 		      	<router-link class="nav-link" :to="{name: 'tramites'}">Tramites</router-link>

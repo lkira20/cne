@@ -1,70 +1,315 @@
 <template>
-	<div>
-		<div class="card">
+		<div class="card shadow">
 		 	<div class="card-header">
 		    	<h2 class="text-center card-title">Lista de mis solicitudes</h2>
 			</div>
 			<div class="card-body">
-		
-			<div class="d-flex">
-				<form class="form-inline ml-auto mb-3">
-	     			<input class="form-control" type="search" placeholder="buscar" aria-label="Search">
-	     			<button class="btn btn-outline-primary my-2 my-sm-0" type="submit">buscar</button>
-	    		</form>
-    		</div>
-			<table class="table table-hover">
-				<thead>
-					<tr>
-						<th scope="col">#</th>
-						<th scope="col">Ciudadano</th>
-						<th scope="col">tramite</th>
-						<th scope="col">fecha</th>
-						<th>Opciones</th>
-					</tr>
-				</thead>
-				<tbody>
+				<div class="d-flex">
+					<form @submit.prevent="buscar" class="form-inline ml-auto mb-3">
+		     			<input @change="cambioListaBusqueda" class="form-control" type="search" placeholder="cedula" aria-label="Search" v-model="search">
+		     			<button class="btn btn-outline-primary my-2 my-sm-0" type="submit">buscar</button>
+		    		</form>
+	    		</div>
+				<table class="table table-sm table-hover">
+					<thead>
+						<tr>
+							<th scope="col">cedula</th>
+							<th scope="col">nombre</th>
+							<th scope="col">usuario</th>
+							<th scope="col">tramite</th>
+							<th scope="col">fecha</th>
+							<th>Opciones</th>
+						</tr>
+					</thead>
+					<tbody>
+					    <tr v-if="listaBusqueda == false" v-for="(solicitud,index) in solicitudes" :key="solicitud.id">
+					    	<td>{{solicitud.ciudadano.datos.ci}}</td>
+					  		<td>{{solicitud.ciudadano.datos.name}}</td>
+					    	<td>{{solicitud.usuario? solicitud.usuario.name: 'indefinido'}}</td>
+					    	<td>{{solicitud.tramite?  solicitud.tramite.name: 'indefinido'}}</td>
+					    	<td>{{solicitud.fecha}}</td>
+					    	<td>
+					      		<b-button block v-b-modal="`my-modal${index}`" @click="buscarTramites" variant="link">Editar</b-button>
+					      		<!--MODAL DE EDITAR-->
+					      		<b-modal :id="`my-modal${index}`" hide-footer title="Datos para la solicitud">
+					      		<!--<SolicitudesEdit :solicitud="solicitud" :modal="`my-modal${index}`"/>-->
+								<form @submit.prevent="editarSolicitud(solicitud.tramite.id, solicitud.status, solicitud.descripcion, solicitud.id, index)">
+									<div class="mb-2">
+										<div class="">	
+								  			<div class="form-group">
+								  				<label for="inputAddress">tramite</label>
+												 <select v-if="solicitud.tramite"  id="tramite" v-model="solicitud.tramite.id" name="tramite" class="form-control">
+												 	<option v-for="tramit in tramites" :key="tramit.id" :value="tramit.id">{{tramit.name}}</option>						 	
+						                         </select>
+								  			</div>
+								 
+								  			<div class="form-group">
+								  				<label for="inputAddress">estatus</label>
+								  				<select class="form-control" placeholder="estutus" v-model="solicitud.status">
+								  					<option value="1"> atendido </option>
+								  					<option value="0"> pendiente </option>
+								  				</select>
 
-				    <tr class="">
-				    	<th scope="row">1</th>
-				    	<td>Mark</td>
-				    	<td>Otto</td>
-				    	<td>@mdo</td>
-				    	<td>
-				      		<a href="" class="btn btn-link">detalles</a>
-				      		<a href="" class="btn btn-danger">eliminar</a>
-				    	</td>
-				    </tr>
-				    <tr>
-				    <th scope="row">2</th>
-				    	<td>Jacob</td>
-				    	<td>Thornton</td>
-				    	<td>@fat</td>
-				    	<td>
-				      		<a href="" class="btn btn-link">detalles</a>
-				     		<a href="" class="btn btn-danger">eliminar</a>
-				    	</td>
-				    </tr>
-				    <tr>
-				    	<th scope="row">3</th>
-				    	<td>Larry the Bird</td>
-				      	<td>Larry the Bird</td>
-				      	<td>@twitter</td>
-				      	<td>
-				      		<a href="" class="btn btn-link">detalles</a>
-				      		<a href="" class="btn btn-danger">eliminar</a>
-				    	</td>
-				    </tr>
-				</tbody>
-			</table>
+								  			</div>
+
+								  			<div class="form-group">
+								  				<label for="descripcion">Descripcion de solicitud.</label>
+								  				<textarea class="form-control" id="descripcion" rows="3" name="descripcion" v-model="solicitud.descripcion"></textarea>
+								  			</div>
+								  			<div class="text-center mb-3">
+								  				<button type="submit" class="btn btn-outline-danger btn-lg btn-block" name="registrar-solicitud">Editar</button>
+								  			</div>
+							  			</div>
+							  		</div>
+							  	</form>
+							
+					      		</b-modal>
+					      		<!------------------>
+					      		<!--boton ELIMINAR-->
+					      		<b-button block size="sm" @click="showMsgBoxTwo(solicitud.id, index)" variant="danger">Borrar</b-button>
+
+     							<!--BOTON DE VER detalles-->
+
+     							<b-button block size="sm" @click="$bvModal.show(`bv-modal-example${index}`)" variant="primary">Detalles</b-button>
+
+     							<b-modal scrollable :id="`bv-modal-example${index}`" hide-footer>
+									<template v-slot:modal-title>
+								      Detalles de la solicitud
+								    </template>
+								    <SolicitudesShow :solicitud="solicitud"/>
+								    <b-button class="mt-3" block @click="$bvModal.hide(`bv-modal-example${index}`)" variant="primary">Cerrar</b-button>
+								</b-modal>
+					    	</td>
+					    </tr>
+					    <!--ELEMENTO QUE SE MOSTRARA CUANDO SE HAGA EL FILTRO Y SE OCULTARA EL DE ARRIBA, SE HACE ASI POR EL FORMATO DE DATOS QUE LO DEVUELVE DISTINTO-->
+						<tr v-if="listaBusqueda == true" v-for="(soli,index) in busqueda" :key="soli.id">
+							<td>{{solicitudes.ci}}</td>
+							<td>{{solicitudes.name}}</td>
+							<td>{{soli.usuario? soli.usuario.name: 'indefinido'}}</td>
+							<td>{{soli.tramite.name}}</td>
+							<td>{{soli.fecha}}</td>
+					    	<td>
+					      		<b-button block v-b-modal="`my-modal${index}`" @click="buscarTramites" variant="link">Editar</b-button>
+					      		<!--MODAL DE EDITAR-->
+					      		<b-modal :id="`my-modal${index}`" hide-footer title="Datos para la solicitud">
+					      		<!--<SolicitudesEdit :solicitud="solicitud" :modal="`my-modal${index}`"/>-->
+								<form @submit.prevent="editarSolicitud(soli.tramite.id, soli.status, soli.descripcion, soli.id, index)">
+									<div class="mb-2">
+										<div class="">	
+								  			<div class="form-group">
+								  				<label for="inputAddress">tramite</label>
+												 <select v-if="soli.tramite"  id="tramite" v-model="soli.tramite.id" name="tramite" class="form-control">
+												 	<option v-for="tramit in tramites" :key="tramit.id" :value="tramit.id">{{tramit.name}}</option>						 	
+						                         </select>
+								  			</div>
+								 
+								  			<div class="form-group">
+								  				<label for="inputAddress">estatus</label>
+								  				<select class="form-control" placeholder="estutus" v-model="soli.status">
+								  					<option value="1"> atendido </option>
+								  					<option value="0"> pendiente </option>
+								  				</select>
+
+								  			</div>
+
+								  			<div class="form-group">
+								  				<label for="descripcion">Descripcion de solicitud.</label>
+								  				<textarea class="form-control" id="descripcion" rows="3" name="descripcion" v-model="soli.descripcion"></textarea>
+								  			</div>
+								  			<div class="text-center mb-3">
+								  				<button type="submit" class="btn btn-outline-danger btn-lg btn-block" name="registrar-solicitud">Editar</button>
+								  			</div>
+							  			</div>
+							  		</div>
+							  	</form>
+							
+					      		</b-modal>
+					      		<!------------------>
+					      		<!--boton ELIMINAR-->
+					      		<b-button block @click="showMsgBoxTwo(soli.id, index)" variant="danger">Borrar</b-button>
+
+     							<!--BOTON DE VER detalles-->
+
+     							<b-button block size="sm" @click="$bvModal.show(`bv-modal-example${index}`)" variant="primary">Detalles</b-button>
+
+     							<b-modal scrollable :id="`bv-modal-example${index}`" hide-footer>
+									<template v-slot:modal-title>
+								      Detalles de la solicitud
+								    </template>
+								    <SolicitudesShow :solicitud="soli" :busqueda="listaBusqueda" :ciudadano="solicitudes"/>
+								    <b-button class="mt-3" block @click="$bvModal.hide(`bv-modal-example${index}`)" variant="primary">Cerrar</b-button>
+								</b-modal>
+					    	</td>
+					    </tr>
+					   
+					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="6" class="overflow-auto">
+								<b-pagination-nav @change="cambiar($event)" :link-gen="linkGen" :number-of-pages="totalPaginas" use-router></b-pagination-nav>
+							</td>
+						</tr>
+					</tfoot>
+				</table>
 			</div>
 		</div>
-	</div>
 </template>
 
 <script type="text/javascript">
-
+	import SolicitudesEdit from './SolicitudesEdit';
+	import SolicitudesShow from './SolicitudesShow';
 	export default{
+		components:{
+			SolicitudesEdit,
+			SolicitudesShow
+		},
+		data(){
+			return{
+			solicitudes: [],
+			totalPaginas: null,
+			search: '',//filtro
+			listaBusqueda: false,//ESTABLECER QUE IF SE MUESTRA
+			busqueda: [], //DATOS DEL ELEMENTO DE RENDER DEL FILTRO
+			tramites: [],
+			envio: {//OBJETO DE ENVIO PARA EDITAR
+					descripcion: '',
+					status: 0,
+					tramite_id: 0
+				}
+			}
+		},
+		methods:{
+			linkGen(pageNum) {
+		    	return pageNum === 1 ? '?' : `?page=${pageNum}`;
+			},
+			cambiar(page){//RESUELVE EL BUG QUE DE REGRESO A LA PAGINA 1 NO SE REGRESE
 		
+				if (page == 1) {
+					axios.get('/api/solicitud').then(response => {
+					this.solicitudes = response.data.data;
+					this.totalPaginas = response.data.last_page;
+					//console.log(response.data);
+					console.log(this.$route);
+				}).catch(e => {
+					console.log(e.response);
+				});
+				}
+			},
+			buscar(){//FILTRA LOS DATOS POR CEDULA
+
+				axios.get('/api/solicitud/filtrar/'+this.search).then(response => {
+					console.log(response.data);
+					this.solicitudes = response.data.data[0];
+					this.totalPaginas = response.data.last_page;
+					this.busqueda = response.data.data[0].ciudadano.solicitudes;
+					this.listaBusqueda = true;
+				}).catch(e => {
+					console.log(e.response);
+				});
+			},
+			cambioListaBusqueda(){//FUNCION QUE CAMBIA SI SE MUESTRA EL ELMENTO DEL FILTRO O EL PREDETERMINADO
+				if (this.search == '') {
+	
+					axios.get('/api/solicitud').then(response => {
+						this.solicitudes = response.data.data;
+						this.totalPaginas = response.data.last_page;
+						this.listaBusqueda = false;
+						//console.log(response.data);
+						//console.log(this.$route);
+					}).catch(e => {
+						console.log(e.response);
+					});
+				}
+			},
+			buscarTramites(){//MODAL EDIT
+
+				axios.get('/api/tramite').then(response => {
+				
+					this.tramites = response.data;
+				}).catch(e => {
+					console.log(e);
+				});
+			},
+			editarSolicitud(tramite, status, descripcion, id, index){ //MODAL EDIT
+				//CONFIGURAR EL OBJETO DE ENVIO
+				this.envio.tramite_id = tramite;
+				this.envio.status = status;
+				this.envio.descripcion = descripcion;
+
+				axios.put('/api/solicitud/'+id, this.envio).then(response => {
+					this.$bvModal.hide(`my-modal${index}`);	
+						
+						if (this.listaBusqueda === false) {
+							axios.get('/api/solicitud').then(response => {
+							this.solicitudes = response.data.data;
+							this.totalPaginas = response.data.last_page;
+						
+							}).catch(e => {
+								console.log(e.response);
+							});
+						}else{
+							this.buscar();
+						}
+					
+					
+				}).catch(e => {
+					console.log(e.response);
+				});
+				
+			},
+	        showMsgBoxTwo(solicitud, index) {//MODAL DE ELIMINAR
+	        this.boxTwo = ''
+	        this.$bvModal.msgBoxConfirm('¿Esta seguro que quiere eliminar esta solicitud?', {
+	          title: 'Borrar',
+	          size: 'md',
+	          buttonSize: 'md',
+	          okVariant: 'danger',
+	          okTitle: 'SI',
+	          cancelTitle: 'NO',
+	          cancelVariant: 'primary',
+	          footerClass: 'p-2',
+	          hideHeaderClose: true,
+	          centered: true
+	        }).then(value => {
+	            this.boxTwo = value
+	            axios.delete('/api/solicitud/'+solicitud).then(response => {
+	            	if (this.listaBusqueda === false) {
+	            		this.solicitudes.splice(index, 1);
+	            	}else{
+	            		this.buscar();
+	            	}
+	            }).catch(e => {
+	            	console.log(e.response);
+	            });
+	          }).catch(err => {
+	            // An error occurred
+	          })
+	      }
+		},
+		created(){
+			//CONSULTA PARA LLENAR LA LISTA
+			axios.get('/api/solicitud').then(response => {
+				this.solicitudes = response.data.data;
+				this.totalPaginas = response.data.last_page;
+			
+				//console.log(response.data);
+				//console.log(this.$route);
+			}).catch(e => {
+				console.log(e.response);
+			});
+		},
+		beforeRouteUpdate (to, from, next) {
+			//console.log(to);
+			//CAMBIO DE QUERY PARA CAMBIAR LA LISTA CON PAGINACION
+			axios.get('/api/solicitud?page='+to.query.page).then(response => {
+				this.solicitudes = response.data.data;
+				this.totalPaginas = response.data.last_page;
+				//console.log(response.data);
+				
+			}).catch(e => {
+				console.log(e.response);
+			});
+  		}
 	}
 
 </script>

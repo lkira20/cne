@@ -12,15 +12,22 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-//RUTAS DE CIUDADANOS
-Route::apiResource('api/ciudadano', 'CiudadanoController');
-Route::get('api/ciudadano/show/{id}', 'CiudadanoController@show');
-
 Route::get('/prueba', function(){
 	
 	return view('pruebas');
 });
+
+
+//RUTAS API
+//RUTAS DE CIUDADANOS
+Route::apiResource('api/ciudadano', 'CiudadanoController');
+Route::get('api/ciudadano/show/{id}', 'CiudadanoController@show');
+Route::get('api/ciudadano/comprobar/{cedula}', 'CiudadanoController@comprobarCedula');
+//RUTAS DE SOLICITUD
+Route::apiResource('api/solicitud', 'SolicitudController');
+Route::get('api/solicitud/filtrar/{busqueda}', 'SolicitudController@filtrar');
+//RUTAS DE TRAMITE
+Route::apiResource('api/tramite', 'TramiteController');
 
 //RUTAS DE VUE
 Route::get('/', function () {

@@ -1,7 +1,7 @@
 <template>
 	<div>
-			<form >
-				<div class="card mb-2">
+			<form @submit.prevent="registrarSolicitud">
+				<div class="card mb-2 shadow">
 					<div class="card-body">		
 								
 						<div class="form-row ">
@@ -13,26 +13,27 @@
 			  				</div>
 			  				<div class="form-group col-md-6">
 			  					<label for="cedula">cedula</label>
-			  					<input type="text" class="form-control" id="cedula" placeholder="cedula" name="cedula" v-model.number="cedula">
+			  					<input type="number" class="form-control" id="cedula" placeholder="cedula" name="ci" v-model.number="solicitud.ci">
 
 			  				</div>
 			  				<div class="form-group col-md-6 text-center">
-			  					<label>comprobar si el usuario ya esta registrado</label>
-			  					<button class="form-control btn btn-primary d-block">Comprobar</button>
-
+			  					<label :class="{'text-success': colorComprobante}">{{comprobante}}</label>
+			  					<button class="form-control btn btn-primary d-block" @click.prevent="comprobarCedula">Comprobar</button>
 			  				</div>
 			  				<div class="form-group col-md-6">
 			  					<label for="nombre">nombre</label>
-			  					<input type="text" class="form-control" id="nombre" placeholder="nombre" name="nombre" v-model="name">
+			  					<input type="text" class="form-control" id="nombre" placeholder="nombre" name="name" v-model="solicitud.name" :disabled="desactivar">
 			  				</div>
 			  				<div class="form-group col-md-6">
 			  					<label for="apellido">apellido</label>
-			  					<input type="text" class="form-control" id="apellido" placeholder="apellido" name="apellido" v-model="apellido">
+			  					<input type="text" class="form-control" id="apellido" placeholder="apellido" name="apellido" v-model="solicitud.apellido" :disabled="desactivar">
 			  				</div>
 			  				<div class="form-group col-md-6">
 			  					<label for="email">email</label>
-			  					<input type="email" class="form-control" id="email" placeholder="email" name="email" v-model="email">
-
+			  					<input type="email" class="form-control" id="email" placeholder="email" name="email" v-model="solicitud.email" :disabled="desactivar">
+			  				</div>
+			  				<div class="form-group col-md-6">
+			  					<input type="number" class="form-control" id="ciudadano_id" name="ciudadano_id" v-model="solicitud.id" hidden>
 			  				</div>
 			  			</div>
 
@@ -44,23 +45,24 @@
 
 			  			<div class="form-group">
 			  				<label for="inputAddress">tramite</label>
-							 <select  id="tramite" v-model="tramite" name="tramite" class="form-control">
-							 	<option value=0>seleccion algun tramite</option>						 	
+							 <select  id="tramite" v-model="solicitud.tramite" name="tramite" class="form-control">
+							 	<option value="null">seleccione algun tramite</option>
+							 	<option v-for="tramit in tramites" :key="tramit.id" :value="tramit.id">{{tramit.name}}</option>						 	
 	                         </select>
 			  			</div>
 			 
 			  			<div class="form-group">
 			  				<label for="inputAddress">estatus</label>
-			  				<select class="form-control" placeholder="estutus" v-model="status">
-			  					<option value=true> atendido </option>
-			  					<option value=false> pendiente </option>
+			  				<select class="form-control" placeholder="estutus" v-model="solicitud.status">
+			  					<option value="1"> atendido </option>
+			  					<option value="0"> pendiente </option>
 			  				</select>
 
 			  			</div>
 
 			  			<div class="form-group">
 			  				<label for="descripcion">Descripcion de solicitud.</label>
-			  				<textarea class="form-control" id="descripcion" rows="3" name="descripcion" v-model="descripcion"></textarea>
+			  				<textarea class="form-control" id="descripcion" rows="3" name="descripcion" v-model="solicitud.descripcion"></textarea>
 			  			</div>
 			  			<div class="text-center mb-3">
 			  				<button type="submit" class="btn btn-primary btn-lg btn-block" name="registrar-solicitud">Registrar</button>
@@ -76,16 +78,63 @@
 	export default{
 		data(){
 			return{//datos del ciudadano
-				cedula: null,
-				name: '',
-				apellido: '',
-				email: '',
-				//datos de la solicutud
-				tramite: 0,
-				status: false,
-				descripcion: ''
-
+				solicitud: {
+					ci: null,
+					name: '',
+					apellido: '',
+					email: '',
+					id: null,
+					tramite: null,//datos de la solicitud
+					descripcion: '',
+					status: false},
+				desactivar: false,//desactivar campos de la consulta del ciudadano
+				comprobante: 'comprobar si el usuario ya esta registrado.', //mensaje de comprobacion 
+				colorComprobante: false,// cambia el color del texto del mensaje de comprobacion
+				tramites: [] //lista de tramites
 			}
+		},
+		methods:{
+			comprobarCedula(){
+				axios.get('/api/ciudadano/comprobar/'+this.solicitud.ci).then(response => {
+
+					if (response.data == 'el ciudadano no esta registrado') {
+						this.comprobante = response.data;
+						this.desactivar = false;
+						this.colorComprobante = true;
+					}else{
+
+						this.solicitud.ci = response.data[0].ci;
+						this.solicitud.name = response.data[0].name;
+						this.solicitud.apellido = response.data[0].apellido;
+						this.solicitud.email = response.data[0].email;
+						this.solicitud.id = response.data[0].datoable_id;
+
+						this.desactivar = true;
+						this.comprobante = 'ciudadano encontrado';
+						this.colorComprobante = true;
+					}
+				}).catch(e => {
+					console.log(e.response);
+				});
+			},
+			registrarSolicitud(){
+
+				axios.post('/api/solicitud', this.solicitud).then(response => {
+
+					this.$router.push('/solicitudes');
+				}).catch(e => {
+					console.log(e.response);
+				});
+			}
+		},
+		created(){
+			//CONSULTA DE LOS TRAMITES PARA COLOCARLOS EN EL SELECT
+			axios.get('/api/tramite').then(response => {
+				
+				this.tramites = response.data;
+			}).catch(e => {
+				console.log(e);
+			});
 		}
 	}
 

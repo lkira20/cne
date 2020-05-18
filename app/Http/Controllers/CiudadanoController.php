@@ -107,4 +107,15 @@ class CiudadanoController extends Controller
 
         return response()->json($ciudadano);
     }
+
+    public function comprobarCedula($cedula)
+    {
+        $ciudadano = Dato::where('ci', $cedula)->get();
+
+        if (empty($ciudadano[0]->id)) {
+
+            return response()->json('el ciudadano no esta registrado');
+        }    
+        return response()->json($ciudadano);
+    }
 }

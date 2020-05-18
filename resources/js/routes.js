@@ -11,6 +11,7 @@ import ciudadanos from './views/Ciudadanos'
 import ciudadanosCreate from './components/CiudadanosCreate'
 import ListCiudadanos from './components/ListCiudadanos'
 import ciudadanosEdit from './components/CiudadanosEdit'
+import ListaSolicitudes from './components/ListaSolicitudes'
 
 
 Vue.use(Router)
@@ -26,7 +27,10 @@ export default new Router({
         {//RUTAS SOLICITUDES
             path: '/solicitudes',
             name: 'solicitudes',
-            component: solicitudes
+            component: solicitudes,
+            children: [
+                {path: '/', component: ListaSolicitudes, name: 'ListaSolicitudes'}
+            ]
         },
         {//RUTAS NOTIFICACIONES
             path: '/notificaciones',

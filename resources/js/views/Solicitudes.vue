@@ -1,8 +1,7 @@
 <template>
 	<div>
 		<h1 class="text-center">Solicitudes</h1>
-		<ListaSolicitudes></ListaSolicitudes>
-		<TablaAnual></TablaAnual>
+		<router-view></router-view>
 	</div>
 </template>
 

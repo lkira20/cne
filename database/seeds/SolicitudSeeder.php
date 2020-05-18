@@ -12,6 +12,6 @@ class SolicitudSeeder extends Seeder
     public function run()
     {
         //
-        factory(App\Solicitud::class, 10)->create();
+        factory(App\Solicitud::class, 150)->create();
     }
 }
