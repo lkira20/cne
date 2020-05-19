@@ -15,7 +15,7 @@ class TramiteController extends Controller
     public function index()
     {
         //
-        $tramites = Tramite::all();
+        $tramites = Tramite::orderBy('id', 'DESC')->get();
 
         return response()->json($tramites);
     }
@@ -29,6 +29,9 @@ class TramiteController extends Controller
     public function store(Request $request)
     {
         //
+        $tramite = Tramite::Create($request->all());
+
+        return response()->json($tramite);
     }
 
     /**
@@ -40,6 +43,9 @@ class TramiteController extends Controller
     public function show($id)
     {
         //
+        $tramite = Tramite::findOrFail($id);
+
+        return response()->json($tramite);
     }
 
     /**
@@ -52,6 +58,11 @@ class TramiteController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $tramite = Tramite::findOrFail($id);
+
+        $tramite = $tramite->update($request->all());
+
+        return response()->json($tramite);
     }
 
     /**
@@ -63,5 +74,10 @@ class TramiteController extends Controller
     public function destroy($id)
     {
         //
+        $tramite = Tramite::findOrFail($id);
+
+        $tramite = $tramite->delete();
+
+        return response()->json($tramite);
     }
 }

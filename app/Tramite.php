@@ -7,5 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Tramite extends Model
 {
     //
-
+	 protected $fillable = [
+        'name', 'description'
+    ];
 }

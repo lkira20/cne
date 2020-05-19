@@ -29,14 +29,15 @@ Vue.component('App', require('./App.vue').default);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
- //PLUGIN DE PAGINACION
-import VuePaginate from 'vue-paginate';
-Vue.use(VuePaginate);
+
 /////////////////////////////////////
+//VUEX
+import store from './store'
 //VUE-ROUTER
 import router from './routes';
 //vue-BOOTSTRAP
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
+
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 
@@ -46,6 +47,6 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 const app = new Vue({
     el: '#app',
     router,
-    VuePaginate
+    store
   
 });
