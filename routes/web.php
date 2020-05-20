@@ -28,7 +28,8 @@ Route::apiResource('api/solicitud', 'SolicitudController');
 Route::get('api/solicitud/filtrar/{busqueda}', 'SolicitudController@filtrar');
 //RUTAS DE TRAMITE
 Route::apiResource('api/tramite', 'TramiteController');
-
+//RUTAS DE NOTIFICACION
+Route::apiResource('api/notificaciones', 'NotificacionesController');
 //RUTAS DE VUE
 Route::get('/', function () {
     return view('home');

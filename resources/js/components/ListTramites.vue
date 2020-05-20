@@ -10,8 +10,8 @@
 			    	<p class="mb-1">{{tramite.description}}</p>
 		    	</div>
 		    	<div>
-		    		<b-button v-b-modal="`modal-${tramite.id}`" variant="link" @click="$store.commit('insertTramiteFormEdit', tramite)">Editar</b-button>
-		    		<b-modal :id="`modal-${tramite.id}`" title="Editar tramite" ok-title="editar" ok-variant="danger" @ok="editarTramite">
+		    		<b-button v-b-modal="`modal${tramite.id}`" variant="link" @click="$store.commit('insertTramiteFormEdit', tramite)">Editar</b-button>
+		    		<b-modal :id="`modal${tramite.id}`" title="Editar tramite" ok-title="editar" ok-variant="danger" @ok="editarTramite">
 		    			<TramitesEdit/>
 		    		</b-modal>
 		    		<b-button variant="danger" @click="showMsgBoxTwo(tramite.id, index)">Eliminar</b-button>

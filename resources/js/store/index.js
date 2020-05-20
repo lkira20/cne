@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-
+import notificaciones from './modules/notificaciones';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -24,5 +24,11 @@ export default new Vuex.Store({
 		descriptionEdit(state, description){
 			state.tramiteFormEdit.description = description;
 		}
+	},
+	actions:{
+
+	},
+	modules:{
+		notificaciones
 	}
 });

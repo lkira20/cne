@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Notificacion;
 
 class NotificacionesController extends Controller
 {
@@ -14,6 +15,9 @@ class NotificacionesController extends Controller
     public function index()
     {
         //
+        $notificaciones = Notificacion::orderBy('id', 'DESC')->get();
+
+        return response()->json($notificaciones);
     }
 
     /**
@@ -25,6 +29,9 @@ class NotificacionesController extends Controller
     public function store(Request $request)
     {
         //
+        $notificacion = Notificacion::create($request->all());
+
+        return response()->json($notificacion);
     }
 
     /**
@@ -48,6 +55,11 @@ class NotificacionesController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $notificacion = Notificacion::findOrFail($id);
+
+        $notificacion = $notificacion->update($request->all());
+
+        return response()->json($notificacion);
     }
 
     /**
@@ -59,5 +71,10 @@ class NotificacionesController extends Controller
     public function destroy($id)
     {
         //
+        $notificacion = Notificacion::findOrFail($id);
+
+        $notificacion = $notificacion->delete();
+
+        return response()->json($notificacion);
     }
 }
