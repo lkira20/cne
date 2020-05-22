@@ -21,7 +21,7 @@
 		      	<router-link class="nav-link" :to="{name: 'tramites'}">Tramites</router-link>
 		      </li>
 		      <li class="nav-item">
-		      	<router-link class="nav-link" :to="{name: 'usuarios'}">Usuarios</router-link>
+		      	<router-link class="nav-link" :to="{name: 'ListUsuarios'}">Usuarios</router-link>
 		      </li>
 		      <li class="nav-item">
 		      	<router-link class="nav-link" :to="{name: 'notificaciones'}">notificaciones</router-link>
@@ -31,7 +31,7 @@
 		          Usuario
 		        </a>
 		        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-		          <a class="dropdown-item" href="#">Perfil</a>
+		          <router-link class="dropdown-item" :to="{name: 'authperfil'}">Perfil</router-link>
 		          <a class="dropdown-item" href="#">logout</a>
 		        </div>
 		      </li>

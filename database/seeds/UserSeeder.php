@@ -40,15 +40,72 @@ class UserSeeder extends Seeder
 
 
         //usuario
+        //NORMAL
         $usuario = new App\User();
         $usuario->name = 'jose';
         $usuario->email = 'jose@gmail.com';
         $usuario->password = bcrypt(12345678);
         $usuario->save();
         $usuario->assignRoles('normal', 'normal');
+
+        App\Dato::create([
+                            'name' => $usuario->name,
+                            'apellido' => 'lopez',
+                            'ci' => '25345622',
+                            'email' => $usuario->email,
+                            'datoable_type' => 'App\User',
+                            'datoable_id' => $usuario->id
+                            ]);
         $usuario->save();
-        
+        //NORMAL
+        $usuario = new App\User();
+        $usuario->name = 'bruno';
+        $usuario->email = 'batman@gmail.com';
+        $usuario->password = bcrypt(12345678);
+        $usuario->save();
+        $usuario->assignRoles('normal', 'normal');
 
+        App\Dato::create([
+                            'name' => $usuario->name,
+                            'apellido' => 'diaz',
+                            'ci' => '25345232',
+                            'email' => $usuario->email,
+                            'datoable_type' => 'App\User',
+                            'datoable_id' => $usuario->id
+                            ]);
+        $usuario->save();
+        //ADMINISTRADOR
+        $usuario = new App\User();
+        $usuario->name = 'dayana';
+        $usuario->email = 'wonder@gmail.com';
+        $usuario->password = bcrypt(12345678);
+        $usuario->save();
+        $usuario->assignRoles('administrador', 'administrador');
 
+        App\Dato::create([
+                            'name' => $usuario->name,
+                            'apellido' => 'woman',
+                            'ci' => '24545622',
+                            'email' => $usuario->email,
+                            'datoable_type' => 'App\User',
+                            'datoable_id' => $usuario->id
+                            ]);
+        $usuario->save();
+        //SUPERVISOR
+        $usuario = new App\User();
+        $usuario->name = 'juanito';
+        $usuario->email = 'juanito@gmail.com';
+        $usuario->password = bcrypt(12345678);
+        $usuario->save();
+        $usuario->assignRoles('supervisor', 'supervisor');
+        App\Dato::create([
+                            'name' => $usuario->name,
+                            'apellido' => 'alimaña',
+                            'ci' => '25552622',
+                            'email' => $usuario->email,
+                            'datoable_type' => 'App\User',
+                            'datoable_id' => $usuario->id
+                            ]);
+        $usuario->save();
     }
 }

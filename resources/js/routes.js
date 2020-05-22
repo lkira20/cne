@@ -12,13 +12,21 @@ import ciudadanosCreate from './components/CiudadanosCreate'
 import ListCiudadanos from './components/ListCiudadanos'
 import ciudadanosEdit from './components/CiudadanosEdit'
 import ListaSolicitudes from './components/ListaSolicitudes'
-
-
+import TablaAnual from './components/TablaAnual'
+import Graficos from './components/Graficos';
+import ListUsuarios from './components/ListUsuarios';
+import UsuariosShow from './components/UsuariosShow';
+import AuthPerfil from './components/AuthPerfil';
 Vue.use(Router)
 
 export default new Router({
 
     routes:[
+        {
+            path: '/home',
+            name: 'inicio',
+            component: inicio
+        },
         {
             path: '/',
             name: 'inicio',
@@ -29,7 +37,8 @@ export default new Router({
             name: 'solicitudes',
             component: solicitudes,
             children: [
-                {path: '/', component: ListaSolicitudes, name: 'ListaSolicitudes'}
+                {path: '/', component: ListaSolicitudes, name: 'ListaSolicitudes'},
+                {path: 'estadisticas', component: Graficos, name: 'TablaAnual'}
             ]
         },
         {//RUTAS NOTIFICACIONES
@@ -50,7 +59,11 @@ export default new Router({
         {//RUTAS USUARIOS
             path: '/usuarios',
             name: 'usuarios',
-            component: usuarios
+            component: usuarios,
+            children: [
+                {path: '/', component: ListUsuarios, name: 'ListUsuarios'},
+                {path: ':id', component: UsuariosShow, name: 'UsuariosShow', props: true}
+                ]
         },
         {//rutas CIUDADANOS
             path: '/ciudadanos',
@@ -61,6 +74,12 @@ export default new Router({
                 {path: 'create', component: ciudadanosCreate, name: 'ciudadanosCreate'},
                 {path: 'edit/:id', component: ciudadanosEdit, name: 'ciudadanosEdit', props: true},
             ]
+        },
+        {//RUTAS authperfil
+            path: '/authperfil',
+            name: 'authperfil',
+            component: AuthPerfil,
+           
         }
 
     ],

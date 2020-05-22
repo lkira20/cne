@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import notificaciones from './modules/notificaciones';
+import usuarios from './modules/usuarios';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -29,6 +29,6 @@ export default new Vuex.Store({
 
 	},
 	modules:{
-		notificaciones
+		usuarios
 	}
 });

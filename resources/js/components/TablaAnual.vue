@@ -4,6 +4,12 @@
 			<div class="card-header card-title">
 				<h2 class="text-center">Cantidades de solicitudes por meses</h2>
 			</div>
+			<div class="d-flex mt-3">
+					<form class="form-inline ml-auto ">
+		     			<input class="form-control" type="search" placeholder="cedula" aria-label="Search">
+		     			<button class="btn btn-outline-primary" type="submit">buscar</button>
+		    		</form>
+	    		</div>
 			<div class="card-body">
 				<table class="table table-striped">
 				  <thead>

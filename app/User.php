@@ -37,4 +37,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function datos()
+    {
+        return $this->morphOne(Dato::class, 'datoable');
+    }
+
+    public function solicitudes()
+    {
+        return $this->hasMany(Solicitud::class);
+    }
 }

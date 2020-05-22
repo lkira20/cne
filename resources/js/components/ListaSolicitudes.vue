@@ -152,16 +152,19 @@
 					</tfoot>
 				</table>
 			</div>
+			<!--GRAFICAS-->
 		</div>
 </template>
 
 <script type="text/javascript">
 	import SolicitudesEdit from './SolicitudesEdit';
 	import SolicitudesShow from './SolicitudesShow';
+	import Graficos from './Graficos'
 	export default{
 		components:{
 			SolicitudesEdit,
-			SolicitudesShow
+			SolicitudesShow,
+			Graficos
 		},
 		data(){
 			return{
@@ -175,11 +178,12 @@
 					descripcion: '',
 					status: 0,
 					tramite_id: 0
-				}
+				},
+			boxTwo: ''
 			}
 		},
 		methods:{
-			linkGen(pageNum) {
+			linkGen(pageNum) {//PARAMETRO DE ENVIO EN LA URL PARA LA PAGINACION
 		    	return pageNum === 1 ? '?' : `?page=${pageNum}`;
 			},
 			cambiar(page){//RESUELVE EL BUG QUE DE REGRESO A LA PAGINA 1 NO SE REGRESE
@@ -194,6 +198,18 @@
 					console.log(e.response);
 				});
 				}
+			},
+			listarSolicitudes(){
+				//CONSULTA PARA LLENAR LA LISTA
+				axios.get('/api/solicitud').then(response => {
+					this.solicitudes = response.data.data;
+					this.totalPaginas = response.data.last_page;
+				
+					console.log(this.solicitudes);
+					//console.log(this.$route);
+				}).catch(e => {
+					console.log(e.response);
+				});
 			},
 			buscar(){//FILTRA LOS DATOS POR CEDULA
 
@@ -214,14 +230,17 @@
 						this.solicitudes = response.data.data;
 						this.totalPaginas = response.data.last_page;
 						this.listaBusqueda = false;
-						//console.log(response.data);
+						//console.log(response.data.data);
 						//console.log(this.$route);
 					}).catch(e => {
 						console.log(e.response);
 					});
+/*TAMBIEN SE PUEDE HACER ASI PERO DA UNA ADVERTENCIA
+					this.listarSolicitudes();
+					this.listaBusqueda = false;*/
 				}
 			},
-			buscarTramites(){//MODAL EDIT
+			buscarTramites(){//PARA EL MODAL EDIT
 
 				axios.get('/api/tramite').then(response => {
 				
@@ -271,32 +290,27 @@
 	          hideHeaderClose: true,
 	          centered: true
 	        }).then(value => {
-	            this.boxTwo = value
-	            axios.delete('/api/solicitud/'+solicitud).then(response => {
-	            	if (this.listaBusqueda === false) {
-	            		this.solicitudes.splice(index, 1);
-	            	}else{
-	            		this.buscar();
-	            	}
-	            }).catch(e => {
-	            	console.log(e.response);
-	            });
+	            this.boxTwo = value;
+
+	            if(this.boxTwo == true){
+		            axios.delete('/api/solicitud/'+solicitud).then(response => {
+		            	if (this.listaBusqueda === false) {
+		            		this.solicitudes.splice(index, 1);
+		            	}else{
+		            		this.buscar();
+		            	}
+		            }).catch(e => {
+		            	console.log(e.response);
+		            });
+	            }
 	          }).catch(err => {
 	            // An error occurred
 	          })
 	      }
 		},
 		created(){
-			//CONSULTA PARA LLENAR LA LISTA
-			axios.get('/api/solicitud').then(response => {
-				this.solicitudes = response.data.data;
-				this.totalPaginas = response.data.last_page;
 			
-				//console.log(response.data);
-				//console.log(this.$route);
-			}).catch(e => {
-				console.log(e.response);
-			});
+			this.listarSolicitudes();
 		},
 		beforeRouteUpdate (to, from, next) {
 			//console.log(to);

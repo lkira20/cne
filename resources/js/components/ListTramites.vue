@@ -49,7 +49,8 @@
 				tramites: [],
 				envio:{//OBJETO DE ENVIO AXIOS
 					name:'',
-					description: ''
+					description: '',
+					boxTwo: ''
 				}
 			}
 		},
@@ -98,15 +99,16 @@
 		          hideHeaderClose: false,
 		          centered: true
 		        }).then(value => {
-		        	
-		        	axios.delete('/api/tramite/'+tramite).then(response => {
+		        	this.boxTwo = value;
+		        	if(this.boxTwo == true){
+			        	axios.delete('/api/tramite/'+tramite).then(response => {
 
-		        		this.tramites.splice(index,1);
-		        	}).catch(e => {
+			        		this.tramites.splice(index,1);
+			        	}).catch(e => {
 
-		        		console.log(e.response);
-		        	});
-		        	
+			        		console.log(e.response);
+			        	});
+		        	}
 		    	}).catch(err => {
 		            // An error occurred
 		            console.log(err.response);

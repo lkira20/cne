@@ -18,7 +18,7 @@ class CreateDatosTable extends Migration
             $table->string('name');
             $table->string('apellido');
             $table->string('ci')->unique();
-            $table->string('email')->unique();
+            $table->string('email');
 
             $table->morphs('datoable');
 

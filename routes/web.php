@@ -16,7 +16,10 @@ Route::get('/prueba', function(){
 	
 	return view('pruebas');
 });
+//LOGIN
+Auth::routes();
 
+Route::get('/home', 'HomeController@index')->name('home');
 
 //RUTAS API
 //RUTAS DE CIUDADANOS
@@ -26,10 +29,21 @@ Route::get('api/ciudadano/comprobar/{cedula}', 'CiudadanoController@comprobarCed
 //RUTAS DE SOLICITUD
 Route::apiResource('api/solicitud', 'SolicitudController');
 Route::get('api/solicitud/filtrar/{busqueda}', 'SolicitudController@filtrar');
+Route::get('api/estadisticas', 'SolicitudController@estadisticas');
+Route::get('api/estadisticas/{busqueda}', 'SolicitudController@filtrarestadisticas');
 //RUTAS DE TRAMITE
 Route::apiResource('api/tramite', 'TramiteController');
 //RUTAS DE NOTIFICACION
 Route::apiResource('api/notificaciones', 'NotificacionesController');
+//RUTAS DE PERFILES
+Route::apiResource('api/perfiles', 'PerfilesController');
+Route::get('api/perfiles/estadisticas/{id}', 'PerfilesController@estadisticas');
+//RUTAS DE ROLES
+Route::get('api/roles', 'RoleController@index');
+//RUTAS DE AUTH PERFIL
+Route::get('api/authperfil', 'AuthPerfilController@index');
+Route::get('api/authperfil/estadisticas', 'AuthPerfilController@estadisticas');
+Route::put('api/authperfil', 'AuthPerfilController@update');
 //RUTAS DE VUE
 Route::get('/', function () {
     return view('home');
@@ -45,8 +59,10 @@ Route::get('ciudadanos/{any}', function () {
 Route::get('ciudadanos/edit/{any}', function () {
     return view('home');
 })->where('{any}', '.*');
-
+Route::get('solicitudes/{any}', function () {
+    return view('home');
+})->where('{any}', '.*');
+Route::get('usuarios/{any}', function () {
+    return view('home');
+})->where('{any}', '.*');
 //RUTAS DE AUTENTICACION
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
