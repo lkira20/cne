@@ -1,6 +1,6 @@
 <template>
-	<div>
-		<h2 class="text-center">Lista de tramites <b-button v-b-modal.modal-1 variant="primary">Nuevo</b-button></h2>
+	<div class="container">
+		<h2 class="text-center">Lista de tramites <b-button v-if="$can('tramite.create')" v-b-modal.modal-1 variant="primary">Nuevo</b-button></h2>
 		<div class="list-group mb-5">
 			<div class="list-group-item list-group-item-action flex-column align-items-start" v-for="(tramite,index) in tramites" :key="tramite.id">
 				<div>
@@ -10,18 +10,18 @@
 			    	<p class="mb-1">{{tramite.description}}</p>
 		    	</div>
 		    	<div>
-		    		<b-button v-b-modal="`modal${tramite.id}`" variant="link" @click="$store.commit('insertTramiteFormEdit', tramite)">Editar</b-button>
-		    		<b-modal :id="`modal${tramite.id}`" title="Editar tramite" ok-title="editar" ok-variant="danger" @ok="editarTramite">
+		    		<b-button v-if="$can('tramite.edit')" v-b-modal="`modal${tramite.id}`" variant="link" @click="$store.commit('insertTramiteFormEdit', tramite)">Editar</b-button>
+		    		<b-modal v-if="$can('tramite.edit')" :id="`modal${tramite.id}`" title="Editar tramite" ok-title="editar" ok-variant="danger" @ok="editarTramite">
 		    			<TramitesEdit/>
 		    		</b-modal>
-		    		<b-button variant="danger" @click="showMsgBoxTwo(tramite.id, index)">Eliminar</b-button>
+		    		<b-button v-if="$can('tramite.delete')" variant="danger" @click="showMsgBoxTwo(tramite.id, index)">Eliminar</b-button>
 		    	</div>
 			</div>
 		</div>
 		<div>
 		  
 		<!--MODAL DE CREAR-->
-		<b-modal id="modal-1" title="Crear tramite" ok-title="crear" @ok="crearTramite">
+		<b-modal v-if="$can('tramite.create')" id="modal-1" title="Crear tramite" ok-title="crear" @ok="crearTramite">
 		<form>
 			<div class="form-group">
 				<label>Nombre del tramite</label>

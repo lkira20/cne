@@ -1,6 +1,6 @@
 <template>
-	<div>
-		<h1 class="text-center">Usuarios <b-button v-b-modal.my-modal variant="primary">Nuevo</b-button></h1>
+	<div class="container">
+		<h1 class="text-center">Usuarios <b-button v-if="$can('perfiles.create')" v-b-modal.my-modal variant="primary">Nuevo</b-button></h1>
 		<router-view></router-view>
 		<!--MODAL DE CREAR-->
 		<b-modal id="my-modal" title="crear usuario" size="lg" @ok="crearUsuario">

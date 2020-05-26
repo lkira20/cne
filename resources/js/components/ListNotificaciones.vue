@@ -1,17 +1,19 @@
 <template>
 	<div>
-		<h2 class="text-center">Notas <b-button v-b-modal.modal-1 variant="primary">Nuevo</b-button></h2>
-		
-		<b-alert @dismissed="eliminarNotificacion(notificacion.id)" show dismissible fade variant="warning" v-for="(notificacion, index) in notificaciones" :key="notificacion.id">
-		<h4 class="alert-heading">{{notificacion.asunto}}</h4>
-		<small class="text-muted">{{fecha(notificacion.created_at)}}</small>
-	    <p>
-	      {{notificacion.description}}
-	    </p>	
-		</b-alert>
+		<h2 class="text-center">Notas <b-button v-if="$can('notificaciones.create')" v-b-modal.modal-1 variant="primary">Nuevo</b-button></h2>
 
+		<div class="alert alert-warning alert-dismissible fade show" role="alert" v-for="(notificacion, index) in notificaciones" :key="notificacion.id">
+			<h4 class="alert-heading">{{notificacion.asunto}}</h4>
+			<small class="text-muted">{{fecha(notificacion.created_at)}}</small>
+		    <p>
+		      {{notificacion.description}}
+		    </p>
+			<button v-if="$can('notificaciones.delete')" @click="eliminarNotificacion(notificacion.id)"  type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
 		<!--MODAL DE CREAR-->
-		<b-modal id="modal-1" title="Crear nota" ok-title="crear" @ok="crearNotificacion">
+		<b-modal v-if="$can('notificaciones.create')" id="modal-1" title="Crear nota" ok-title="crear" @ok="crearNotificacion">
 		<form>
 			<div class="form-group">
 				<label>Asunto de la nota</label>

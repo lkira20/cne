@@ -1,6 +1,6 @@
 <template>
-	<div class="card shadow">
-		<h2 class="text-center">Lista <router-link class="btn btn-primary" :to="{name: 'ciudadanosCreate'}">Nuevo</router-link></h2>
+	<div class="container card shadow">
+		<h2 class="text-center">Lista <router-link v-if="$can('ciudadano.create')" class="btn btn-primary" :to="{name: 'ciudadanosCreate'}">Nuevo</router-link></h2>
 		<table class="table">
 			<thead>
 		    	<tr>
@@ -18,8 +18,8 @@
 				    <td>{{ keep.ci }}</td>
 				    <td>{{ keep.email }}</td>
 				    <td>
-				    <router-link class="btn btn-link btn-block" :to="{name: 'ciudadanosEdit', params: {id: keep.datoable_id}}">editar</router-link>
-				    <button class="btn btn-danger btn-block" @click='eliminar(keep.datoable_id, index)'>Eliminar</button>
+				    <router-link v-if="$can('ciudadano.edit')" class="btn btn-link btn-block" :to="{name: 'ciudadanosEdit', params: {id: keep.datoable_id}}">editar</router-link>
+				    <button v-if="$can('ciudadano.delete')" class="btn btn-danger btn-block" @click='eliminar(keep.datoable_id, index)'>Eliminar</button>
 				    </td>
 		  		</tr>
 		  	</tbody>

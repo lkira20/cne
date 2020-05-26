@@ -16,10 +16,12 @@ Route::get('/prueba', function(){
 	
 	return view('pruebas');
 });
-//LOGIN
-Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+//LOGIN
+//RUTAS DE AUTENTICACION
+//Auth::routes();
+
+//Route::get('/home', 'HomeController@index')->name('home');
 
 //RUTAS API
 //RUTAS DE CIUDADANOS
@@ -41,9 +43,11 @@ Route::get('api/perfiles/estadisticas/{id}', 'PerfilesController@estadisticas');
 //RUTAS DE ROLES
 Route::get('api/roles', 'RoleController@index');
 //RUTAS DE AUTH PERFIL
+/*
 Route::get('api/authperfil', 'AuthPerfilController@index');
 Route::get('api/authperfil/estadisticas', 'AuthPerfilController@estadisticas');
 Route::put('api/authperfil', 'AuthPerfilController@update');
+*/
 //RUTAS DE VUE
 Route::get('/', function () {
     return view('home');
@@ -65,4 +69,4 @@ Route::get('solicitudes/{any}', function () {
 Route::get('usuarios/{any}', function () {
     return view('home');
 })->where('{any}', '.*');
-//RUTAS DE AUTENTICACION
+

@@ -15,14 +15,14 @@
 		    	<li class="list-group-item">Email: {{usuario.email}}</li>
 			</ul>	    
 		    
-		    <b-button :to="{name: 'UsuariosShow', params: {id: usuario.id}}" variant="primary">Detalles</b-button>
-		    <b-button v-b-modal="`my-modal-${usuario.id}`"variant="link">Editar</b-button>
+		    <b-button v-if="$can('perfiles.show')" :to="{name: 'UsuariosShow', params: {id: usuario.id}}" variant="primary">Detalles</b-button>
+		    <b-button v-if="$can('perfiles.edit')" v-b-modal="`my-modal-${usuario.id}`"variant="link">Editar</b-button>
 		    <!--MODAL DE EDITAR-->
-		    <b-modal hide-footer :id="`my-modal-${usuario.id}`" title="Editar usuario" size="lg" @ok="">
+		    <b-modal v-if="$can('perfiles.edit')" hide-footer :id="`my-modal-${usuario.id}`" title="Editar usuario" size="lg" @ok="">
 		    	<UsuariosEdit :usuario="usuario"/>
 		    </b-modal>
 		    <!--<b-button variant="danger" @click="eliminarUsuario(usuario.id)">Eliminar</b-button>-->
-		    <b-button @click="showMsgBoxTwo(usuario.id, index)" variant="danger">Borrar</b-button>
+		    <b-button v-if="$can('perfiles.delete')" @click="showMsgBoxTwo(usuario.id, index)" variant="danger">Borrar</b-button>
 		</div>
 		</div>
 	</div>

@@ -1,7 +1,7 @@
 <template>
 	<div>
-		<h1 class="text-center">Bienvenido al sistema de control y seguimiento de documentos de registro civil</h1>
-		<iniciarSolicitud></iniciarsolicitud>
+		
+		<iniciarSolicitud class="mt-3"></iniciarsolicitud>
 	</div>
 </template>
 
@@ -12,6 +12,11 @@
 	export default{
 		components:{
 			iniciarSolicitud
+		},
+		created(){
+
+			 //console.log(this.$store.state.usuario);
+
 		}
 	}
 

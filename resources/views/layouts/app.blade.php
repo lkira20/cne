@@ -7,7 +7,8 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <!--<title>{{ config('app.name', 'Laravel') }}</title>-->
+    <title>CNE</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -18,11 +19,22 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <style type="text/css">
+        html, body{
+          height:100%;
+          margin:0;
+          display: flex;
+          flex-direction: column;
+        }
+    </style>
 </head>
 <body>
-    <div id="app">
+    <div id="app" style="height:100%;">
 
         @yield('content')
     </div>
+
+    @stack('scripts')
 </body>
 </html>

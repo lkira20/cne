@@ -131,18 +131,23 @@
 			}
 		},
 		created(){
-			
-			axios.get('/api/ciudadano/show/'+this.id).then(datos => {
-				console.log(this.ciudadano);
+			if (this.$can('ciudadano.edit')) {
 
-				this.ciudadano = datos.data;
-				console.log(this.ciudadano);
-				//le asigno el valor a los campos
-				this.nombre = this.ciudadano.name;
-				this.apellido = this.ciudadano.apellido;
-				this.cedula = this.ciudadano.ci;
-				this.email = this.ciudadano.email;
-			});
+				axios.get('/api/ciudadano/show/'+this.id).then(datos => {
+					console.log(this.ciudadano);
+
+					this.ciudadano = datos.data;
+					console.log(this.ciudadano);
+					//le asigno el valor a los campos
+					this.nombre = this.ciudadano.name;
+					this.apellido = this.ciudadano.apellido;
+					this.cedula = this.ciudadano.ci;
+					this.email = this.ciudadano.email;
+				});
+			}else{
+				this.$router.replace({name: '403'})
+			}
+			
 
 		},
 		computed:{

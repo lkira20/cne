@@ -2,14 +2,17 @@
 
 namespace App;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Laravel\Passport\HasApiTokens;
+//use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Caffeinated\Shinobi\Concerns\HasRolesAndPermissions;
+use Caffeinated\Shinobi\Models\Permission;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
-    use Notifiable, HasRolesAndPermissions;
+    use HasApiTokens, Notifiable, HasRolesAndPermissions;
 
     /**
      * The attributes that are mass assignable.
@@ -46,5 +49,15 @@ class User extends Authenticatable
     public function solicitudes()
     {
         return $this->hasMany(Solicitud::class);
+    }
+
+    public function getAllPermissionsAttribute() {
+      $permissions = [];
+        foreach (Auth::user()->roles as $role) {
+            foreach ($role->permissions as $permiso) {
+                $permissions[] = $permiso->slug;
+            }
+        }
+        return $permissions;
     }
 }

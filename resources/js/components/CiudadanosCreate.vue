@@ -163,6 +163,13 @@
 				let arroba = this.email.indexOf('@');
 				return this.email.indexOf('@')  !== -1 && this.email.length > arroba+1   ? true : false;
 			}
+		},
+		created(){
+			if (this.$can('ciudadano.create')) {
+				return
+			}else{
+				this.$router.replace({name: '403'})
+			}
 		}
 	}
 

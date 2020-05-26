@@ -1,10 +1,10 @@
 <template>
-		<div class="card shadow">
+		<div class="container card shadow">
 		 	<div class="card-header">
 		    	<h2 class="text-center card-title">Lista de mis solicitudes</h2>
 			</div>
 			<div class="card-body">
-				<div class="d-flex">
+				<div class="d-flex" v-if="$can('solicitud.index')">
 					<form @submit.prevent="buscar" class="form-inline ml-auto mb-3">
 		     			<input @change="cambioListaBusqueda" class="form-control" type="search" placeholder="cedula" aria-label="Search" v-model="search">
 		     			<button class="btn btn-outline-primary my-2 my-sm-0" type="submit">buscar</button>
@@ -29,9 +29,9 @@
 					    	<td>{{solicitud.tramite?  solicitud.tramite.name: 'indefinido'}}</td>
 					    	<td>{{solicitud.fecha}}</td>
 					    	<td>
-					      		<b-button block v-b-modal="`my-modal${index}`" @click="buscarTramites" variant="link">Editar</b-button>
+					      		<b-button v-if="$can('solicitud.edit')" block v-b-modal="`my-modal${index}`" @click="buscarTramites" variant="link">Editar</b-button>
 					      		<!--MODAL DE EDITAR-->
-					      		<b-modal :id="`my-modal${index}`" hide-footer title="Datos para la solicitud">
+					      		<b-modal v-if="$can('solicitud.edit')" :id="`my-modal${index}`" hide-footer title="Datos para la solicitud">
 					      		<!--<SolicitudesEdit :solicitud="solicitud" :modal="`my-modal${index}`"/>-->
 								<form @submit.prevent="editarSolicitud(solicitud.tramite.id, solicitud.status, solicitud.descripcion, solicitud.id, index)">
 									<div class="mb-2">
@@ -66,11 +66,11 @@
 					      		</b-modal>
 					      		<!------------------>
 					      		<!--boton ELIMINAR-->
-					      		<b-button block size="sm" @click="showMsgBoxTwo(solicitud.id, index)" variant="danger">Borrar</b-button>
+					      		<b-button v-if="$can('solicitud.delete')" block size="sm" @click="showMsgBoxTwo(solicitud.id, index)" variant="danger">Borrar</b-button>
 
      							<!--BOTON DE VER detalles-->
 
-     							<b-button block size="sm" @click="$bvModal.show(`bv-modal-example${index}`)" variant="primary">Detalles</b-button>
+     							<b-button v-if="$can('solicitud.show')" block size="sm" @click="$bvModal.show(`bv-modal-example${index}`)" variant="primary">Detalles</b-button>
 
      							<b-modal scrollable :id="`bv-modal-example${index}`" hide-footer>
 									<template v-slot:modal-title>
@@ -89,9 +89,9 @@
 							<td>{{soli.tramite.name}}</td>
 							<td>{{soli.fecha}}</td>
 					    	<td>
-					      		<b-button block v-b-modal="`my-modal${index}`" @click="buscarTramites" variant="link">Editar</b-button>
+					      		<b-button v-if="$can('solicitud.edit')" block v-b-modal="`my-modal${index}`" @click="buscarTramites" variant="link">Editar</b-button>
 					      		<!--MODAL DE EDITAR-->
-					      		<b-modal :id="`my-modal${index}`" hide-footer title="Datos para la solicitud">
+					      		<b-modal v-if="$can('solicitud.edit')" :id="`my-modal${index}`" hide-footer title="Datos para la solicitud">
 					      		<!--<SolicitudesEdit :solicitud="solicitud" :modal="`my-modal${index}`"/>-->
 								<form @submit.prevent="editarSolicitud(soli.tramite.id, soli.status, soli.descripcion, soli.id, index)">
 									<div class="mb-2">
@@ -126,13 +126,13 @@
 					      		</b-modal>
 					      		<!------------------>
 					      		<!--boton ELIMINAR-->
-					      		<b-button block @click="showMsgBoxTwo(soli.id, index)" variant="danger">Borrar</b-button>
+					      		<b-button v-if="$can('solicitud.delete')" block @click="showMsgBoxTwo(soli.id, index)" variant="danger">Borrar</b-button>
 
      							<!--BOTON DE VER detalles-->
 
-     							<b-button block size="sm" @click="$bvModal.show(`bv-modal-example${index}`)" variant="primary">Detalles</b-button>
+     							<b-button v-if="$can('solicitud.show')" block size="sm" @click="$bvModal.show(`bv-modal-example${index}`)" variant="primary">Detalles</b-button>
 
-     							<b-modal scrollable :id="`bv-modal-example${index}`" hide-footer>
+     							<b-modal v-if="$can('solicitud.show')" scrollable :id="`bv-modal-example${index}`" hide-footer>
 									<template v-slot:modal-title>
 								      Detalles de la solicitud
 								    </template>

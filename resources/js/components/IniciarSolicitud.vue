@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="container">
 			<form @submit.prevent="registrarSolicitud">
 				<div class="card mb-2 shadow">
 					<div class="card-body">		
@@ -129,12 +129,18 @@
 		},
 		created(){
 			//CONSULTA DE LOS TRAMITES PARA COLOCARLOS EN EL SELECT
-			axios.get('/api/tramite').then(response => {
-				
-				this.tramites = response.data;
-			}).catch(e => {
-				console.log(e);
-			});
+			if (this.$can('solicitud.create')) {
+
+				axios.get('/api/tramite').then(response => {
+					
+					this.tramites = response.data;
+				}).catch(e => {
+					console.log(e);
+				});
+			}else{
+				this.$router.replace({name: '403'})
+			}
+			
 		}
 	}
 

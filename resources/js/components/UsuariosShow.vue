@@ -109,8 +109,11 @@
 			}
 		},
 		created(){
-
-			this.consultarDetalles();
+			if (this.$can('perfiles.show')) {
+				this.consultarDetalles();
+			}else{
+				this.$router.replace({name: '403'})
+			}
 		},
 		beforeRouteUpdate (to, from, next) {
 			console.log(to);

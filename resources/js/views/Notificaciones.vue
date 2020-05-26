@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="container">
 		<h1 class="text-center">Notificaciones</h1>
 		<ListNotificaciones></ListNotificaciones>
 	</div>

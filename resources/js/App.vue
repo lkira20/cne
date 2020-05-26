@@ -1,6 +1,6 @@
 <template>
-	<div>
-		<nav class="navbar navbar-expand-lg navbar-light shadow">
+	<div style="height:100%;" id="caja">
+		<nav v-if="$store.state.token !== null" class="navbar navbar-expand-lg navbar-light shadow">
 		  <a class="navbar-brand" href="#">CNE</a>
 		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 		    <span class="navbar-toggler-icon"></span>
@@ -31,15 +31,16 @@
 		          Usuario
 		        </a>
 		        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-		          <router-link class="dropdown-item" :to="{name: 'authperfil'}">Perfil</router-link>
-		          <a class="dropdown-item" href="#">logout</a>
+		       		<router-link class="dropdown-item" :to="{name: 'authperfil'}">Perfil</router-link>
+		        	<router-link class="dropdown-item" :to="{name: 'logout'}">logout</router-link>
+ 	   
 		        </div>
 		      </li>
 		    </ul>
 		  </div>
 		</nav>
 
-		<div class="container mt-5">
+		<div class="" id="caja2" style="height:100%;">
 			<transition name="slide-fade" mode="out-in">
 	            <router-view ></router-view>
 	        </transition>
@@ -51,6 +52,27 @@
 	export default {
 		computed:{
 			
+		},
+		methods:{
+			/*logout(){
+
+				this.$store.dispatch("destroyToken").then(response => {
+		          this.$router.push({ name: "login" });
+		        })
+		        .catch(error => {
+		          this.error = error.response.data;
+		        });;
+					}
+					*/
 		}
 	}
 </script>
+
+<style type="text/css">
+	#caja{
+		height:100%;
+         margin:0;
+        display: flex;
+        flex-direction: column;	
+	}
+</style>
