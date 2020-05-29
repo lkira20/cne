@@ -1,4 +1,10 @@
 {
+    "name": "myapp",
+    "description": "a really cool app",
+    "version": "1.0.0",
+    "engines": {
+        "node": "14.2.x"
+    },
     "private": true,
     "scripts": {
         "postinstall": "npm run prod",
@@ -30,5 +36,6 @@
         "vue-chartjs": "^3.5.0",
         "vue-router": "^3.1.6",
         "vuex": "^3.4.0"
-    }
+    },
+
 }
