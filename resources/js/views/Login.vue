@@ -12,8 +12,6 @@
             <p>{{error}}</p>
           </div>
             <div class="card shadow" id="card">
-                <div class="card-header">Login</div>
-
                 <div class="card-body">
                   <form autocomplete="off" @submit.prevent="login" method="post">
                         <div class="form-group row">
@@ -60,9 +58,13 @@ export default {
           password: this.password
         })
         .then(response => {
-          this.$store.dispatch("pedirUsuario")
-          this.$store.dispatch("pedirPermisos")
-          this.$router.push({ name: "inicio" });
+          if(response.data !== 'Unauthorized') {
+            this.$store.dispatch("pedirUsuario")
+            this.$store.dispatch("pedirPermisos")
+            this.$router.push({ name: "inicio" });
+          }else{
+            this.error = "usuario o contraseña incorrectos.";
+          }
         })
         .catch(error => {
           this.error = error.response.data;
