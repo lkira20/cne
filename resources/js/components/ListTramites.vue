@@ -1,9 +1,9 @@
 <template>
-	<div class="container">
+	<div class="container" id="carta">
 		<h2 class="text-center">Lista de tramites <b-button v-if="$can('tramite.create')" v-b-modal.modal-1 variant="primary">Nuevo</b-button></h2>
-		<div class="list-group mb-5">
-			<div class="list-group-item list-group-item-action flex-column align-items-start" v-for="(tramite,index) in tramites" :key="tramite.id">
-				<div>
+		<div class="list-group mb-5" >
+			<div class="list-group-item list-group-item-action flex-column align-items-start"  v-for="(tramite,index) in tramites" :key="tramite.id">
+				<div id="lista">
 					<div class="d-flex w-100 justify-content-between">
 						<h5 class="mb-1">{{tramite.name}}</h5>
 			    	</div>
@@ -57,7 +57,7 @@
 		methods:{
 			listaTramites(){//LISTA DE LOS TRAMITES
 
-				axios.get('/api/tramite').then(response => {
+				axios.get('/api/tramite', {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
 
 					this.tramites = response.data;
 					console.log(response.data);
@@ -67,7 +67,7 @@
 			},
 			crearTramite(){
 
-				axios.post('api/tramite', this.envio).then(response => {
+				axios.post('api/tramite', this.envio, {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
 					console.log(response.data);
 					this.tramites.splice(0,0, response.data);
 				}).catch(e => {
@@ -76,7 +76,7 @@
 			},
 			editarTramite(){
 
-				axios.put('/api/tramite/'+this.tramiteFormEdit.id, this.tramiteFormEdit).then(response => {
+				axios.put('/api/tramite/'+this.tramiteFormEdit.id, this.tramiteFormEdit, {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
 
 					this.listaTramites();
 				}).catch(e => {
@@ -101,7 +101,7 @@
 		        }).then(value => {
 		        	this.boxTwo = value;
 		        	if(this.boxTwo == true){
-			        	axios.delete('/api/tramite/'+tramite).then(response => {
+			        	axios.delete('/api/tramite/'+tramite, {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
 
 			        		this.tramites.splice(index,1);
 			        	}).catch(e => {
@@ -128,5 +128,10 @@
 </script>
 
 <style type="text/css">
-	
+	#carta{
+		background-color: rgba(256,256,256,0.9);
+	}
+	#g {
+		background-color: rgba(256,256,256,0.9);
+	}
 </style>

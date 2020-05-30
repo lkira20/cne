@@ -126,7 +126,7 @@
 				this.ciudadano.email = this.email;
 				//enviar
 				
-				axios.post('/api/ciudadano', this.ciudadano).then(response => {
+				axios.post('/api/ciudadano', this.ciudadano, {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
 					console.log(response);
 
 					this.$router.push({path: '/ciudadanos/', params: {success: 'usuario creado exitosamente'}});

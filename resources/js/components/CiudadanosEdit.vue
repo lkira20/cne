@@ -124,7 +124,7 @@
 				this.ciudadano.ci = this.cedula;
 				this.ciudadano.email = this.email;
 
-				axios.put('/api/ciudadano/'+this.id, this.ciudadano).then(datos => {
+				axios.put('/api/ciudadano/'+this.id, this.ciudadano, {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(datos => {
 					console.log(datos);
 					this.$router.push({path: '/ciudadanos/'});
 				});
@@ -133,7 +133,7 @@
 		created(){
 			if (this.$can('ciudadano.edit')) {
 
-				axios.get('/api/ciudadano/show/'+this.id).then(datos => {
+				axios.get('/api/ciudadano/show/'+this.id, {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(datos => {
 					console.log(this.ciudadano);
 
 					this.ciudadano = datos.data;

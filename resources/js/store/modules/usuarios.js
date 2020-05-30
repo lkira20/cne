@@ -43,7 +43,7 @@ export default {
 	actions:{
 		consultarListaUsuarios(context){
 
-			axios.get('/api/perfiles').then(response => {
+			axios.get('/api/perfiles', {headers: {Authorization: "Bearer "+ this.state.token}}).then(response => {
 
 				context.commit('listarUsuarios', response.data);
 			}).catch(e => {

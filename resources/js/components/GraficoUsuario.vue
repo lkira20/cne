@@ -52,7 +52,7 @@ export default {
     },
     cantidadSolicitudes(){
 
-      axios.get('/api/perfiles/estadisticas/'+this.grafico).then(response => {
+      axios.get('/api/perfiles/estadisticas/'+this.grafico, {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
 
         this.listaEspera = response.data.espera;
         this.listaAtendidos = response.data.atendidas;

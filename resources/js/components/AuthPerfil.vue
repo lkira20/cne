@@ -2,7 +2,7 @@
 	<div class="container mt-3">
 		<b-row v-if="loader">
 			<b-col sm="12" md="4">
-				<div class="card">
+				<div class="card" id="carta">
 					<img src="../../../public/img/usuario.jpg" class="card-img-top">
 				<div class="card-body">
 					<ul class="list-group list-group-flush">
@@ -19,12 +19,12 @@
 				</div>
 				</div>
 			</b-col>
-			<b-col sm="12" md="8" >
+			<b-col sm="12" md="8">
 				<!--GRAFICO-->
 				<GraficoUsuario :grafico="usuario.id"/>
 				<!--TABLA-->
-				<h3>Lista de solicitudes</h3>
-				<table class="table table-sm table-hover">
+				<h3 class="text-white">Lista de solicitudes</h3>
+				<table class="table table-sm table-hover" id="perfil">
 					<thead>
 						<tr>
 							<th scope="col">cedula</th>
@@ -126,3 +126,12 @@
   		}
 	}
 </script>
+
+<style type="text/css">
+	#perfil{
+		background-color: rgba(256,256,256,0.8) !important;
+	}
+	#carta{
+		background-color: rgba(256,256,256,0.8) !important;
+	}
+</style>

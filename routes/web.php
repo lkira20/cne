@@ -25,23 +25,23 @@ Route::get('/prueba', function(){
 
 //RUTAS API
 //RUTAS DE CIUDADANOS
-Route::apiResource('api/ciudadano', 'CiudadanoController');
-Route::get('api/ciudadano/show/{id}', 'CiudadanoController@show');
-Route::get('api/ciudadano/comprobar/{cedula}', 'CiudadanoController@comprobarCedula');
+//Route::apiResource('api/ciudadano', 'CiudadanoController');
+//Route::get('api/ciudadano/show/{id}', 'CiudadanoController@show');
+//Route::get('api/ciudadano/comprobar/{cedula}', 'CiudadanoController@comprobarCedula');
 //RUTAS DE SOLICITUD
-Route::apiResource('api/solicitud', 'SolicitudController');
-Route::get('api/solicitud/filtrar/{busqueda}', 'SolicitudController@filtrar');
-Route::get('api/estadisticas', 'SolicitudController@estadisticas');
-Route::get('api/estadisticas/{busqueda}', 'SolicitudController@filtrarestadisticas');
+//Route::apiResource('api/solicitud', 'SolicitudController');
+//Route::get('api/solicitud/filtrar/{busqueda}', 'SolicitudController@filtrar');
+//Route::get('api/estadisticas', 'SolicitudController@estadisticas');
+//Route::get('api/estadisticas/{busqueda}', 'SolicitudController@filtrarestadisticas');
 //RUTAS DE TRAMITE
-Route::apiResource('api/tramite', 'TramiteController');
+//Route::apiResource('api/tramite', 'TramiteController');
 //RUTAS DE NOTIFICACION
-Route::apiResource('api/notificaciones', 'NotificacionesController');
+//Route::apiResource('api/notificaciones', 'NotificacionesController');
 //RUTAS DE PERFILES
-Route::apiResource('api/perfiles', 'PerfilesController');
-Route::get('api/perfiles/estadisticas/{id}', 'PerfilesController@estadisticas');
+//Route::apiResource('api/perfiles', 'PerfilesController');
+//Route::get('api/perfiles/estadisticas/{id}', 'PerfilesController@estadisticas');
 //RUTAS DE ROLES
-Route::get('api/roles', 'RoleController@index');
+//Route::get('api/roles', 'RoleController@index');
 //RUTAS DE AUTH PERFIL
 /*
 Route::get('api/authperfil', 'AuthPerfilController@index');

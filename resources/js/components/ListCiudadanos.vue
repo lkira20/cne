@@ -1,7 +1,7 @@
 <template>
-	<div class="container card shadow">
+	<div class="container card shadow" id="carta">
 		<h2 class="text-center">Lista <router-link v-if="$can('ciudadano.create')" class="btn btn-primary" :to="{name: 'ciudadanosCreate'}">Nuevo</router-link></h2>
-		<table class="table">
+		<table class="table table-sm table-hover">
 			<thead>
 		    	<tr>
 		      		<th scope="col">Nombre</th>
@@ -110,7 +110,7 @@
 		methods:{
 			eliminar(id, index){
 	
-				axios.delete('/api/ciudadano/'+id).then(datos => {
+				axios.delete('/api/ciudadano/'+id, {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(datos => {
 				//console.log(datos.data.datos);
 
 					let eliminado = this.keeps.splice(index, 1);
@@ -121,7 +121,7 @@
 		
 			},
 			getKeeps(page){
-				axios.get('/api/ciudadano?page='+page).then(datos => {
+				axios.get('/api/ciudadano?page='+page, {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(datos => {
 				/*console.log(datos.data);
 				this.lista = datos.data;*/
 				//PAGINACION DE RIMORSOFT
@@ -145,5 +145,7 @@
 </script>
 
 <style type="text/css">
-	
+	#carta{
+		background-color: rgba(256,256,256,0.9);
+	}
 </style>

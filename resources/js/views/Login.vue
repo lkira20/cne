@@ -12,6 +12,9 @@
             <p>{{error}}</p>
           </div>
             <div class="card shadow" id="card">
+                <div class="card-header py-4">
+                  
+                </div>
                 <div class="card-body">
                   <form autocomplete="off" @submit.prevent="login" method="post">
                         <div class="form-group row">
@@ -77,9 +80,9 @@ export default {
 <style type="text/css" >
   #wraper{
     background-image: url("../../../public/img/electoral.jpg");
-    background-repeat: no-repeat;
+    background-repeat: repeat-y;
     position: relative;
-    background-size: cover;
+    background-size: 100%;
   }
 
   #wraper:before {
@@ -101,6 +104,5 @@ export default {
   color: #fff;
   position: relative
 }
-
   
 </style>

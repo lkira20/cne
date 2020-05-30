@@ -85,7 +85,7 @@
 			cambiar(page){//RESUELVE EL BUG QUE DE REGRESO A LA PAGINA 1 NO SE REGRESE
 		
 				if (page == 1) {
-					axios.get('/api/perfiles/'+this.id).then(response => {
+					axios.get('/api/perfiles/'+this.id, {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
 					this.solicitudes = response.data.solicitudes.data;
 					this.totalPaginas = response.data.solicitudes.last_page;
 					//console.log(response.data);
@@ -97,7 +97,7 @@
 			},
 			consultarDetalles(){
 
-				axios.get('/api/perfiles/'+this.id).then(response => {
+				axios.get('/api/perfiles/'+this.id, {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
 					this.usuario = response.data.usuario[0];
 					this.solicitudes = response.data.solicitudes.data;
 					this.totalPaginas = response.data.solicitudes.last_page
@@ -118,7 +118,7 @@
 		beforeRouteUpdate (to, from, next) {
 			console.log(to);
 			//CAMBIO DE QUERY PARA CAMBIAR LA LISTA CON PAGINACION
-			axios.get('/api/perfiles/'+this.id+'?page='+to.query.page).then(response => {
+			axios.get('/api/perfiles/'+this.id+'?page='+to.query.page, {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
 				this.solicitudes = response.data.solicitudes.data;
 				this.totalPaginas = response.data.solicitudes.last_page;
 				//console.log(response.data);

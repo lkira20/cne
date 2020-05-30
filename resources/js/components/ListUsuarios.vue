@@ -1,6 +1,6 @@
 <template>
 	<div class="row">
-		<div v-for="(usuario,index) in listaUsuarios" :key="usuario.id" class="card col-12 col-sm-12  col-md-6 col-lg-3" style="width: 18rem;">
+		<div v-for="(usuario,index) in listaUsuarios" :key="usuario.id" class="card col-12 col-sm-12  col-md-6 col-lg-3" id="carta" style="width: 18rem;">
 			<img src="../../../public/img/usuario.jpg" class="card-img-top">
 		<div class="card-body">
 			
@@ -47,7 +47,7 @@
 			...mapMutations('usuarios', ['eliminar', 'llenarEnvio']),
 			eliminarUsuario(id){
 
-				axios.delete('/api/perfiles/'+id).then(response => {
+				axios.delete('/api/perfiles/'+id, {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
 					console.log(response);
 					//this.consultarListaUsuarios();
 				}).catch(e => {
@@ -96,5 +96,7 @@
 </script>
 
 <style type="text/css">
-	
+	#carta{
+		background-color: rgba(256,256,256,0.9);
+	}
 </style>

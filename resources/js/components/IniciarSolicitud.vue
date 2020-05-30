@@ -1,7 +1,7 @@
 <template>
 	<div class="container">
 			<form @submit.prevent="registrarSolicitud">
-				<div class="card mb-2 shadow">
+				<div class="card mb-2 shadow" id="carta">
 					<div class="card-body">		
 								
 						<div class="form-row ">
@@ -13,7 +13,7 @@
 			  				</div>
 			  				<div class="form-group col-md-6">
 			  					<label for="cedula">cedula</label>
-			  					<input type="number" class="form-control" id="cedula" placeholder="cedula" name="ci" v-model.number="solicitud.ci">
+			  					<input type="number" class="form-control" id="cedula" placeholder="cedula" name="ci" v-model.number="solicitud.ci" required>
 
 			  				</div>
 			  				<div class="form-group col-md-6 text-center">
@@ -22,11 +22,11 @@
 			  				</div>
 			  				<div class="form-group col-md-6">
 			  					<label for="nombre">nombre</label>
-			  					<input type="text" class="form-control" id="nombre" placeholder="nombre" name="name" v-model="solicitud.name" :disabled="desactivar">
+			  					<input type="text" class="form-control" id="nombre" required placeholder="nombre" name="name" v-model="solicitud.name" :disabled="desactivar">
 			  				</div>
 			  				<div class="form-group col-md-6">
 			  					<label for="apellido">apellido</label>
-			  					<input type="text" class="form-control" id="apellido" placeholder="apellido" name="apellido" v-model="solicitud.apellido" :disabled="desactivar">
+			  					<input type="text" class="form-control" required id="apellido" placeholder="apellido" name="apellido" v-model="solicitud.apellido" :disabled="desactivar">
 			  				</div>
 			  				<div class="form-group col-md-6">
 			  					<label for="email">email</label>
@@ -44,16 +44,16 @@
 				  		</div>
 
 			  			<div class="form-group">
-			  				<label for="inputAddress">tramite</label>
-							 <select  id="tramite" v-model="solicitud.tramite" name="tramite" class="form-control">
+			  				<label for="tramite">tramite</label>
+							 <select  id="tramite" v-model="solicitud.tramite" name="tramite" class="form-control" required>
 							 	<option value="null">seleccione algun tramite</option>
 							 	<option v-for="tramit in tramites" :key="tramit.id" :value="tramit.id">{{tramit.name}}</option>						 	
 	                         </select>
 			  			</div>
 			 
 			  			<div class="form-group">
-			  				<label for="inputAddress">estatus</label>
-			  				<select class="form-control" placeholder="estutus" v-model="solicitud.status">
+			  				<label for="status">estatus</label>
+			  				<select id="status" class="form-control" placeholder="estatus" v-model="solicitud.status" required>
 			  					<option value="1"> atendido </option>
 			  					<option value="0"> pendiente </option>
 			  				</select>
@@ -62,7 +62,7 @@
 
 			  			<div class="form-group">
 			  				<label for="descripcion">Descripcion de solicitud.</label>
-			  				<textarea class="form-control" id="descripcion" rows="3" name="descripcion" v-model="solicitud.descripcion"></textarea>
+			  				<textarea class="form-control" id="descripcion" rows="3" name="descripcion" v-model="solicitud.descripcion" required></textarea>
 			  			</div>
 			  			<div class="text-center mb-3">
 			  				<button type="submit" class="btn btn-primary btn-lg btn-block" name="registrar-solicitud">Registrar</button>
@@ -95,12 +95,11 @@
 		},
 		methods:{
 			comprobarCedula(){
-				axios.get('/api/ciudadano/comprobar/'+this.solicitud.ci).then(response => {
-
+				axios.get('/api/ciudadano/comprobar/'+this.solicitud.ci, {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
+					this.colorComprobante = false;
 					if (response.data == 'el ciudadano no esta registrado') {
 						this.comprobante = response.data;
 						this.desactivar = false;
-						this.colorComprobante = true;
 					}else{
 
 						this.solicitud.ci = response.data[0].ci;
@@ -119,7 +118,7 @@
 			},
 			registrarSolicitud(){
 
-				axios.post('/api/solicitud', this.solicitud).then(response => {
+				axios.post('/api/solicitud', this.solicitud, {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
 
 					this.$router.push('/solicitudes');
 				}).catch(e => {
@@ -131,7 +130,7 @@
 			//CONSULTA DE LOS TRAMITES PARA COLOCARLOS EN EL SELECT
 			if (this.$can('solicitud.create')) {
 
-				axios.get('/api/tramite').then(response => {
+				axios.get('/api/tramite', {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
 					
 					this.tramites = response.data;
 				}).catch(e => {
@@ -152,5 +151,9 @@ hr {
   margin-bottom: 1rem;
   border: 0;
   border-top: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+#carta{
+	background-color: rgba(256,256,256,0.9);
 }
 </style>

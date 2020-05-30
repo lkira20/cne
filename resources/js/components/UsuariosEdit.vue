@@ -67,7 +67,7 @@
 			...mapActions('usuarios',['consultarListaUsuarios']),
 			listarRoles(){
 
-				axios.get('/api/roles').then(response => {
+				axios.get('/api/roles', {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
 
 					for(let role of response.data){
 						this.options.push(role.name);
@@ -79,7 +79,7 @@
 			},
 			actualizar(){
 
-				axios.put('/api/perfiles/'+this.usuario.id, this.envio).then(response => {
+				axios.put('/api/perfiles/'+this.usuario.id, this.envio, {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
 					//console.log(response);
 					this.$bvModal.hide(`my-modal-${this.usuario.id}`);
 					this.consultarListaUsuarios();

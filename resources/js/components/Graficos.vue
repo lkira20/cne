@@ -1,5 +1,5 @@
 <template>
-  <div class="small">
+  <div class="small" id="grafica">
     <h4>Desempeño anual de las solicitudes</h4>
     <line-chart :chartData="datacollection" :height="100"></line-chart>
   </div>
@@ -51,7 +51,7 @@ export default {
     },
     cantidadSolicitudes(){
 
-      axios.get('/api/estadisticas').then(response => {
+      axios.get('/api/estadisticas', {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
 
         this.listaEspera = response.data.espera;
         this.listaAtendidos = response.data.atendidas;
@@ -70,5 +70,6 @@ export default {
   max-width: 800px;
   /* max-height: 500px; */
   margin:  50px auto;
+  background-color: rgba(255,255,255,0.9);
 }
 </style>

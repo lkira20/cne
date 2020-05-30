@@ -1,5 +1,5 @@
 <template>
-		<div class="container card shadow">
+		<div class="container card shadow" id="carta">
 		 	<div class="card-header">
 		    	<h2 class="text-center card-title">Lista de mis solicitudes</h2>
 			</div>
@@ -22,7 +22,7 @@
 						</tr>
 					</thead>
 					<tbody>
-					    <tr v-if="listaBusqueda == false" v-for="(solicitud,index) in solicitudes" :key="solicitud.id">
+					    <tr v-if="listaBusqueda == false" :class="{'bg-warning': !solicitud.status}" v-for="(solicitud,index) in solicitudes" :key="solicitud.id">
 					    	<td>{{solicitud.ciudadano.datos.ci}}</td>
 					  		<td>{{solicitud.ciudadano.datos.name}}</td>
 					    	<td>{{solicitud.usuario? solicitud.usuario.name: 'indefinido'}}</td>
@@ -82,7 +82,7 @@
 					    	</td>
 					    </tr>
 					    <!--ELEMENTO QUE SE MOSTRARA CUANDO SE HAGA EL FILTRO Y SE OCULTARA EL DE ARRIBA, SE HACE ASI POR EL FORMATO DE DATOS QUE LO DEVUELVE DISTINTO-->
-						<tr v-if="listaBusqueda == true" v-for="(soli,index) in busqueda" :key="soli.id">
+						<tr v-if="listaBusqueda == true" :class="{'bg-warning': !soli.status}" v-for="(soli,index) in busqueda" :key="soli.id">
 							<td>{{solicitudes.ci}}</td>
 							<td>{{solicitudes.name}}</td>
 							<td>{{soli.usuario? soli.usuario.name: 'indefinido'}}</td>
@@ -189,7 +189,7 @@
 			cambiar(page){//RESUELVE EL BUG QUE DE REGRESO A LA PAGINA 1 NO SE REGRESE
 		
 				if (page == 1) {
-					axios.get('/api/solicitud').then(response => {
+					axios.get('/api/solicitud', {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
 					this.solicitudes = response.data.data;
 					this.totalPaginas = response.data.last_page;
 					//console.log(response.data);
@@ -201,7 +201,7 @@
 			},
 			listarSolicitudes(){
 				//CONSULTA PARA LLENAR LA LISTA
-				axios.get('/api/solicitud').then(response => {
+				axios.get('/api/solicitud', {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
 					this.solicitudes = response.data.data;
 					this.totalPaginas = response.data.last_page;
 				
@@ -213,7 +213,7 @@
 			},
 			buscar(){//FILTRA LOS DATOS POR CEDULA
 
-				axios.get('/api/solicitud/filtrar/'+this.search).then(response => {
+				axios.get('/api/solicitud/filtrar/'+this.search, {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
 					console.log(response.data);
 					this.solicitudes = response.data.data[0];
 					this.totalPaginas = response.data.last_page;
@@ -226,7 +226,7 @@
 			cambioListaBusqueda(){//FUNCION QUE CAMBIA SI SE MUESTRA EL ELMENTO DEL FILTRO O EL PREDETERMINADO
 				if (this.search == '') {
 	
-					axios.get('/api/solicitud').then(response => {
+					axios.get('/api/solicitud', {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
 						this.solicitudes = response.data.data;
 						this.totalPaginas = response.data.last_page;
 						this.listaBusqueda = false;
@@ -242,7 +242,7 @@
 			},
 			buscarTramites(){//PARA EL MODAL EDIT
 
-				axios.get('/api/tramite').then(response => {
+				axios.get('/api/tramite', {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
 				
 					this.tramites = response.data;
 				}).catch(e => {
@@ -255,11 +255,11 @@
 				this.envio.status = status;
 				this.envio.descripcion = descripcion;
 
-				axios.put('/api/solicitud/'+id, this.envio).then(response => {
+				axios.put('/api/solicitud/'+id, this.envio, {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
 					this.$bvModal.hide(`my-modal${index}`);	
 						
 						if (this.listaBusqueda === false) {
-							axios.get('/api/solicitud').then(response => {
+							axios.get('/api/solicitud', {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
 							this.solicitudes = response.data.data;
 							this.totalPaginas = response.data.last_page;
 						
@@ -293,7 +293,7 @@
 	            this.boxTwo = value;
 
 	            if(this.boxTwo == true){
-		            axios.delete('/api/solicitud/'+solicitud).then(response => {
+		            axios.delete('/api/solicitud/'+solicitud,{headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
 		            	if (this.listaBusqueda === false) {
 		            		this.solicitudes.splice(index, 1);
 		            	}else{
@@ -315,7 +315,7 @@
 		beforeRouteUpdate (to, from, next) {
 			//console.log(to);
 			//CAMBIO DE QUERY PARA CAMBIAR LA LISTA CON PAGINACION
-			axios.get('/api/solicitud?page='+to.query.page).then(response => {
+			axios.get('/api/solicitud?page='+to.query.page, {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
 				this.solicitudes = response.data.data;
 				this.totalPaginas = response.data.last_page;
 				//console.log(response.data);
@@ -329,5 +329,7 @@
 </script>
 
 <style type="text/css">
-	
+	#carta{
+		background-color: rgba(256,256,256,0.9);
+	}
 </style>

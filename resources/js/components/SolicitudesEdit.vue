@@ -57,7 +57,7 @@
 				this.envio.status = this.solicitud.status;
 				this.envio.tramite_id = this.solicitud.tramite.id;
 
-				axios.put('/api/solicitud/'+this.solicitud.id, this.envio).then(response => {
+				axios.put('/api/solicitud/'+this.solicitud.id, this.envio, {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
 					console.log(response.data);
 					this.$bvModal.hide(this.modal);
 				}).catch(e => {

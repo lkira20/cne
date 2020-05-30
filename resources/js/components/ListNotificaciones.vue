@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="container">
 		<h2 class="text-center">Notas <b-button v-if="$can('notificaciones.create')" v-b-modal.modal-1 variant="primary">Nuevo</b-button></h2>
 
 		<div class="alert alert-warning alert-dismissible fade show" role="alert" v-for="(notificacion, index) in notificaciones" :key="notificacion.id">
@@ -46,7 +46,7 @@
 		methods:{
 			listarNotificaciones(){
 
-				axios.get('/api/notificaciones').then(response => {
+				axios.get('/api/notificaciones', {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
 					
 					this.notificaciones = response.data;
 					console.log(this.notificaciones);
@@ -60,7 +60,7 @@
 			},
 			crearNotificacion(){
 
-				axios.post('/api/notificaciones', this.envio).then(response => {
+				axios.post('/api/notificaciones', this.envio, {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
 
 					this.notificaciones.splice(0,0, response.data);
 				}).catch(e => {
@@ -69,7 +69,7 @@
 			},
 			eliminarNotificacion(id){
 
-				axios.delete('api/notificaciones/'+id).then(response => {
+				axios.delete('api/notificaciones/'+id, {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
 
 					console.log(response);
 				}).catch(e=> {

@@ -79,7 +79,7 @@
 			...mapMutations('usuarios', ['limpiarCampos']),
 			listarRoles(){
 
-				axios.get('/api/roles').then(response => {
+				axios.get('/api/roles', {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
 
 					this.options = response.data
 				}).catch(e => {
@@ -88,7 +88,7 @@
 			},
 			crearUsuario(){
 
-				axios.post('/register', this.envio).then(response => {
+				axios.post('/register', this.envio, {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
 					console.log(response);
 					this.consultarListaUsuarios();
 					

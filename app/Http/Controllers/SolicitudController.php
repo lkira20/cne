@@ -8,6 +8,7 @@ use App\Ciudadano;
 use App\Dato;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\SolicitudRequest;
 
 class SolicitudController extends Controller
 {
