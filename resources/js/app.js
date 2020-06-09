@@ -5,6 +5,8 @@
  */
 
 require('./bootstrap');
+//FONTAWESOME
+require('./plugins/fontawesome');
 
 window.Vue = require('vue');
 

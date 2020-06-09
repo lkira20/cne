@@ -1,17 +1,18 @@
 <template>
 	<div>
-		
-		<iniciarSolicitud class="mt-3"></iniciarsolicitud>
+		<dashboard></dashboard>
+
 	</div>
 </template>
 
 <script type="text/javascript">
 
 	import iniciarSolicitud from '../components/IniciarSolicitud'
+	import dashboard from '../components/AuthPerfil'
 
 	export default{
 		components:{
-			iniciarSolicitud
+			dashboard
 		},
 		created(){
 

@@ -9,6 +9,7 @@ use App\Http\Controllers\ApiController;
 use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Validator as FacadesValidator;
+use App\Dato;
 
 class AuthController extends Controller
 {
@@ -58,19 +59,33 @@ class AuthController extends Controller
                 'name'     => 'required|string',
                 'email'    => 'required|string|email|unique:users',
                 'password' => 'required|string|confirmed',
+                'apellido' => 'required',
+                'ci' => 'required'
             ]);
 
-   		if ($validator->fails()) {
-   			
-   			return response()->json(['error' => $validator->errors()], 401);
-   		}
-
+  
    		$user = new User([
                 'name'     => $request->name,
                 'email'    => $request->email,
                 'password' => bcrypt($request->password),
             ]);
     	$user->save();
+
+        if(isset($request->roles)){
+            foreach ($request->roles as $valor) {
+                $user->assignRoles($valor, $valor);
+            }
+        }
+
+        Dato::create([
+                'name' => $request->name,
+                'apellido' => $request->apellido,
+                'ci' => $request->ci,
+                'email' => $request->email,
+                'datoable_type' => 'App\User',
+                'datoable_id' => $user->id
+                ]);
+        
 
     	return response()->json('usuario registrado exitosamente');
    }

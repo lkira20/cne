@@ -1,5 +1,5 @@
 <template>
-	<div class="row">
+	<div class="container row m-auto">
 		<div v-for="(usuario,index) in listaUsuarios" :key="usuario.id" class="card col-12 col-sm-12  col-md-6 col-lg-3" id="carta" style="width: 18rem;">
 			<img src="../../../public/img/usuario.jpg" class="card-img-top">
 		<div class="card-body">

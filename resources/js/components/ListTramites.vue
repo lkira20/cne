@@ -25,11 +25,11 @@
 		<form>
 			<div class="form-group">
 				<label>Nombre del tramite</label>
-				<input type="text" name="nombre-tramite" class="form-control" placeholder="Nombre" v-model="envio.name">
+				<input type="text" name="nombre-tramite" class="form-control" placeholder="Nombre" v-model="envio.name" required>
 			</div>
 			<div class="form-group">
 				<label>Descripcion del tramite</label>
-				<textarea name="descripcion-tramite" class="form-control" placeholder="Descripcion" rows="4" v-model="envio.description"></textarea>
+				<textarea name="descripcion-tramite" class="form-control" placeholder="Descripcion" rows="4" v-model="envio.description" required></textarea>
 			</div>
 		</form> 
 		</b-modal>

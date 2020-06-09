@@ -8,6 +8,7 @@ use App\User;
 use Carbon\Carbon;
 use App\Dato;
 use Illuminate\Support\Facades\Auth;
+use App\Notificacion;
 
 class AuthPerfilController extends Controller
 {
@@ -146,5 +147,12 @@ class AuthPerfilController extends Controller
                                     $solicitudeEDICIEMBRE
                                     ]
                                 ]);
-    }  
+    }
+
+    public function notas()
+    {
+        $notificaciones = Notificacion::orderBy('id', 'DESC')->paginate(3);
+
+        return response()->json($notificaciones);
+    }
 }

@@ -1,7 +1,7 @@
 <template>
 		<div class="container card shadow" id="carta">
 		 	<div class="card-header">
-		    	<h2 class="text-center card-title">Lista de mis solicitudes</h2>
+		    	<h2 class="text-center card-title">Lista de mis solicitudes <b-button :to="{name: 'IniciarSolicitud'}" variant="primary">nuevo</b-button></h2>
 			</div>
 			<div class="card-body">
 				<div class="d-flex" v-if="$can('solicitud.index')">

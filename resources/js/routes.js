@@ -17,7 +17,7 @@ import Graficos from './components/Graficos';
 import ListUsuarios from './components/ListUsuarios';
 import UsuariosShow from './components/UsuariosShow';
 import AuthPerfil from './components/AuthPerfil';
-
+import IniciarSolicitud from './components/IniciarSolicitud';
 // Pages
 import NotFound from './views/NotFound'
 import Login from './views/Login'
@@ -65,7 +65,8 @@ export default new Router({
             component: solicitudes,
             children: [
                 {path: '/', component: ListaSolicitudes, name: 'ListaSolicitudes'},
-                {path: 'estadisticas', component: Graficos, name: 'TablaAnual'}
+                {path: 'estadisticas', component: Graficos, name: 'TablaAnual'},
+                {path: 'iniciarSolicitud', component: IniciarSolicitud, name: 'IniciarSolicitud'},
             ],
             meta: {
                 requiresAuth: true,

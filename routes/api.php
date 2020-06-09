@@ -33,6 +33,7 @@ Route::middleware('auth:api')->get('/permisos', 'AuthController@permisosUser');
 Route::middleware('auth:api')->get('authperfil', 'AuthPerfilController@index');
 Route::middleware('auth:api')->get('authperfil/estadisticas', 'AuthPerfilController@estadisticas');
 Route::middleware('auth:api')->put('authperfil', 'AuthPerfilController@update');
+Route::middleware('auth:api')->get('notas', 'AuthPerfilController@notas');
 
 //RUTAS DE SOLICITUDES
 Route::apiResource('solicitud', 'SolicitudController')->middleware('auth:api');

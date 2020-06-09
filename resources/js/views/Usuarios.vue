@@ -1,11 +1,11 @@
 <template>
-	<div class="container">
+	<div class="">
 		<h1 class="text-center">Usuarios <b-button v-if="$can('perfiles.create')" v-b-modal.my-modal variant="primary">Nuevo</b-button></h1>
 		<router-view></router-view>
 		<!--MODAL DE CREAR-->
 		<b-modal id="my-modal" title="crear usuario" size="lg" @ok="crearUsuario">
 			<div>
-				<b-form @submit="" @reset="">
+				
 					<b-row>
 						<b-col sm="12" md="6">
 						<b-form-group id="input-group-1" label="Nombre:" label-for="nombre">
@@ -46,7 +46,7 @@
 					    </b-form-group>
 						</b-col>
 					</b-row>
-				</b-form>
+				
 			</div>
 		</b-modal>
 	</div>
@@ -88,7 +88,7 @@
 			},
 			crearUsuario(){
 
-				axios.post('/register', this.envio, {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
+				axios.post('/api/register', this.envio, {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
 					console.log(response);
 					this.consultarListaUsuarios();
 					

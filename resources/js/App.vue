@@ -11,7 +11,7 @@
 			  <div class="collapse navbar-collapse" id="navbarSupportedContent">
 			    <ul class="navbar-nav ml-auto">
 			      <li class="nav-item">
-			      	<router-link class="nav-link text-light" :to="{name: 'inicio'}" exact>Inicio</router-link>
+			      	<router-link class="nav-link text-light" :to="{name: 'inicio'}" exact>Inicio <font-awesome-icon icon="home"/></router-link>
 			      </li>
 			      <li class="nav-item">
 			      	<router-link class="nav-link text-light" :to="{name: 'ListCiudadanos'}">Ciudadanos</router-link>
@@ -33,7 +33,7 @@
 			          Usuario
 			        </a>
 			        <div class="dropdown-menu" aria-labelledby="navbarDropdown" id="drop">
-			       		<router-link class="dropdown-item text-light" :to="{name: 'authperfil'}">Perfil</router-link>
+			       		<!--<router-link class="dropdown-item text-light" :to="{name: 'authperfil'}">Perfil</router-link>-->
 			        	<router-link class="dropdown-item text-light" :to="{name: 'logout'}">logout</router-link>
 	 	   
 			        </div>
@@ -86,6 +86,7 @@
 		background-image: url('../../public/img/cnelo.jpg');
        	background-attachment: fixed;
        	background-size: 100%;
+       	
 
 	}
 
@@ -93,4 +94,12 @@
 		background-color: transparent !important;
 	}
 	
+	.slide-fade-enter-active, .component-fade-leave-active {
+  		transition: opacity .3s ease;
+	}
+	.slide-fade-enter, .component-fade-leave-to
+	/* .component-fade-leave-active below version 2.1.8 */ {
+	  opacity: 0;
+	}
+
 </style>

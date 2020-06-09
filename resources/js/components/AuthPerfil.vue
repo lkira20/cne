@@ -1,9 +1,9 @@
 <template>
-	<div class="container mt-3">
-		<b-row v-if="loader">
-			<b-col sm="12" md="4">
+	<div class="" id="row">
+		<b-row v-if="loader" >
+			<b-col sm="12" md="2">
 				<div class="card" id="carta">
-					<img src="../../../public/img/usuario.jpg" class="card-img-top">
+					<img src="../../../public/img/usuario.jpg" class="card-img-top ">
 				<div class="card-body">
 					<ul class="list-group list-group-flush">
 						<li class="list-group-item"><b>Nombre:</b> {{usuario.datos.name}}</li>
@@ -19,11 +19,19 @@
 				</div>
 				</div>
 			</b-col>
-			<b-col sm="12" md="8">
+			<b-col sm="12" md="10">
+				<h1 class="text-center display-4">Resumen</h1>
+				<b-row>
 				<!--GRAFICO-->
+				<b-col sm="12" md="6">
 				<GraficoUsuario :grafico="usuario.id"/>
+				</b-col>
+				<b-col sm="12" md="6">
+				<Grafico/>
+				</b-col>
+				<b-col sm="12" md="6">
 				<!--TABLA-->
-				<h3 class="text-white">Lista de solicitudes</h3>
+				<h3 class="">Lista de solicitudes</h3>
 				<table class="table table-sm table-hover" id="perfil">
 					<thead>
 						<tr>
@@ -50,12 +58,24 @@
 					</tbody>
 					<tfoot>
 						<tr>
-							<td colspan="6" class="overflow-auto">
+							<td colspan="3" class="overflow-auto">
 								<b-pagination-nav @change="cambiar($event)" :link-gen="linkGen" :number-of-pages="totalPaginas" use-router></b-pagination-nav>
+								
+							</td>
+							<td>
+								<b-button :to="{name: 'ListaSolicitudes'}" variant="primary">Ver mas</b-button>
 							</td>
 						</tr>
 					</tfoot>
 				</table>
+				</b-col>
+				<b-col sm="12" md="6">
+					<h3 class="">Ultimas notas</h3>
+						<ul class="list-group" id="notas2">
+							<li class="list-group-item" v-for="(nota,index) in notas" :key="index" id="notas3"><b>{{nota.asunto}} - {{nota.description}}</b></li>  	
+						</ul>	    
+				</b-col>
+				</b-row>
 			</b-col>
 		</b-row>
 	</div>
@@ -63,10 +83,12 @@
 
 <script type="text/javascript">
 	import GraficoUsuario from './GraficoUsuario';
+	import Grafico from './Graficos';
 
 	export default{
 		components: {
-			GraficoUsuario
+			GraficoUsuario,
+			Grafico
 		},
 		props: ['id'],
 		data(){
@@ -76,6 +98,7 @@
 				listaBusqueda: false,
 				solicitudes: [],
 				totalPaginas: null,
+				notas: null
 			}
 		},
 		methods:{
@@ -106,11 +129,21 @@
 				}).catch(e => {
 					console.log(e.response);
 				});
+			},
+			ultimasNotas(){
+
+				axios.get('api/notas', {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
+					this.notas = response.data.data;
+					//console.log(response.data);
+				}).catch(e => {
+					console.log(e.response);
+				})
 			}
 		},
 		created(){
 
 			this.consultarDetalles();
+			this.ultimasNotas();
 		},
 		beforeRouteUpdate (to, from, next) {
 			console.log(to);
@@ -133,5 +166,25 @@
 	}
 	#carta{
 		background-color: rgba(256,256,256,0.8) !important;
+		height: 100%;
+	}
+
+	#row{
+		background-color: rgba(256,256,256,0.8) !important;
+		height: 100%;
+
+	}
+
+	#notas{
+		background-color: rgba(256,256,256,0.8) !important;
+	}
+
+	#notas2{
+		background-color: rgba(256,256,256,0.8) !important;
+	}
+
+	#notas3{
+		background-color: rgba(256,256,256,0.8) !important;
+		list-style-type: none !important; 
 	}
 </style>

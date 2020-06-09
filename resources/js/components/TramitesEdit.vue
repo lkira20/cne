@@ -3,11 +3,11 @@
 		<form>
 			<div class="form-group">
 				<label for="name">Nombre</label>
-				<input type="text" name="name" class="form-control"v-model="tramiteFormEdit.name" @input="nameForm">
+				<input type="text" name="name" class="form-control"v-model="tramiteFormEdit.name" @input="nameForm" required>
 			</div>
 			<div>
 				<label for="description">Descripcion</label>
-				<textarea rows="4" class="form-control" name="description" v-model="tramiteFormEdit.description" @input="descriptionForm"></textarea>
+				<textarea rows="4" class="form-control" name="description" v-model="tramiteFormEdit.description" @input="descriptionForm" required></textarea>
 			</div>
 		</form>
 	</div>

@@ -1,5 +1,5 @@
 <template>
-	<div class="card p-3 shadow">
+	<div class="card p-3 shadow" id="ciudadano">
 		<div v-if="errors">
 			<div class="alert alert-danger alert-dismissible fade show" role="alert" v-for="error in errors">
 			  {{error}}
@@ -60,7 +60,7 @@
 			    <b-form-input
 			      id="input-live"
 			      v-model="cedula"
-			      :state="cedulaState"
+			      
 			      aria-describedby="input-live-help input-live-feedback"
 			      placeholder="Cedula del ciudadano"
 			      trim 
@@ -176,5 +176,7 @@
 </script>
 
 <style type="text/css">
-	
+	#ciudadano{
+		background-color: rgba(256,256,256,0.8);
+	}
 </style>
