@@ -11,7 +11,7 @@
     <title>CNE</title>
 
     <!-- Scripts -->
-    <!--<script src="{{ asset('js/app.js') }}" defer></script>PARA PRODUCCION-->
+    <!--<script src="{{ asset('js/app.js') }}" defer></script>PARA PRODUCCION--><!---->
 
    <script src="{{ secure_asset('js/app.js') }}" defer></script>
     <!-- Fonts -->
