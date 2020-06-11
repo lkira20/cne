@@ -1,7 +1,7 @@
 <template>
 	<div id="cajaA">
 		<div style="height: 50px">
-		  <b-navbar toggleable="lg" type="light" variant="light" class="shadow fixed-top" id="nav">
+		  <b-navbar toggleable="lg" type="light" variant="light" class="shadow" id="nav">
 			    <b-navbar-brand href="#"><img src="../../../public/img/CNE_logo.svg" alt="CNE" width="60px"></b-navbar-brand>
 
 			    <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -32,8 +32,9 @@
 		display: flex;
         flex-direction: column;
         background-image: url('../../../public/img/cnelo.jpg');
-       	background-attachment: fixed;
-       	background-size: 100%;	    
+     
+       	background-size: 100%;
+       	height: 100%;	    
 	}
 
 	.niideaA{

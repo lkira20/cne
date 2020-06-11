@@ -330,4 +330,11 @@ class SolicitudController extends Controller
                                     ]
                                 ]);
     }
+
+    public function publico($search)
+    {
+         $datos = Dato::with('ciudadano.solicitudes', 'ciudadano.solicitudes.tramite', 'ciudadano.solicitudes.usuario')->where('ci', $search)->paginate(10);
+
+        return response()->json($datos);
+    }
 }

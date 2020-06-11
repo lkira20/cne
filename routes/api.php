@@ -40,6 +40,7 @@ Route::middleware('auth:api')->get('cantidades', 'AuthPerfilController@cantidade
 Route::apiResource('solicitud', 'SolicitudController')->middleware('auth:api');
 
 Route::get('solicitud/filtrar/{busqueda}', 'SolicitudController@filtrar')->middleware('auth:api');
+Route::get('solicitud/publico/{busqueda}', 'SolicitudController@publico');
 Route::get('estadisticas', 'SolicitudController@estadisticas')->middleware('auth:api');
 Route::get('estadisticas/{busqueda}', 'SolicitudController@filtrarestadisticas')->middleware('auth:api');
 //RUTAS DE CIUDADANOS
