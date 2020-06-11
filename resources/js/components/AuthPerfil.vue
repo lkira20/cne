@@ -1,8 +1,8 @@
 <template>
 	<div class="" id="row">
 		<b-row v-if="loader" >
-			<b-col sm="12" md="2">
-				<div class="card" id="carta">
+			<b-col sm="12" md="2" class="mt-5">
+				
 					<img src="../../../public/img/usuario.jpg" class="card-img-top ">
 				<div class="card-body">
 					<ul class="list-group list-group-flush">
@@ -17,22 +17,60 @@
 				    	</li>    	
 					</ul>	    
 				</div>
-				</div>
+				
 			</b-col>
 			<b-col sm="12" md="10">
 				<h1 class="text-center display-4">Resumen</h1>
 				<b-row>
+					<b-col md="3" sm="3" col="6">
+						
+						<div class="card text-white bg-primary shadow">
+							<div class="card-body">
+								<h5>Ciudadanos: {{cantidades.ciudadanos}}</h5>
+							</div>
+						</div>
+					
+					</b-col>
+					<b-col md="3" sm="3" col="6">
+					
+						<div class="card text-white bg-danger shadow">
+							<div class="card-body">
+								<h5>Solicitudes: {{cantidades.solicitudes}}</h5>
+							</div>
+						</div>
+						
+					</b-col>
+					<b-col md="3" sm="3" col="6">
+			
+						<div class="card text-white bg-success shadow">
+							<div class="card-body">
+								<h5>Usuarios: {{cantidades.usuarios}}</h5>
+							</div>
+						</div>
+					
+					</b-col>
+					<b-col md="3" sm="3" col="6">
+				
+						<div class="card text-white bg-warning shadow">
+							<div class="card-body">
+								<h5>Notas: {{cantidades.notas}}</h5>
+							</div>
+						</div>
+						
+					</b-col>
+				</b-row>
+				<b-row>
 				<!--GRAFICO-->
 				<b-col sm="12" md="6">
-				<GraficoUsuario :grafico="usuario.id"/>
+				<GraficoUsuario :grafico="usuario.id" class="shadow"/>
 				</b-col>
 				<b-col sm="12" md="6">
-				<Grafico/>
+				<Grafico class="shadow"/>
 				</b-col>
 				<b-col sm="12" md="6">
 				<!--TABLA-->
 				<h3 class="">Lista de solicitudes</h3>
-				<table class="table table-sm table-hover" id="perfil">
+				<table class="table table-sm table-hover shadow" id="perfil">
 					<thead>
 						<tr>
 							<th scope="col">cedula</th>
@@ -71,7 +109,7 @@
 				</b-col>
 				<b-col sm="12" md="6">
 					<h3 class="">Ultimas notas</h3>
-						<ul class="list-group" id="notas2">
+						<ul class="list-group shadow" id="notas2">
 							<li class="list-group-item" v-for="(nota,index) in notas" :key="index" id="notas3"><b>{{nota.asunto}} - {{nota.description}}</b></li>  	
 						</ul>	    
 				</b-col>
@@ -98,7 +136,8 @@
 				listaBusqueda: false,
 				solicitudes: [],
 				totalPaginas: null,
-				notas: null
+				notas: null,
+				cantidades: null
 			}
 		},
 		methods:{
@@ -138,10 +177,18 @@
 				}).catch(e => {
 					console.log(e.response);
 				})
+			},
+			cantidad(){
+				axios.get('/api/cantidades', {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
+					this.cantidades = response.data;
+					console.log(response.data);
+				}).catch(e => {
+					console.log(e.response);
+				})
 			}
 		},
 		created(){
-
+			this.cantidad();
 			this.consultarDetalles();
 			this.ultimasNotas();
 		},

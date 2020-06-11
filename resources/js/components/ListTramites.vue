@@ -1,6 +1,6 @@
 <template>
 	<div class="container" id="carta">
-		<h2 class="text-center">Lista de tramites <b-button v-if="$can('tramite.create')" v-b-modal.modal-1 variant="primary">Nuevo</b-button></h2>
+		<h1 class="text-center">Lista de documentos <b-button v-if="$can('tramite.create')" v-b-modal.modal-1 variant="primary">Nuevo</b-button></h1>
 		<div class="list-group mb-5" >
 			<div class="list-group-item list-group-item-action flex-column align-items-start"  v-for="(tramite,index) in tramites" :key="tramite.id">
 				<div id="lista">

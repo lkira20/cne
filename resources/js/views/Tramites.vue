@@ -1,7 +1,6 @@
 <template>
 	<div>
-		<h1 class="text-center">Tramites</h1>
-		<ListTramites></ListTramites>
+		<ListTramites class="shadow mt-2"></ListTramites>
 	</div>
 </template>
 

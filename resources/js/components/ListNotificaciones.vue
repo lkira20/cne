@@ -1,6 +1,6 @@
 <template>
 	<div class="container">
-		<h2 class="text-center">Notas <b-button v-if="$can('notificaciones.create')" v-b-modal.modal-1 variant="primary">Nuevo</b-button></h2>
+		<h1 class="text-center">Notas <b-button v-if="$can('notificaciones.create')" v-b-modal.modal-1 variant="primary">Nuevo</b-button></h1>
 
 		<div class="alert alert-warning alert-dismissible fade show" role="alert" v-for="(notificacion, index) in notificaciones" :key="notificacion.id">
 			<h4 class="alert-heading">{{notificacion.asunto}}</h4>

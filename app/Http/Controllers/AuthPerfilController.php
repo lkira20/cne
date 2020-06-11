@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use App\Dato;
 use Illuminate\Support\Facades\Auth;
 use App\Notificacion;
+use App\Ciudadano;
 
 class AuthPerfilController extends Controller
 {
@@ -154,5 +155,20 @@ class AuthPerfilController extends Controller
         $notificaciones = Notificacion::orderBy('id', 'DESC')->paginate(3);
 
         return response()->json($notificaciones);
+    }
+
+    public function cantidades(){
+
+        $solicitudes = Solicitud::count();
+        $ciudadanos = Ciudadano::count();
+        $usuarios = User::count();
+        $notificaciones = Notificacion::count();
+
+        return response()->json([
+                            'solicitudes' => $solicitudes,
+                            'ciudadanos' => $ciudadanos,
+                            'usuarios' => $usuarios,
+                            'notas' => $notificaciones
+                            ]);
     }
 }

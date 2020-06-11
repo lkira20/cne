@@ -69,7 +69,7 @@ router.beforeEach((to, from, next) => {
       // if not, redirect to login page.
       if (!store.getters.loggedIn) {
         next({
-          name: 'login',
+          name: 'Procedimiento',
         })
       } else {
         next()

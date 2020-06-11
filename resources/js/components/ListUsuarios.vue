@@ -1,6 +1,6 @@
 <template>
 	<div class="container row m-auto">
-		<div v-for="(usuario,index) in listaUsuarios" :key="usuario.id" class="card col-12 col-sm-12  col-md-6 col-lg-3" id="carta" style="width: 18rem;">
+		<div v-for="(usuario,index) in listaUsuarios" :key="usuario.id" class="card col-12 col-sm-12  col-md-6 col-lg-3 shadow" id="carta" style="width: 18rem;">
 			<img src="../../../public/img/usuario.jpg" class="card-img-top">
 		<div class="card-body">
 			
@@ -23,6 +23,7 @@
 		    </b-modal>
 		    <!--<b-button variant="danger" @click="eliminarUsuario(usuario.id)">Eliminar</b-button>-->
 		    <b-button v-if="$can('perfiles.delete')" @click="showMsgBoxTwo(usuario.id, index)" variant="danger">Borrar</b-button>
+			
 		</div>
 		</div>
 	</div>

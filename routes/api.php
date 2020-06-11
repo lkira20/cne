@@ -34,6 +34,7 @@ Route::middleware('auth:api')->get('authperfil', 'AuthPerfilController@index');
 Route::middleware('auth:api')->get('authperfil/estadisticas', 'AuthPerfilController@estadisticas');
 Route::middleware('auth:api')->put('authperfil', 'AuthPerfilController@update');
 Route::middleware('auth:api')->get('notas', 'AuthPerfilController@notas');
+Route::middleware('auth:api')->get('cantidades', 'AuthPerfilController@cantidades');
 
 //RUTAS DE SOLICITUDES
 Route::apiResource('solicitud', 'SolicitudController')->middleware('auth:api');

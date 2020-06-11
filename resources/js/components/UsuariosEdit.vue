@@ -1,6 +1,11 @@
 <template>
 			<div>
 				<b-form @submit.prevent="actualizar()">
+					<div v-if="errores">
+						<div class="alert alert-danger" v-for="error in errores">
+							{{error}}
+						</div>
+					</div>
 					<b-row>
 						<b-col sm="12" md="6">
 							<b-form-group id="input-group-1" label="Nombre:" label-for="nombre">
@@ -20,6 +25,21 @@
 						<b-col sm="12" md="6">
 							<b-form-group id="input-group-4" label="Cedula:" label-for="cedula">
 					        	<b-form-input id="cedula" type="number" required placeholder="Cedula" v-model="envio.ci"></b-form-input>
+							</b-form-group>
+						</b-col>
+						<b-col sm="12" md="6">
+							<b-form-group id="input-group-4" label="Cedula:" label-for="cedula">
+					        	<b-form-input id="cedula" type="number" required placeholder="Cedula" v-model="envio.ci"></b-form-input>
+							</b-form-group>
+						</b-col>
+						<b-col sm="12" md="6">
+							<b-form-group id="input-group-5" label="Contraseña:" label-for="contraseña">
+					        	<b-form-input id="contraseña" type="password" placeholder="Nueva contraseña (Opcional)" v-model="envio.password"></b-form-input>
+							</b-form-group>
+						</b-col>
+						<b-col sm="12" md="6">
+							<b-form-group id="input-group-6" label="Confirme la contraseña:" label-for="password_confirmation">
+					        	<b-form-input id="password_confirmation" type="password" placeholder="Confirme la contraseña" v-model="envio.password_confirmation"></b-form-input>
 							</b-form-group>
 						</b-col>
 						<!--CHECK DE LOS ROLES-->
@@ -60,7 +80,8 @@
 					password_confirmation: null,
 					ci: null,
 					roles: []
-					}
+					},
+				errores: null
 			}
 		},
 		methods:{
@@ -85,7 +106,8 @@
 					this.consultarListaUsuarios();
 				}).catch(e => {
 					console.log(e.response);
-					this.$bvModal.hide(`my-modal-${this.usuario.id}`);
+					this.errores = e.response.data
+					//this.$bvModal.hide(`my-modal-${this.usuario.id}`);
 				});
 
 			}

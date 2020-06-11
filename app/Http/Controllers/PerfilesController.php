@@ -63,12 +63,27 @@ class PerfilesController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $validator = $request->validate([
+                'name'     => 'required|string',
+                'email'    => 'required|string|email',
+                'password' => 'confirmed',
+                'apellido' => 'required',
+                'ci' => 'required'
+            ]);
+
         $usuario = User::findOrFail($id);
 
         $actualizado = $usuario->update([
                     'name' => $request->name,
                     'email' => $request->email,
                     ]);
+
+        if ($request->password !== '') {
+
+            $actualizado = $usuario->update([
+                    'password' => bcrypt($request->password)
+                    ]);
+        }
 
         $actualizado = $usuario->datos->update([
                             'name' => $request->name,

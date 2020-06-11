@@ -1,7 +1,7 @@
 <template id="tem">
 	<div style="height:100%;" id="caja">
 		<header>
-			<nav v-if="$store.state.token !== null" class="navbar navbar-expand-lg navbar-light shadow">
+			<nav v-if="$store.state.token !== null" class="navbar navbar-expand-lg navbar-light bg-light shadow">
 				
 			  <router-link class="navbar-brand" :to="{name: 'inicio'}"><img src="../../public/img/CNE_logo.svg" alt="CNE" width="60px"></router-link>
 			  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -11,30 +11,30 @@
 			  <div class="collapse navbar-collapse" id="navbarSupportedContent">
 			    <ul class="navbar-nav ml-auto">
 			      <li class="nav-item">
-			      	<router-link class="nav-link text-light" :to="{name: 'inicio'}" exact>Inicio <font-awesome-icon icon="home"/></router-link>
+			      	<router-link class="nav-link" :to="{name: 'inicio'}" exact>Inicio <font-awesome-icon icon="home"/></router-link>
 			      </li>
 			      <li class="nav-item">
-			      	<router-link class="nav-link text-light" :to="{name: 'ListCiudadanos'}">Ciudadanos</router-link>
+			      	<router-link class="nav-link" :to="{name: 'ListCiudadanos'}">Ciudadanos</router-link>
 			      </li>
 			      <li class="nav-item">
-			      	<router-link class="nav-link text-light" :to="{name: 'ListaSolicitudes'}">Solicitudes</router-link>
+			      	<router-link class="nav-link" :to="{name: 'ListaSolicitudes'}">Solicitudes</router-link>
 			      </li>
 			      <li class="nav-item">
-			      	<router-link class="nav-link text-light" :to="{name: 'tramites'}">Tramites</router-link>
+			      	<router-link class="nav-link" :to="{name: 'tramites'}">Documentos</router-link>
 			      </li>
 			      <li class="nav-item">
-			      	<router-link class="nav-link text-light" :to="{name: 'ListUsuarios'}">Usuarios</router-link>
+			      	<router-link class="nav-link" :to="{name: 'ListUsuarios'}">Usuarios</router-link>
 			      </li>
 			      <li class="nav-item">
-			      	<router-link class="nav-link text-light" :to="{name: 'notificaciones'}">notificaciones</router-link>
+			      	<router-link class="nav-link" :to="{name: 'notificaciones'}">Notas</router-link>
 			      </li>
 			      <li class="nav-item dropdown">
-			        <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 			          Usuario
 			        </a>
 			        <div class="dropdown-menu" aria-labelledby="navbarDropdown" id="drop">
 			       		<!--<router-link class="dropdown-item text-light" :to="{name: 'authperfil'}">Perfil</router-link>-->
-			        	<router-link class="dropdown-item text-light" :to="{name: 'logout'}">logout</router-link>
+			        	<router-link class="dropdown-item" :to="{name: 'logout'}">Cerrar sesion</router-link>
 	 	   
 			        </div>
 			      </li>
@@ -72,6 +72,7 @@
 </script>
 
 <style type="text/css">
+/*
 	#caja{
 		height:100%;
          margin:0;
@@ -93,7 +94,7 @@
 	#drop{
 		background-color: transparent !important;
 	}
-	
+	*/
 	.slide-fade-enter-active, .component-fade-leave-active {
   		transition: opacity .3s ease;
 	}

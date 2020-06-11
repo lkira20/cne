@@ -18,6 +18,11 @@ import ListUsuarios from './components/ListUsuarios';
 import UsuariosShow from './components/UsuariosShow';
 import AuthPerfil from './components/AuthPerfil';
 import IniciarSolicitud from './components/IniciarSolicitud';
+//informativas
+import Informacion from './components/Informacion';
+import Procedimiento from './components/Procedimiento';
+import Requisitos from './components/Requisitos';
+import MiSolicitud from './components/MiSolicitud';
 // Pages
 import NotFound from './views/NotFound'
 import Login from './views/Login'
@@ -53,11 +58,13 @@ export default new Router({
         },
         {
             path: '/',
-            name: 'inicio',
-            component: inicio,
-            meta: {
-                requiresAuth: true,
-            }
+            name: 'publico',
+            component: Informacion,
+            children: [
+                {path: '/', component: Procedimiento, name: 'Procedimiento'},
+                {path: '/requisitos', component: Requisitos, name: 'Requisitos'},
+                {path: '/mi-solicitud', component: MiSolicitud, name: 'MiSolicitud'}
+            ],
         },
         {//RUTAS SOLICITUDES
             path: '/solicitudes',
