@@ -19,7 +19,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-    <!--<link href="{{ asset('css/app.css') }}" rel="stylesheet">PARA PRODUCCION-->
+   <!-- <link href="{{ asset('css/app.css') }}" rel="stylesheet">PARA PRODUCCION-->
     <link href="{{ secure_asset('css/app.css') }}" rel="stylesheet">
 
     <style type="text/css">

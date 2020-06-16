@@ -46,7 +46,7 @@
 			  			<div class="form-group">
 			  				<label for="tramite">tramite</label>
 							 <select  id="tramite" v-model="solicitud.tramite" name="tramite" class="form-control" required>
-							 	<option value="null">seleccione algun tramite</option>
+							 	<option value="">seleccione algun tramite</option>
 							 	<option v-for="tramit in tramites" :key="tramit.id" :value="tramit.id">{{tramit.name}}</option>						 	
 	                         </select>
 			  			</div>

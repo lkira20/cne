@@ -118,7 +118,6 @@ class PerfilesController extends Controller
         
         $borrado = $usuario->delete();
 
-
         return response()->json($borrado);
     }
 
