@@ -56,3 +56,6 @@ Route::apiResource('perfiles', 'PerfilesController')->middleware('auth:api');
 Route::get('perfiles/estadisticas/{id}', 'PerfilesController@estadisticas')->middleware('auth:api');
 //RUTAS DE ROLES
 Route::get('roles', 'RoleController@index')->middleware('auth:api');
+
+//datatablesolicitud
+Route::get("datatablesolicitud", "datatableSolicitud@index");

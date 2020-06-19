@@ -1,11 +1,18 @@
 <template>
 	<div>
-		<div class="card m-3 shadow text-center ">
-			<div class="card-header">
-				<h2>INSCRIPCIÓN DE NACIMIENTOS HOSPITALARIOS:</h2>
-			</div>
-			<div class="card-body">
-				<h3><b>ATENCIÓN AL CIUDADANO:</b></h3>
+		<div class="accordion container" id="accordionExample">
+		  <div class="card" id="carta1">
+		    <div class="card-header text-center" id="headingOne">
+		      <h2 class="mb-0 text-center">
+		        <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+		          INSCRIPCIÓN DE NACIMIENTOS HOSPITALARIOS:
+		        </button>
+		      </h2>
+		    </div>
+
+		    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+		      <div class="card-body">
+		        <h3><b>ATENCIÓN AL CIUDADANO:</b></h3>
 					
 					DÍAS: LUNES A Viernes
 					HORARIO: 8:00am a 12:00pm y de 1:00pm a 2:00pm
@@ -28,16 +35,20 @@
 				</ul>
 					<h4>REQUISITOS: HABLAR CON LA ENCARGADA DEL DEPARTAMENTO, YA QUE DEPENDE DEL CASO QUE SE
 				PRESENTE.</h4>
-			</div>
-		</div>
-
-		<div class="card m-3 shadow text-center">
-			<div class="card-header">
-				<h2>DECLARACIÓN DE DEFUNCIÓN:</h2>
-			</div>
-			<div class="card-body">
-				
-				<h3><b>ATENCIÓN AL CIUDADANO:</b></h3>
+		      </div>
+		    </div>
+		  </div>
+		  <div class="card" id="carta2">
+		    <div class="card-header" id="headingTwo">
+		      <h2 class="mb-0 text-center">
+		        <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+		          DECLARACIÓN DE DEFUNCIÓN:
+		        </button>
+		      </h2>
+		    </div>
+		    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+		      <div class="card-body">
+		        <h3><b>ATENCIÓN AL CIUDADANO:</b></h3>
 				<ul>		
 					DÍAS: LUNES A Viernes
 					HORARIO: 8:00am a 12:00pm y de 1:00pm a 2:00pm
@@ -75,16 +86,20 @@ identidad no sea posible comprobar, o de una inhumación practicada en lugares d
 				</ul>
 				<h4>REQUISITOS: HABLAR CON LA ENCARGADA DEL DEPARTAMENTO, YA QUE DEPENDE DEL CASO QUE SE
 				PRESENTE.</h4>
-			</div>
-		</div>
-
-		<div class="card m-3 shadow text-center">
-			<div class="card-header">
-				<h2>UNIÓN ESTABLE DE HECHO:</h2>
-			</div>
-			<div class="card-body">
-				
-				<h3><b>ATENCIÓN AL CIUDADANO:</b></h3>
+		      </div>
+		    </div>
+		  </div>
+		  <div class="card" id="carta3">
+		    <div class="card-header" id="headingThree">
+		      <h2 class="mb-0 text-center">
+		        <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+		          UNIÓN ESTABLE DE HECHO:
+		        </button>
+		      </h2>
+		    </div>
+		    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+		      <div class="card-body">
+		       <h3><b>ATENCIÓN AL CIUDADANO:</b></h3>
 				<ul>		
 					DÍAS: LUNES A Viernes
 					HORARIO: 8:00am a 12:00pm y de 1:00pm a 2:00pm
@@ -105,16 +120,21 @@ SI UNO DE LOS UNIDOS ES DIVORCIADO (A) DEBERA CONSIGNAR SENTENCIA DE DI</li>
 					<li>SI UNO DE LOS UNIDOS ES VIUDO (A) DEBERA CONSIGNAR ACTA DE DEFUNCIÓN</li>
 				</ul>
 				<h4>“ABTENERSE LOS CASADOS”</h4>
-			</div>
-		</div>
+		      </div>
+		    </div>
+		  </div>
+		  <div class="card" id="carta4">
+		    <div class="card-header" id="heading4">
+		      <h2 class="mb-0 text-center">
+		        <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapse4" aria-expanded="true" aria-controls="collapseOne">
+		          MATRIMONIO:
+		        </button>
+		      </h2>
+		    </div>
 
-		<div class="card m-3 shadow text-center">
-			<div class="card-header">
-				<h2>MATRIMONIO:</h2>
-			</div>
-			<div class="card-body">
-				
-				<h3><b>ATENCIÓN AL CIUDADANO:</b></h3>
+		    <div id="collapse4" class="collapse" aria-labelledby="heading4" data-parent="#accordionExample">
+		      <div class="card-body">
+		        <h3><b>ATENCIÓN AL CIUDADANO:</b></h3>
 				<ul>		
 					DÍAS: LUNES A Viernes
 					HORARIO: 8:00am a 12:00pm y de 1:00pm a 2:00pm
@@ -154,16 +174,22 @@ FUERA EL CASO)</li>
 					<li>CONSTANCIA DE UNIÓN ESTABLE DE HECHO EMITIDA POR EL CONSEJO COMUNAL O CONDOMINIO DE SU
 					RESIDENCIA DONDE INDIQUE LA DIRECCIÓN EXACTA.</li></ul>
 				<h4>“ABTENERSE LOS CASADOS”.</h4>
-			</div>
+		      </div>
+		    </div>
 		</div>
 
-		<div class="card m-3 shadow text-center">
-			<div class="card-header">
-				<h2>RECTIFICACIÓN:</h2>
-			</div>
-			<div class="card-body">
-				
-				<h3><b>ATENCIÓN AL CIUDADANO:</b></h3>
+		<div class="card" id="carta5">
+		    <div class="card-header" id="heading5">
+		      <h2 class="mb-0 text-center">
+		        <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapse5" aria-expanded="true" aria-controls="collapseOne">
+		          RECTIFICACIÓN:
+		        </button>
+		      </h2>
+		    </div>
+
+		    <div id="collapse5" class="collapse" aria-labelledby="heading5" data-parent="#accordionExample">
+		      <div class="card-body">
+		        <h3><b>ATENCIÓN AL CIUDADANO:</b></h3>
 				<ul>		
 					DÍAS: LUNES A Viernes
 					HORARIO: 8:00am a 12:00pm y de 1:00pm a 2:00pm
@@ -191,8 +217,11 @@ apoderado con su respectivo poder notariado)</li>
 				</ul>
 				<h4>RECOMENDACIÓN: ASESORARSE CON LA ENCARGADA DEL
 DEPARTAMENTO SEGÚN SEA EL CASO.</h4>
-			</div>
+		      </div>
+		    </div>
 		</div>
+		</div>
+
 	</div>
 </template>
 
@@ -201,3 +230,7 @@ DEPARTAMENTO SEGÚN SEA EL CASO.</h4>
 
 	}
 </script>
+
+<style>
+
+</style>

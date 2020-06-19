@@ -6,7 +6,10 @@
 		     			<button class="btn btn-primary my-2 my-sm-0" type="submit">buscar</button>
 		    		</form>
 	    	</div>
-				<table class="table table-sm table-hover shadow" id="perfilpu" style="height: 100%;">
+	    	<div class="alert alert-danger" v-if="errors">
+	    		no se a encontrado ninguna solicitud con esa cedula
+	    	</div>
+				<table v-if="listaBusqueda == true" class="table table-sm table-hover shadow" id="perfilpu" style="height: 100%;">
 					
 					<thead>
 						<tr>
@@ -19,7 +22,7 @@
 					</thead>
 					<tbody>
 					    <!--ELEMENTO QUE SE MOSTRARA CUANDO SE HAGA EL FILTRO Y SE OCULTARA EL DE ARRIBA, SE HACE ASI POR EL FORMATO DE DATOS QUE LO DEVUELVE DISTINTO-->
-						<tr v-if="listaBusqueda == true" :class="{'bg-warning': !soli.status}" v-for="(soli,index) in busqueda" :key="soli.id">
+						<tr :class="{'bg-warning': !soli.status}" v-for="(soli,index) in busqueda" :key="soli.id">
 							<td>{{solicitudes.ci}}</td>
 							<td>{{solicitudes.name}}</td>
 							<td>{{soli.tramite.name}}</td>
@@ -61,20 +64,31 @@
 				search: null,
 				totalPaginas: null,
 				busqueda: null,
+				errors: false
 			}
 		},
 		methods:{
 			buscar(){//FILTRA LOS DATOS POR CEDULA
+				this.errors = false;
+				if (this.search !== '') {
 
-				axios.get('/api/solicitud/publico/'+this.search).then(response => {
+					axios.get('/api/solicitud/publico/'+this.search).then(response => {
 					console.log(response.data);
+					if (response.data.data.length == 0) {
+						this.errors = true
+					}
 					this.solicitudes = response.data.data[0];
 					this.totalPaginas = response.data.last_page;
 					this.busqueda = response.data.data[0].ciudadano.solicitudes;
 					this.listaBusqueda = true;
 				}).catch(e => {
 					console.log(e.response);
+					
 				});
+
+				}
+
+				
 			}
 		},
 		created(){

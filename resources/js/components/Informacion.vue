@@ -34,7 +34,10 @@
         background-image: url('../../../public/img/cnelo.jpg');
      
        	background-size: 100%;
-       	height: 100%;	    
+       	height: 100%;
+       	background-repeat: repeat-y;
+	    position: relative;
+	    background-size: 100%;	    
 	}
 
 	.niideaA{

@@ -22,7 +22,7 @@
 			<b-col sm="12" md="10">
 				<h1 class="text-center display-4">Resumen</h1>
 				<b-row>
-					<b-col md="3" sm="3" col="6">
+					<b-col md="3" sm="3">
 						
 						<div class="card text-white bg-primary shadow">
 							<div class="card-body">
@@ -31,7 +31,7 @@
 						</div>
 					
 					</b-col>
-					<b-col md="3" sm="3" col="6">
+					<b-col md="3" sm="3">
 					
 						<div class="card text-white bg-danger shadow">
 							<div class="card-body">
@@ -40,7 +40,7 @@
 						</div>
 						
 					</b-col>
-					<b-col md="3" sm="3" col="6">
+					<b-col md="3" sm="3">
 			
 						<div class="card text-white bg-success shadow">
 							<div class="card-body">
@@ -49,7 +49,7 @@
 						</div>
 					
 					</b-col>
-					<b-col md="3" sm="3" col="6">
+					<b-col md="3" sm="3">
 				
 						<div class="card text-white bg-warning shadow">
 							<div class="card-body">
@@ -198,7 +198,7 @@
 			axios.get('/api/authperfil?page='+to.query.page, {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
 				this.solicitudes = response.data.solicitudes.data;
 				this.totalPaginas = response.data.solicitudes.last_page;
-				//console.log(response.data);
+				console.log(response.data);
 				
 			}).catch(e => {
 				console.log(e.response);

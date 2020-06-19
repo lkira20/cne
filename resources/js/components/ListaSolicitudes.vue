@@ -5,10 +5,21 @@
 			</div>
 			<div class="card-body">
 				<div class="d-flex" v-if="$can('solicitud.index')">
+					<form @submit.prevent="buscar2" class="form-inline ml-auto mb-3">
+						<b-form-select v-model="estado" :options="estados"></b-form-select>
+						<b-form-select v-model="selected" :options="options"></b-form-select>
+						<b-form-datepicker id="fechai" v-model="fechai" :max="max" class="" reset-button></b-form-datepicker>
+						<b-form-datepicker id="fechaf" :max="max" v-model="fechaf" class=""></b-form-datepicker>
+						<button class="btn btn-outline-danger " type="submit"> buscar</button>
+				
+					</form>
+				</div>
+				<div class="d-flex" v-if="$can('solicitud.index')">
 					<form @submit.prevent="buscar" class="form-inline ml-auto mb-3">
-		     			<input @change="cambioListaBusqueda" class="form-control" type="search" placeholder="cedula" aria-label="Search" v-model="search">
+		     			<input @change="cambioListaBusqueda" class="form-control" placeholder="cedula" aria-label="Search" v-model="search">
 		     			<button class="btn btn-outline-primary my-2 my-sm-0" type="submit">buscar</button>
 		    		</form>
+
 	    		</div>
 				<table class="table table-sm table-hover">
 					<thead>
@@ -167,10 +178,24 @@
 			Graficos
 		},
 		data(){
+			const now = new Date()
+			const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+		    // 15th two months prior
+		    const minDate = new Date(today)
+		    minDate.setMonth(minDate.getMonth() - 2)
+		    minDate.setDate(15)
+		    // 15th in two months
+		    const maxDate = new Date(today)
+		    maxDate.setMonth(maxDate.getMonth() + 2)
+		    maxDate.setDate(15)
+
 			return{
 			solicitudes: [],
 			totalPaginas: null,
-			search: '',//filtro
+			search: "",//filtro
+			fechai: null,
+			fechaf: today,
+			selected: null,
 			listaBusqueda: false,//ESTABLECER QUE IF SE MUESTRA
 			busqueda: [], //DATOS DEL ELEMENTO DE RENDER DEL FILTRO
 			tramites: [],
@@ -179,7 +204,26 @@
 					status: 0,
 					tramite_id: 0
 				},
-			boxTwo: ''
+			boxTwo: '',
+			
+			options:[
+				{value: null, text: "todos"},
+				{value: 1, text: "nacimientos"},
+				{value: 2, text: "matrimonio"},
+				{value: 3, text: "union estable de hecho"},
+				{value: 4, text: "defunciones"},
+				{value: 5, text: "disolucion unilateral"},
+				{value: 6, text: "disolucion conjunta"},
+				{value: 7, text: "copias certificadas"}
+			],
+			url: '/api/solicitud',
+       		max: today,
+       		estado: null,
+       		estados: [
+       			{value: null, text: "estado"},
+       			{value: 1, text: "atendido"},
+       			{value: 0, text: "pendiente"},
+       		]
 			}
 		},
 		methods:{
@@ -189,7 +233,7 @@
 			cambiar(page){//RESUELVE EL BUG QUE DE REGRESO A LA PAGINA 1 NO SE REGRESE
 		
 				if (page == 1) {
-					axios.get('/api/solicitud', {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
+					axios.get(this.url, {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
 					this.solicitudes = response.data.data;
 					this.totalPaginas = response.data.last_page;
 					//console.log(response.data);
@@ -201,7 +245,7 @@
 			},
 			listarSolicitudes(){
 				//CONSULTA PARA LLENAR LA LISTA
-				axios.get('/api/solicitud', {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
+				axios.get(this.url, {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
 					this.solicitudes = response.data.data;
 					this.totalPaginas = response.data.last_page;
 				
@@ -211,9 +255,20 @@
 					console.log(e.response);
 				});
 			},
+			buscar2(){
+				axios.get("/api/datatablesolicitud", {params: {fechaf: this.fechaf, fechai: this.fechai, estado: this.estado, selected: this.selected}}).then(response => {
+					console.log(response.data.solicitudes.data);
+					this.solicitudes = response.data.solicitudes.data;
+					this.totalPaginas = response.data.last_page
+				}).catch(e => {
+					console.log(e.response);
+				})
+				
+			},
 			buscar(){//FILTRA LOS DATOS POR CEDULA
-
-				axios.get('/api/solicitud/filtrar/'+this.search, {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
+				if (this.search != "") {
+					
+					axios.get('/api/solicitud/filtrar/'+this.search, {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
 					console.log(response.data);
 					this.solicitudes = response.data.data[0];
 					this.totalPaginas = response.data.last_page;
@@ -222,11 +277,13 @@
 				}).catch(e => {
 					console.log(e.response);
 				});
+				}		
+				
 			},
 			cambioListaBusqueda(){//FUNCION QUE CAMBIA SI SE MUESTRA EL ELMENTO DEL FILTRO O EL PREDETERMINADO
-				if (this.search == '') {
+				if (this.search == '' && this.selected == null) {
 	
-					axios.get('/api/solicitud', {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
+					axios.get(this.url, {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
 						this.solicitudes = response.data.data;
 						this.totalPaginas = response.data.last_page;
 						this.listaBusqueda = false;
@@ -315,7 +372,7 @@
 		beforeRouteUpdate (to, from, next) {
 			//console.log(to);
 			//CAMBIO DE QUERY PARA CAMBIAR LA LISTA CON PAGINACION
-			axios.get('/api/solicitud?page='+to.query.page, {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
+			axios.get(this.url+'?page='+to.query.page, {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
 				this.solicitudes = response.data.data;
 				this.totalPaginas = response.data.last_page;
 				//console.log(response.data);
