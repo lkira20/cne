@@ -1,7 +1,7 @@
 <template id="tem">
 	<div style="height:100%;" id="caja">
-		<header>
-			<nav v-if="$store.state.token !== null" class="navbar navbar-expand-lg navbar-light bg-light shadow">
+		<header class="">
+			<nav v-if="$store.state.token !== null" class="navbar navbar-expand-lg navbar-dark bg-danger shadow">
 				
 			  <router-link class="navbar-brand" :to="{name: 'inicio'}"><img src="../../public/img/CNE_logo.svg" alt="CNE" width="60px"></router-link>
 			  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -11,13 +11,23 @@
 			  <div class="collapse navbar-collapse" id="navbarSupportedContent">
 			    <ul class="navbar-nav ml-auto">
 			      <li class="nav-item">
-			      	<router-link class="nav-link" :to="{name: 'inicio'}" exact>Inicio <font-awesome-icon icon="home"/></router-link>
+			      	<router-link class="nav-link" :to="{name: 'inicio'}" exact><font-awesome-icon icon="home"/> Inicio</router-link>
 			      </li>
 			      <li class="nav-item">
-			      	<router-link class="nav-link" :to="{name: 'ListCiudadanos'}">Ciudadanos</router-link>
+			      	<!--<router-link class="nav-link" :to="{name: 'ListCiudadanos'}">Ciudadanos</router-link>-->
+
+			      	<b-nav-item-dropdown text="Ciudadanos">
+					    <b-dropdown-item :to="{name: 'ListCiudadanos'}">Lista</b-dropdown-item>
+					    <b-dropdown-item :to="{name: 'ciudadanosCreate'}">Nuevo</b-dropdown-item>
+					</b-nav-item-dropdown>
 			      </li>
 			      <li class="nav-item">
-			      	<router-link class="nav-link" :to="{name: 'ListaSolicitudes'}">Solicitudes</router-link>
+			      	<!--<router-link class="nav-link" :to="{name: 'ListaSolicitudes'}">Solicitudes</router-link>-->
+			      	<b-nav-item-dropdown text="Solicitudes">
+					    <b-dropdown-item :to="{name: 'ListaSolicitudes'}">Lista</b-dropdown-item>
+					    <b-dropdown-item :to="{name: 'IniciarSolicitud'}">Nuevo</b-dropdown-item>
+					    <b-dropdown-item :to="{name: 'TablaAnual'}">Estadisticas</b-dropdown-item>
+					</b-nav-item-dropdown>
 			      </li>
 			      <li class="nav-item">
 			      	<router-link class="nav-link" :to="{name: 'tramites'}">Documentos</router-link>
@@ -30,7 +40,7 @@
 			      </li>
 			      <li class="nav-item dropdown">
 			        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			          Usuario
+			          <span v-if="carga == true">{{usuario.name}}</span>
 			        </a>
 			        <div class="dropdown-menu" aria-labelledby="navbarDropdown" id="drop">
 			       		<!--<router-link class="dropdown-item text-light" :to="{name: 'authperfil'}">Perfil</router-link>-->
@@ -53,6 +63,12 @@
 
 <script type="text/javascript">
 	export default {
+		data(){
+			return{
+				usuario: null,
+				carga: false
+			}
+		},
 		computed:{
 			
 		},
@@ -67,6 +83,19 @@
 		        });;
 					}
 					*/
+		auth(){
+			this.carga = false;
+			axios.get('/api/nombreauth', {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
+				console.log(response.data);
+				this.usuario = response.data;
+				this.carga = true;
+			}).catch(e => {
+				console.log(e.response);
+			});
+		}
+		},
+		created(){
+			this.auth();
 		}
 	}
 </script>

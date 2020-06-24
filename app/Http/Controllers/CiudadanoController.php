@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Dato;
 use App\Ciudadano;
 use App\Http\Requests\CiudadanoRequest;
+use Carbon\Carbon;
 
 class CiudadanoController extends Controller
 {
@@ -116,6 +117,33 @@ class CiudadanoController extends Controller
 
             return response()->json('el ciudadano no esta registrado');
         }    
+        return response()->json($ciudadano);
+    }
+
+    public function filtrarfecha(Request $request)
+    {
+         //fecha final
+            $fechaf = new Carbon($request->fechaf);
+
+            //$fechaf = $fechaf->format("Y-m-d");
+            $fechaf = $fechaf->toDateTimeString();
+       
+            $fechai = null;
+
+        if ($request->fechai == null) {
+            $ciudadano = Dato::orderBy('id', 'DESC')->where('datoable_type', 'App\Ciudadano')->where('created_at', '<=', $fechaf)->paginate();
+        }
+
+        if ($request->fechai != null) {
+            //fecha inicial
+            $fechai = new Carbon($request->fechai);
+
+            $fechai = $fechai->toDateTimeString();
+            //$fechai = $fechai->format("Y-m-d");
+
+            $ciudadano = Dato::orderBy('id', 'DESC')->where('datoable_type', 'App\Ciudadano')->where('created_at', '>=', $fechai)->where('created_at', '<=', $fechaf)->paginate();
+        }
+    
         return response()->json($ciudadano);
     }
 }

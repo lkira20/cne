@@ -6,9 +6,12 @@ use Illuminate\Http\Request;
 use App\Solicitud;
 use App\Ciudadano;
 use App\Dato;
+use App\Tramite;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\SolicitudRequest;
+use App\Mail\SolicitudConcluida;
+use Illuminate\Support\Facades\Mail;
 
 class SolicitudController extends Controller
 {
@@ -331,10 +334,120 @@ class SolicitudController extends Controller
                                 ]);
     }
 
+    public function estadisticaspasada()
+    {   
+        $año = Carbon::now()->year;
+        $año = $año - 1;
+        //GLOBAL
+        $solicitudesglobales = Solicitud::whereYear('fecha', $año )->count();
+
+        $solicitudeGENERO = Solicitud::whereYear('fecha', $año )->WhereMonth('fecha', 1)->count();
+        $solicitudeGFEBRERO = Solicitud::whereYear('fecha', $año )->WhereMonth('fecha', 2)->count();
+        $solicitudeGMARZO = Solicitud::whereYear('fecha', $año )->WhereMonth('fecha', 3)->count();
+        $solicitudeGABRIL = Solicitud::whereYear('fecha', $año )->WhereMonth('fecha', 4)->count();
+        $solicitudeGMAYO = Solicitud::whereYear('fecha', $año )->WhereMonth('fecha', 5)->count();
+        $solicitudeGJUNIO = Solicitud::whereYear('fecha', $año )->WhereMonth('fecha', 6)->count();
+        $solicitudeGJULO = Solicitud::whereYear('fecha', $año )->WhereMonth('fecha', 7)->count();
+        $solicitudeGAGOSTO = Solicitud::whereYear('fecha', $año )->WhereMonth('fecha', 8)->count();
+        $solicitudeGSEPTIEMBRE = Solicitud::whereYear('fecha', $año )->WhereMonth('fecha', 9)->count();
+        $solicitudeGOCTUBRE = Solicitud::whereYear('fecha', $año )->WhereMonth('fecha', 10)->count();
+        $solicitudeGNOVIEMBRE = Solicitud::whereYear('fecha', $año )->WhereMonth('fecha', 11)->count();
+        $solicitudeGDICIEMBRE = Solicitud::whereYear('fecha', $año )->WhereMonth('fecha', 12)->count();
+
+        //ATENDIDAS
+        $solicitudesatendidas = Solicitud::whereYear('fecha', $año )->where('status', 1)->count();
+
+        $solicitudeAENERO = Solicitud::whereYear('fecha', $año )->WhereMonth('fecha', 1)->where('status', 1)->count();
+        $solicitudeAFEBRERO = Solicitud::whereYear('fecha', $año )->WhereMonth('fecha', 2)->where('status', 1)->count();
+        $solicitudeAMARZO = Solicitud::whereYear('fecha', $año )->WhereMonth('fecha', 3)->where('status', 1)->count();
+        $solicitudeAABRIL = Solicitud::whereYear('fecha', $año )->WhereMonth('fecha', 4)->where('status', 1)->count();
+        $solicitudeAMAYO = Solicitud::whereYear('fecha', $año )->WhereMonth('fecha', 5)->where('status', 1)->count();
+        $solicitudeAJUNIO = Solicitud::whereYear('fecha', $año )->WhereMonth('fecha', 6)->where('status', 1)->count();
+        $solicitudeAJULO = Solicitud::whereYear('fecha', $año )->WhereMonth('fecha', 7)->where('status', 1)->count();
+        $solicitudeAAGOSTO = Solicitud::whereYear('fecha', $año )->WhereMonth('fecha', 8)->where('status', 1)->count();
+        $solicitudeASEPTIEMBRE = Solicitud::whereYear('fecha', $año )->WhereMonth('fecha', 9)->where('status', 1)->count();
+        $solicitudeAOCTUBRE = Solicitud::whereYear('fecha', $año )->WhereMonth('fecha', 10)->where('status', 1)->count();
+        $solicitudeANOVIEMBRE = Solicitud::whereYear('fecha', $año )->WhereMonth('fecha', 11)->where('status', 1)->count();
+        $solicitudeADICIEMBRE = Solicitud::whereYear('fecha', $año )->WhereMonth('fecha', 12)->where('status', 1)->count();
+        //ESPERA
+        $solicitudesespera = Solicitud::whereYear('fecha', $año )->where('status', 0)->count();
+
+        $solicitudeEENERO = Solicitud::whereYear('fecha', $año )->WhereMonth('fecha', 1)->where('status', 0)->count();
+        $solicitudeEFEBRERO = Solicitud::whereYear('fecha', $año )->WhereMonth('fecha', 2)->where('status', 0)->count();
+        $solicitudeEMARZO = Solicitud::whereYear('fecha', $año )->WhereMonth('fecha', 3)->where('status', 0)->count();
+        $solicitudeEABRIL = Solicitud::whereYear('fecha', $año )->WhereMonth('fecha', 4)->where('status', 0)->count();
+        $solicitudeEMAYO = Solicitud::whereYear('fecha', $año )->WhereMonth('fecha', 5)->where('status', 0)->count();
+        $solicitudeEJUNIO = Solicitud::whereYear('fecha', $año )->WhereMonth('fecha', 6)->where('status', 0)->count();
+        $solicitudeEJULO = Solicitud::whereYear('fecha', $año )->WhereMonth('fecha', 7)->where('status', 0)->count();
+        $solicitudeEAGOSTO = Solicitud::whereYear('fecha', $año )->WhereMonth('fecha', 8)->where('status', 0)->count();
+        $solicitudeESEPTIEMBRE = Solicitud::whereYear('fecha', $año )->WhereMonth('fecha', 9)->where('status', 0)->count();
+        $solicitudeEOCTUBRE = Solicitud::whereYear('fecha', $año )->WhereMonth('fecha', 10)->where('status', 0)->count();
+        $solicitudeENOVIEMBRE = Solicitud::whereYear('fecha', $año )->WhereMonth('fecha', 11)->where('status', 0)->count();
+        $solicitudeEDICIEMBRE = Solicitud::whereYear('fecha', $año )->WhereMonth('fecha', 12)->where('status', 0)->count();
+
+        return response()->json(['totales' => [
+                                    'totalGlobal' => $solicitudesglobales,
+                                    'totalAtendidas' => $solicitudesatendidas,
+                                    'totalEspera' => $solicitudesespera
+                                ],
+                                'año' => $año,
+                                'globales' => [
+                                    $solicitudeGENERO,
+                                    $solicitudeGFEBRERO,
+                                    $solicitudeGMARZO,
+                                    $solicitudeGABRIL,
+                                    $solicitudeGMAYO,
+                                    $solicitudeGJUNIO,
+                                    $solicitudeGJULO,
+                                    $solicitudeGAGOSTO,
+                                    $solicitudeGSEPTIEMBRE,
+                                    $solicitudeGOCTUBRE,
+                                    $solicitudeGNOVIEMBRE,
+                                    $solicitudeGDICIEMBRE
+                                    ],
+                                'atendidas' => [
+                                    $solicitudeAENERO,
+                                    $solicitudeAFEBRERO,
+                                    $solicitudeAMARZO,
+                                    $solicitudeAABRIL,
+                                    $solicitudeAMAYO,
+                                    $solicitudeAJUNIO,
+                                    $solicitudeAJULO,
+                                    $solicitudeAAGOSTO,
+                                    $solicitudeASEPTIEMBRE,
+                                    $solicitudeAOCTUBRE,
+                                    $solicitudeANOVIEMBRE,
+                                    $solicitudeADICIEMBRE
+                                    ],
+                                'espera' => [
+                                    $solicitudeEENERO,
+                                    $solicitudeEFEBRERO,
+                                    $solicitudeEMARZO,
+                                    $solicitudeEABRIL,
+                                    $solicitudeEMAYO,
+                                    $solicitudeEJUNIO,
+                                    $solicitudeEJULO,
+                                    $solicitudeEAGOSTO,
+                                    $solicitudeESEPTIEMBRE,
+                                    $solicitudeEOCTUBRE,
+                                    $solicitudeENOVIEMBRE,
+                                    $solicitudeEDICIEMBRE
+                                    ]
+                                ]);
+    }
+
     public function publico($search)
     {
          $datos = Dato::with('ciudadano.solicitudes', 'ciudadano.solicitudes.tramite', 'ciudadano.solicitudes.usuario')->where('ci', $search)->paginate(10);
 
         return response()->json($datos);
+    }
+
+    public function enviarcorreo(Request $request){
+
+        $tramite = Tramite::findOrFail($request->tramite_id);
+        Mail::to($request->correo)->send(new SolicitudConcluida($tramite));
+
+        return response()->json("correo enviado exitosamente");
     }
 }

@@ -1,7 +1,11 @@
 <template>
 	<div class="container" id="carta">
 		<h1 class="text-center">Lista de documentos <b-button v-if="$can('tramite.create')" v-b-modal.modal-1 variant="primary">Nuevo</b-button></h1>
-		<div class="list-group mb-5" >
+
+		<div class="text-center" v-if="loader == false">
+			<b-spinner label="Loading..." variant="danger"></b-spinner>
+		</div>
+		<div class="list-group mb-5" v-if="loader == true">
 			<div class="list-group-item list-group-item-action flex-column align-items-start"  v-for="(tramite,index) in tramites" :key="tramite.id">
 				<div id="lista">
 					<div class="d-flex w-100 justify-content-between">
@@ -51,7 +55,8 @@
 					name:'',
 					description: '',
 					boxTwo: ''
-				}
+				},
+				loader: false
 			}
 		},
 		methods:{
@@ -60,6 +65,7 @@
 				axios.get('/api/tramite', {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
 
 					this.tramites = response.data;
+					this.loader = true;
 					console.log(response.data);
 				}).catch(e => {
 					console.log(e.response);

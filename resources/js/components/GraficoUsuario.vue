@@ -16,7 +16,7 @@ export default {
   props: ['grafico'],
   data(){
     return {
-      datacollection: null,
+      datacollection: {},
       listaEspera: [],
       listaAtendidos: [],
       listaGlobales: []

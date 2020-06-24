@@ -1,30 +1,31 @@
 <template>
 	<div class="container row m-auto">
+	
 		<div v-for="(usuario,index) in listaUsuarios" :key="usuario.id" class="card col-12 col-sm-12  col-md-6 col-lg-3 shadow" id="carta" style="width: 18rem;">
 			<img src="../../../public/img/usuario.jpg" class="card-img-top">
-		<div class="card-body">
-			
-			<h5 class="card-title">{{usuario.name}} {{usuario.datos.apellido}}</h5>
-			<ul class="list-group list-group-flush">
-		    	<li class="list-group-item">Role:
-		    		<ul v-for="role in usuario.roles">
-		    			<li>{{role.name}}</li>
-		    		</ul>
-		    	</li>
-		    	<li class="list-group-item">Cedula: {{usuario.datos.ci}}</li>
-		    	<li class="list-group-item">Email: {{usuario.email}}</li>
-			</ul>	    
-		    
-		    <b-button v-if="$can('perfiles.show')" :to="{name: 'UsuariosShow', params: {id: usuario.id}}" variant="primary">Detalles</b-button>
-		    <b-button v-if="$can('perfiles.edit')" v-b-modal="`my-modal-${usuario.id}`"variant="link">Editar</b-button>
-		    <!--MODAL DE EDITAR-->
-		    <b-modal v-if="$can('perfiles.edit')" hide-footer :id="`my-modal-${usuario.id}`" title="Editar usuario" size="lg" @ok="">
-		    	<UsuariosEdit :usuario="usuario"/>
-		    </b-modal>
-		    <!--<b-button variant="danger" @click="eliminarUsuario(usuario.id)">Eliminar</b-button>-->
-		    <b-button v-if="$can('perfiles.delete')" @click="showMsgBoxTwo(usuario.id, index)" variant="danger">Borrar</b-button>
-			
-		</div>
+			<div class="card-body">
+				
+				<h5 class="card-title">{{usuario.name}} {{usuario.datos.apellido}}</h5>
+				<ul class="list-group list-group-flush">
+			    	<li class="list-group-item">Role:
+			    		<ul v-for="role in usuario.roles">
+			    			<li>{{role.name}}</li>
+			    		</ul>
+			    	</li>
+			    	<li class="list-group-item">Cedula: {{usuario.datos.ci}}</li>
+			    	<li class="list-group-item">Email: {{usuario.email}}</li>
+				</ul>	    
+			    
+			    <b-button v-if="$can('perfiles.show')" :to="{name: 'UsuariosShow', params: {id: usuario.id}}" variant="primary">Detalles</b-button>
+			    <b-button v-if="$can('perfiles.edit')" v-b-modal="`my-modal-${usuario.id}`"variant="link">Editar</b-button>
+			    <!--MODAL DE EDITAR-->
+			    <b-modal v-if="$can('perfiles.edit')" hide-footer :id="`my-modal-${usuario.id}`" title="Editar usuario" size="lg" @ok="">
+			    	<UsuariosEdit :usuario="usuario"/>
+			    </b-modal>
+			    <!--<b-button variant="danger" @click="eliminarUsuario(usuario.id)">Eliminar</b-button>-->
+			    <b-button v-if="$can('perfiles.delete')" @click="showMsgBoxTwo(usuario.id, index)" variant="danger">Borrar</b-button>
+				
+			</div>
 		</div>
 	</div>
 </template>
@@ -40,7 +41,8 @@
 		data(){
 			return{		
 			//listaUsuarios: [],
-			boxTwo: ''
+			boxTwo: '',
+			loader: false
 			}
 		},
 		methods:{
@@ -90,6 +92,7 @@
 		mounted(){
 			
 			this.consultarListaUsuarios();
+
 		
 		}
 	}

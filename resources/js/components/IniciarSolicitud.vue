@@ -1,7 +1,7 @@
 <template>
 	<div class="container">
 			<form @submit.prevent="registrarSolicitud">
-				<div class="card mb-2 shadow" id="carta">
+				<div class="card mb-2 mt-5 shadow" id="carta">
 					<div class="card-body">		
 								
 						<div class="form-row ">
@@ -46,7 +46,7 @@
 			  			<div class="form-group">
 			  				<label for="tramite">tramite</label>
 							 <select  id="tramite" v-model="solicitud.tramite" name="tramite" class="form-control" required>
-							 	<option value="">seleccione algun tramite</option>
+							 	<option value="" >seleccione algun tramite</option>
 							 	<option v-for="tramit in tramites" :key="tramit.id" :value="tramit.id">{{tramit.name}}</option>						 	
 	                         </select>
 			  			</div>
@@ -84,7 +84,7 @@
 					apellido: '',
 					email: '',
 					id: null,
-					tramite: null,//datos de la solicitud
+					tramite: "",//datos de la solicitud
 					descripcion: '',
 					status: false},
 				desactivar: false,//desactivar campos de la consulta del ciudadano

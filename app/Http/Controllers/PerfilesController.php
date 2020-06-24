@@ -7,6 +7,7 @@ use App\User;
 use App\Dato;
 use App\Solicitud;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class PerfilesController extends Controller
 {
@@ -226,5 +227,26 @@ class PerfilesController extends Controller
                                     $solicitudeEDICIEMBRE
                                     ]
                                 ]);
+    }
+
+    public function avatar(Request $request)
+    {
+        
+        if ($request->hasFile('avatar')) {
+
+            $file = $request->file('avatar');
+            $name = time().$file->getClientOriginalName();
+
+            $file->move(public_path().'/img/', $name);
+         
+
+            $usuario = User::findOrFail(Auth::id());
+
+            $usuario->avatar = $name;
+            $usuario->save();
+        }
+        
+
+        return response()->json("avatar guardado");
     }
 }

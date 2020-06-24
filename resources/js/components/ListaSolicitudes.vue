@@ -21,12 +21,15 @@
 		    		</form>
 
 	    		</div>
-				<table class="table table-sm table-hover">
+	    		<div class="text-center" v-if="loader == false">
+			    	<b-spinner label="Loading..." variant="danger"></b-spinner>
+			    </div>
+				<table class="table table-sm table-hover" v-if="loader">
 					<thead>
 						<tr>
 							<th scope="col">cedula</th>
 							<th scope="col">nombre</th>
-							<th scope="col">usuario</th>
+							<th scope="col" class="d-none d-md-block">usuario</th>
 							<th scope="col">tramite</th>
 							<th scope="col">fecha</th>
 							<th>Opciones</th>
@@ -36,7 +39,7 @@
 					    <tr v-if="listaBusqueda == false" :class="{'bg-warning': !solicitud.status}" v-for="(solicitud,index) in solicitudes" :key="solicitud.id">
 					    	<td>{{solicitud.ciudadano.datos.ci}}</td>
 					  		<td>{{solicitud.ciudadano.datos.name}}</td>
-					    	<td>{{solicitud.usuario? solicitud.usuario.name: 'indefinido'}}</td>
+					    	<td class="d-none d-md-block">{{solicitud.usuario? solicitud.usuario.name: 'indefinido'}}</td>
 					    	<td>{{solicitud.tramite?  solicitud.tramite.name: 'indefinido'}}</td>
 					    	<td>{{solicitud.fecha}}</td>
 					    	<td>
@@ -44,7 +47,7 @@
 					      		<!--MODAL DE EDITAR-->
 					      		<b-modal v-if="$can('solicitud.edit')" :id="`my-modal${index}`" hide-footer title="Datos para la solicitud">
 					      		<!--<SolicitudesEdit :solicitud="solicitud" :modal="`my-modal${index}`"/>-->
-								<form @submit.prevent="editarSolicitud(solicitud.tramite.id, solicitud.status, solicitud.descripcion, solicitud.id, index)">
+								<form @submit.prevent="editarSolicitud(solicitud.ciudadano.datos.email,solicitud.tramite.id, solicitud.status, solicitud.descripcion, solicitud.id, index)">
 									<div class="mb-2">
 										<div class="">	
 								  			<div class="form-group">
@@ -67,6 +70,7 @@
 								  				<label for="descripcion">Descripcion de solicitud.</label>
 								  				<textarea class="form-control" id="descripcion" rows="3" name="descripcion" v-model="solicitud.descripcion"></textarea>
 								  			</div>
+								  			<small class="text-muted">Nota: Al cambiar el estado a atendido le enviara automaticamente un correo al ciudadano informandole sobre la culminacion de su solicitud</small>
 								  			<div class="text-center mb-3">
 								  				<button type="submit" class="btn btn-outline-danger btn-lg btn-block" name="registrar-solicitud">Editar</button>
 								  			</div>
@@ -96,7 +100,7 @@
 						<tr v-if="listaBusqueda == true" :class="{'bg-warning': !soli.status}" v-for="(soli,index) in busqueda" :key="soli.id">
 							<td>{{solicitudes.ci}}</td>
 							<td>{{solicitudes.name}}</td>
-							<td>{{soli.usuario? soli.usuario.name: 'indefinido'}}</td>
+							<td class="d-none d-md-block">{{soli.usuario? soli.usuario.name: 'indefinido'}}</td>
 							<td>{{soli.tramite.name}}</td>
 							<td>{{soli.fecha}}</td>
 					    	<td>
@@ -190,6 +194,7 @@
 		    maxDate.setDate(15)
 
 			return{
+			loader: false,
 			solicitudes: [],
 			totalPaginas: null,
 			search: "",//filtro
@@ -202,7 +207,8 @@
 			envio: {//OBJETO DE ENVIO PARA EDITAR
 					descripcion: '',
 					status: 0,
-					tramite_id: 0
+					tramite_id: 0,
+					correo: ''
 				},
 			boxTwo: '',
 			
@@ -248,7 +254,7 @@
 				axios.get(this.url, {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
 					this.solicitudes = response.data.data;
 					this.totalPaginas = response.data.last_page;
-				
+					this.loader = true;
 					console.log(this.solicitudes);
 					//console.log(this.$route);
 				}).catch(e => {
@@ -256,13 +262,17 @@
 				});
 			},
 			buscar2(){
-				axios.get("/api/datatablesolicitud", {params: {fechaf: this.fechaf, fechai: this.fechai, estado: this.estado, selected: this.selected}}).then(response => {
-					console.log(response.data.solicitudes.data);
-					this.solicitudes = response.data.solicitudes.data;
-					this.totalPaginas = response.data.last_page
-				}).catch(e => {
-					console.log(e.response);
-				})
+				if (this.fechai == null && this.estado == null && this.selected == null) {
+					this.listarSolicitudes();
+				}else{
+					axios.get("/api/datatablesolicitud", {params: {fechaf: this.fechaf, fechai: this.fechai, estado: this.estado, selected: this.selected}}).then(response => {
+						console.log(response.data.solicitudes.data);
+						this.solicitudes = response.data.solicitudes.data;
+						this.totalPaginas = response.data.last_page
+					}).catch(e => {
+						console.log(e.response);
+					})
+				}
 				
 			},
 			buscar(){//FILTRA LOS DATOS POR CEDULA
@@ -306,15 +316,26 @@
 					console.log(e);
 				});
 			},
-			editarSolicitud(tramite, status, descripcion, id, index){ //MODAL EDIT
+			editarSolicitud(correo, tramite, status, descripcion, id, index){ //MODAL EDIT
 				//CONFIGURAR EL OBJETO DE ENVIO
 				this.envio.tramite_id = tramite;
 				this.envio.status = status;
 				this.envio.descripcion = descripcion;
+				this.envio.correo = correo;
 
 				axios.put('/api/solicitud/'+id, this.envio, {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
-					this.$bvModal.hide(`my-modal${index}`);	
-						
+						this.$bvModal.hide(`my-modal${index}`);	
+
+						if (this.envio.status == 1) {
+
+							axios.get('/api/enviarcorreo', {params: this.envio, headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
+
+								console.log(response.data);
+
+							}).catch(e => {
+								console.log(e.response);
+							})
+						}
 						if (this.listaBusqueda === false) {
 							axios.get('/api/solicitud', {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
 							this.solicitudes = response.data.data;

@@ -42,16 +42,16 @@ class UserSeeder extends Seeder
         //usuario
         //NORMAL
         $usuario = new App\User();
-        $usuario->name = 'jose';
-        $usuario->email = 'jose@gmail.com';
+        $usuario->name = 'luis';
+        $usuario->email = 'luis@gmail.com';
         $usuario->password = bcrypt(12345678);
         $usuario->save();
         $usuario->assignRoles('normal', 'normal');
 
         App\Dato::create([
                             'name' => $usuario->name,
-                            'apellido' => 'lopez',
-                            'ci' => '25345622',
+                            'apellido' => 'briceño',
+                            'ci' => '26734165',
                             'email' => $usuario->email,
                             'datoable_type' => 'App\User',
                             'datoable_id' => $usuario->id

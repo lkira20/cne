@@ -171,4 +171,11 @@ class AuthPerfilController extends Controller
                             'notas' => $notificaciones
                             ]);
     }
+
+    public function nombreauth(){
+
+        $usuario = Auth::user();
+
+        return response()->json($usuario);
+    }
 }

@@ -14,6 +14,7 @@ import ciudadanosEdit from './components/CiudadanosEdit'
 import ListaSolicitudes from './components/ListaSolicitudes'
 import TablaAnual from './components/TablaAnual'
 import Graficos from './components/Graficos';
+import GraficoFiltro from './components/GraficoFiltro';
 import ListUsuarios from './components/ListUsuarios';
 import UsuariosShow from './components/UsuariosShow';
 import AuthPerfil from './components/AuthPerfil';
@@ -28,9 +29,13 @@ import NotFound from './views/NotFound'
 import Login from './views/Login'
 import Logout from './views/Logout'
 import sinAutorizacion from './views/403'
+
+import dashboard from './components/AuthPerfil'
 Vue.use(Router)
 
 import Permissions from './mixins/Permissions';
+
+import ListaGraficos from './components/ListaGraficos';
 
 export default new Router({
 
@@ -51,7 +56,7 @@ export default new Router({
         {
             path: '/home',
             name: 'inicio',
-            component: inicio,
+            component: dashboard,
             meta: {
                 requiresAuth: true,
             }
@@ -72,7 +77,8 @@ export default new Router({
             component: solicitudes,
             children: [
                 {path: '/', component: ListaSolicitudes, name: 'ListaSolicitudes'},
-                {path: 'estadisticas', component: Graficos, name: 'TablaAnual'},
+                {path: 'estadisticas', component: ListaGraficos, name: 'TablaAnual'},
+                {path: 'filtro/:ano', component: GraficoFiltro, name: 'filtro', props: true},
                 {path: 'iniciarSolicitud', component: IniciarSolicitud, name: 'IniciarSolicitud'},
             ],
             meta: {

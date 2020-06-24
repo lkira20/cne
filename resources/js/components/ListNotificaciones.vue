@@ -1,8 +1,10 @@
 <template>
 	<div class="container">
 		<h1 class="text-center">Notas <b-button v-if="$can('notificaciones.create')" v-b-modal.modal-1 variant="primary">Nuevo</b-button></h1>
-
-		<div class="alert alert-warning alert-dismissible fade show" role="alert" v-for="(notificacion, index) in notificaciones" :key="notificacion.id">
+		<div class="text-center" v-if="loader == false">
+	    	<b-spinner label="Loading..." variant="danger"></b-spinner>
+	    </div>
+		<div v-if="loader == true" class="alert alert-warning alert-dismissible fade show" role="alert" v-for="(notificacion, index) in notificaciones" :key="notificacion.id">
 			<h4 class="alert-heading">{{notificacion.asunto}}</h4>
 			<small class="text-muted">{{fecha(notificacion.created_at)}}</small>
 		    <p>
@@ -40,7 +42,8 @@
 				envio:{
 					asunto: '',
 					description: ''
-				}
+				},
+				loader: false
 			}
 		},
 		methods:{
@@ -49,6 +52,7 @@
 				axios.get('/api/notificaciones', {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
 					
 					this.notificaciones = response.data;
+					this.loader = true;
 					console.log(this.notificaciones);
 				}).catch(e => {
 					console.log(e.response);
