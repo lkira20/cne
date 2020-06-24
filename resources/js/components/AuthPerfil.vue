@@ -6,7 +6,7 @@
 		<b-row v-if="carga == true">
 			<b-col lg="2" class="mt-5 d-md-none d-sm-none d-none d-lg-block text-center">
 				
-					<img src="../../../public/img/usuario.jpg" v-if="usuario.avatar == ''" class="card-img-top ">
+					<img src="../../../public/img/usuario.jpg" class="card-img-top ">
 					<!--
 					<b-img :src="`../../../public/img/${usuario.avatar}`" v-if="usuario.avatar != ''" class="card-img-top " fluid alt="Fluid image"></b-img>
 						<b-form-file
