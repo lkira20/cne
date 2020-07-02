@@ -7,7 +7,7 @@
 		    		</form>
 	    	</div>
 	    	<div class="alert alert-danger" v-if="errors">
-	    		no se a encontrado ninguna solicitud con esa cedula
+	    		no se ha encontrado ninguna solicitud con esa cédula
 	    	</div>
 				<table v-if="listaBusqueda == true" class="table table-sm table-hover shadow" id="perfilpu" style="height: 100%;">
 					
@@ -61,7 +61,7 @@
 			return{
 				listaBusqueda: false,
 				solicitudes: [],
-				search: null,
+				search: '',
 				totalPaginas: null,
 				busqueda: null,
 				errors: false
@@ -70,12 +70,14 @@
 		methods:{
 			buscar(){//FILTRA LOS DATOS POR CEDULA
 				this.errors = false;
-				if (this.search !== '') {
+				this.listaBusqueda = false;
+				if (this.search != '' && this.search != null) {
 
 					axios.get('/api/solicitud/publico/'+this.search).then(response => {
-					console.log(response.data);
+					//console.log(response.data);
 					if (response.data.data.length == 0) {
 						this.errors = true
+						//this.solicitudes = [];
 					}
 					this.solicitudes = response.data.data[0];
 					this.totalPaginas = response.data.last_page;
@@ -86,6 +88,9 @@
 					
 				});
 
+				}else{
+					this.errors = true;
+					//this.solicitudes = [];
 				}
 
 				

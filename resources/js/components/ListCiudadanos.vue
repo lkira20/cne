@@ -25,16 +25,20 @@
 		      		<th scope="col" class="d-none d-md-block">Apellido</th>
 		     		<th scope="col" >Cedula</th>    
 		      		<th scope="col">Email</th>
-		      		<th scope="col">Opciones</th>
+		      		<th scope="col" v-if="$can('ciudadano.edit')">Opciones</th>
 		    	</tr>
 		  	</thead>
+		  
 		  	<tbody >
+		  		<tr v-if="error == true  || keeps.length == 0">
+		  			No se ha encontrado ningun ciudadano
+		  		</tr>
 		  		<tr v-for="(keep,index) in keeps">
 		  			<td >{{ keep.name }}</td>
 				    <td class="d-none d-md-block">{{ keep.apellido }}</td>
 				    <td>{{ keep.ci }}</td>
 				    <td>{{ keep.email }}</td>
-				    <td>
+				    <td v-if="$can('ciudadano.edit')">
 				    <router-link v-if="$can('ciudadano.edit')" class="btn btn-link btn-block" :to="{name: 'ciudadanosEdit', params: {id: keep.datoable_id}}">editar</router-link>
 				    <button v-if="$can('ciudadano.delete')" class="btn btn-danger btn-block" @click='eliminar(keep.datoable_id, index)'>Eliminar</button>
 				    </td>
@@ -106,7 +110,8 @@
 			fechai: null,
 			fechaf: today,
 			search: '',
-			loader: false
+			loader: false,
+			error: false
 			}
 		},
 		computed: {//PAGINACION DE RIMORSOFT
@@ -154,6 +159,7 @@
 		
 			},
 			getKeeps(page){
+				this.error = false;
 				axios.get('/api/ciudadano?page='+page, {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(datos => {
 				/*console.log(datos.data);
 				this.lista = datos.data;*/
@@ -170,10 +176,17 @@
 				this.getKeeps(page);
 			},
 			filtrar(){
+				this.error = false
 				if (this.search != '') {
+
 					axios.get('/api/ciudadano/comprobar/'+this.search, {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(datos => {
-						console.log(datos.data);
-						this.keeps = datos.data;
+						//console.log(typeof(datos.data));
+						if (typeof(datos.data) == "string") {
+							this.error = true;
+							this.keeps = [];
+						}else{
+							this.keeps = datos.data;
+						}
 						//this.pagination = {};
 					}).catch(e => {
 						console.log(e);

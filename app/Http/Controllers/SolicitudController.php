@@ -130,7 +130,7 @@ class SolicitudController extends Controller
 /*
         /$solicitudes = Solicitud::with('tramite','ciudadano.datos', 'usuario')->whereDate('fecha', $search)->orWhereYear('fecha', $search)->orWhereMonth('fecha', $search)->orWhereDay('fecha', $search)->paginate(10);
 */
-        $datos = Dato::with('ciudadano.solicitudes', 'ciudadano.solicitudes.tramite', 'ciudadano.solicitudes.usuario')->where('ci', $search)->paginate(10);
+        $datos = Dato::with('ciudadano.solicitudes', 'ciudadano.solicitudes.tramite', 'ciudadano.solicitudes.usuario')->where('ci', $search)->where('datoable_type', 'App\Ciudadano')->paginate(10);
 
         return response()->json($datos);
     }
@@ -438,7 +438,7 @@ class SolicitudController extends Controller
 
     public function publico($search)
     {
-         $datos = Dato::with('ciudadano.solicitudes', 'ciudadano.solicitudes.tramite', 'ciudadano.solicitudes.usuario')->where('ci', $search)->paginate(10);
+         $datos = Dato::with('ciudadano.solicitudes', 'ciudadano.solicitudes.tramite', 'ciudadano.solicitudes.usuario')->where('ci', $search)->where('datoable_type', 'App\Ciudadano')->paginate(10);
 
         return response()->json($datos);
     }

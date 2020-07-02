@@ -1,7 +1,7 @@
 <template>
 		<div class="container card shadow" id="carta">
 		 	<div class="card-header">
-		    	<h2 class="text-center card-title">Lista de mis solicitudes <b-button :to="{name: 'IniciarSolicitud'}" variant="primary">nuevo</b-button></h2>
+		    	<h2 class="text-center card-title">Lista de mis solicitudes <b-button :to="{name: 'IniciarSolicitud'}" variant="primary" v-if="$can('solicitud.create')">nuevo</b-button></h2>
 			</div>
 			<div class="card-body">
 				<div class="d-flex" v-if="$can('solicitud.index')">
@@ -36,6 +36,9 @@
 						</tr>
 					</thead>
 					<tbody>
+						<tr v-if="solicitudes == null || solicitudes.length == 0" colspan="6">
+							<td>No se ha encontrado ninguna solicitud</td>
+						</tr>
 					    <tr v-if="listaBusqueda == false" :class="{'bg-warning': !solicitud.status}" v-for="(solicitud,index) in solicitudes" :key="solicitud.id">
 					    	<td>{{solicitud.ciudadano.datos.ci}}</td>
 					  		<td>{{solicitud.ciudadano.datos.name}}</td>
@@ -262,7 +265,8 @@
 				});
 			},
 			buscar2(){
-				if (this.fechai == null && this.estado == null && this.selected == null) {
+				this.listaBusqueda == false;
+				if ((this.fechai == null || this.fechai == '') && this.estado == null && this.selected == null) {
 					this.listarSolicitudes();
 				}else{
 					axios.get("/api/datatablesolicitud", {params: {fechaf: this.fechaf, fechai: this.fechai, estado: this.estado, selected: this.selected}}).then(response => {

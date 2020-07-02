@@ -28,11 +28,6 @@
 							</b-form-group>
 						</b-col>
 						<b-col sm="12" md="6">
-							<b-form-group id="input-group-4" label="Cedula:" label-for="cedula">
-					        	<b-form-input id="cedula" type="number" required placeholder="Cedula" v-model="envio.ci"></b-form-input>
-							</b-form-group>
-						</b-col>
-						<b-col sm="12" md="6">
 							<b-form-group id="input-group-5" label="Contraseña:" label-for="contraseña">
 					        	<b-form-input id="contraseña" type="password" placeholder="Nueva contraseña (Opcional)" v-model="envio.password"></b-form-input>
 							</b-form-group>
@@ -76,8 +71,8 @@
 					name: '',
 					apellido: '',
 					email: '',
-					password: null,
-					password_confirmation: null,
+					password: '',
+					password_confirmation: '',
 					ci: null,
 					roles: []
 					},

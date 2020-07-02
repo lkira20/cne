@@ -111,7 +111,7 @@ class CiudadanoController extends Controller
 
     public function comprobarCedula($cedula)
     {
-        $ciudadano = Dato::where('ci', $cedula)->get();
+        $ciudadano = Dato::where('ci', $cedula)->where('datoable_type', 'App\Ciudadano')->get();
 
         if (empty($ciudadano[0]->id)) {
 

@@ -51,7 +51,7 @@ export default {
       email: null,
       password: null,
       error: null
-    };
+    }
   },
   methods: {
     login() {
@@ -73,8 +73,14 @@ export default {
           this.error = error.response.data;
         });
     }
+  },
+  beforeCreate(){
+    if (this.$store.state.token !== null) {
+
+      this.$router.replace('home')
+    }
   }
-};
+}
 </script>
 
 <style type="text/css" >

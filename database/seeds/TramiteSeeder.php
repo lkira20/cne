@@ -24,7 +24,7 @@ class TramiteSeeder extends Seeder
         $tramite->save();
 
         $tramite = new Tramite();
-        $tramite->name = 'Uniones establas de hecho';
+        $tramite->name = 'Uniones estables de hecho';
         $tramite->description = 'es la cohabitación o vida en común, elemento que puede ser sustituido por la convivencia en visitas constantes, socorro mutuo, ayuda económica reiterada, vida social conjunta, e hijos, entre un hombre y una mujer, sin impedimentos para contraer matrimonio, tal unión será con carácter de permanencia (dos años mínimo), y que la pareja sea soltera, formada por divorciados o viudos entre sí o con solteros, sin que existan impedimentos dirimentes que impidan el matrimonio.';
         $tramite->save();
 

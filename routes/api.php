@@ -63,6 +63,7 @@ Route::apiResource('notificaciones', 'NotificacionesController')->middleware('au
 Route::apiResource('perfiles', 'PerfilesController')->middleware('auth:api');
 Route::get('perfiles/estadisticas/{id}', 'PerfilesController@estadisticas')->middleware('auth:api');
 
+
 Route::middleware('auth:api')->post('avatar', 'PerfilesController@avatar');
 //RUTAS DE ROLES
 Route::get('roles', 'RoleController@index')->middleware('auth:api');
@@ -70,3 +71,4 @@ Route::get('roles', 'RoleController@index')->middleware('auth:api');
 //datatablesolicitud
 Route::get("datatablesolicitud", "datatableSolicitud@index");
 Route::get("buscarDashboard", "datatableSolicitud@buscarDashboard")->middleware('auth:api');
+Route::get("filtradouser", "datatableSolicitud@filtradouser");

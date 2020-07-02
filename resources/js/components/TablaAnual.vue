@@ -9,7 +9,10 @@
 		     			<input class="form-control" type="search" placeholder="Año" aria-label="Search" v-model="busqueda">
 		     			<button class="btn btn-outline-primary" type="submit">buscar</button>
 		    		</form>
-	    		</div>
+	    	</div>
+	    	<div class="alert alert-danger" v-if="error">
+	    		No se han encontrado datos con este año
+	    	</div>
 			<div class="card-body">
 				<div class="text-center" v-if="loader == false">
 			    	<b-spinner label="Loading..." variant="danger"></b-spinner>
@@ -120,27 +123,34 @@
 				totales: {},
 				año: {},
 				busqueda: null,
-				loader: null
+				loader: null,
+				error: false
 			}
 		},
 		methods:{
 			filtrar(){
-			this.loader = false;
-		   	axios.get('/api/estadisticas/'+this.busqueda, {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
-			 
-			    this.espera = response.data.espera;
-			    this.atendidos = response.data.atendidas;
-			    this.globales = response.data.globales;
-			    this.totales = response.data.totales;
-			    this.año = response.data.año;
+			if (this.busqueda == null || this.busqueda == '') {
+				this.loader = null;
+			}else{
 
-			    
-			    	this.loader = true;	
-			    
-			    console.log(response.data);
-			    }).catch(e => {
-			        console.log(e.response);
-			    });
+
+				this.loader = false;
+			   	axios.get('/api/estadisticas/'+this.busqueda, {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
+				 
+				    this.espera = response.data.espera;
+				    this.atendidos = response.data.atendidas;
+				    this.globales = response.data.globales;
+				    this.totales = response.data.totales;
+				    this.año = response.data.año;
+				   
+				    	this.loader = true;	
+				  
+				    
+				    console.log(response.data);
+				    }).catch(e => {
+				        console.log(e.response);
+				    });
+				}
 			}
 		}
 	}

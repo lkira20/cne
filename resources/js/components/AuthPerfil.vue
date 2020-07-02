@@ -77,7 +77,7 @@
 					</b-col>
 				</b-row>
 				<!--GRAFICOs-->
-				<b-row>			
+				<b-row v-if="$can('solicitud.create')">			
 				<b-col sm="12" md="12" lg="12" xl="6" class="text-center">
 					
 					<GraficoUsuario :grafico="usuario.id" class="shadow"/>
@@ -87,9 +87,16 @@
 					<Grafico class="shadow"/>
 				</b-col>
 				</b-row>
+				
+				<b-row v-if="!$can('solicitud.create')">
+					<b-col sm="12" md="12" lg="12" xl="12" class="text-center">
+					
+					<Grafico class="shadow"/>
+					</b-col>
+				</b-row>
 
 				<!--TABLA-->
-				<b-row>
+				<b-row v-if="$can('solicitud.create')">
 					
 					<b-col md="6" lg="6">
 					<h3 class="">Lista de solicitudes</h3>
@@ -151,6 +158,15 @@
 								<li class="list-group-item" v-for="(nota,index) in notas" :key="index" id="notas3"><b>{{nota.asunto}} - {{nota.description}}</b></li>  	
 							</ul>
 					</b-col>	    
+				</b-row>
+
+				<b-row v-if="!$can('solicitud.create')">
+					<b-col md="12" lg="12">
+						<h3 class="">Ultimas notas</h3>
+							<ul class="list-group shadow" id="notas2">
+								<li class="list-group-item" v-for="(nota,index) in notas" :key="index" id="notas3"><b>{{nota.asunto}} - {{nota.description}}</b></li>  	
+							</ul>
+					</b-col>
 				</b-row>
 			</b-col>
 			<!--RESUMEN-->

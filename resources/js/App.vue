@@ -18,14 +18,14 @@
 
 			      	<b-nav-item-dropdown text="Ciudadanos">
 					    <b-dropdown-item :to="{name: 'ListCiudadanos'}">Lista</b-dropdown-item>
-					    <b-dropdown-item :to="{name: 'ciudadanosCreate'}">Nuevo</b-dropdown-item>
+					    <b-dropdown-item :to="{name: 'ciudadanosCreate'}" v-if="$can('ciudadano.create')">Nuevo</b-dropdown-item>
 					</b-nav-item-dropdown>
 			      </li>
 			      <li class="nav-item">
 			      	<!--<router-link class="nav-link" :to="{name: 'ListaSolicitudes'}">Solicitudes</router-link>-->
 			      	<b-nav-item-dropdown text="Solicitudes">
 					    <b-dropdown-item :to="{name: 'ListaSolicitudes'}">Lista</b-dropdown-item>
-					    <b-dropdown-item :to="{name: 'IniciarSolicitud'}">Nuevo</b-dropdown-item>
+					    <b-dropdown-item :to="{name: 'IniciarSolicitud'}" v-if="$can('solicitud.create')">Nuevo</b-dropdown-item>
 					    <b-dropdown-item :to="{name: 'TablaAnual'}">Estadisticas</b-dropdown-item>
 					</b-nav-item-dropdown>
 			      </li>
@@ -40,7 +40,8 @@
 			      </li>
 			      <li class="nav-item dropdown">
 			        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-			          <span v-if="carga == true">{{usuario.name}}</span>
+			          <!--<span v-if="carga == true">{{usuario.name}}</span>-->
+			          
 			        </a>
 			        <div class="dropdown-menu" aria-labelledby="navbarDropdown" id="drop">
 			       		<!--<router-link class="dropdown-item text-light" :to="{name: 'authperfil'}">Perfil</router-link>-->
@@ -86,7 +87,7 @@
 		auth(){
 			this.carga = false;
 			axios.get('/api/nombreauth', {headers: {Authorization: "Bearer "+ this.$store.state.token}}).then(response => {
-				console.log(response.data);
+				//console.log(response.data);
 				this.usuario = response.data;
 				this.carga = true;
 			}).catch(e => {
@@ -95,7 +96,8 @@
 		}
 		},
 		created(){
-			this.auth();
+			//this.auth();
+
 		}
 	}
 </script>

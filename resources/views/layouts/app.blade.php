@@ -11,16 +11,16 @@
     <title>CNE</title>
 
     <!-- Scripts -->
-    <!--<script src="{{ asset('js/app.js') }}" defer></script>PARA PRODUCCION-->
+    <script src="{{ asset('js/app.js') }}" defer></script>
 
-   <script src="{{ secure_asset('js/app.js') }}" defer></script>
+   <!--<script src="{{ secure_asset('js/app.js') }}" defer></script>PARA PRODUCCION-->
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <!-- Styles -->
-   <!--<link href="{{ asset('css/app.css') }}" rel="stylesheet">PARA PRODUCCION-->
-    <link href="{{ secure_asset('css/app.css') }}" rel="stylesheet">
+   <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+   <!-- <link href="{{ secure_asset('css/app.css') }}" rel="stylesheet">PARA PRODUCCION-->
 
     <style type="text/css">
         html, body{
@@ -31,8 +31,8 @@
         }
     </style>
 
-    <!--<link rel="icon" type="image/svg+xml" href="{{asset('img/CNE_logo.svg')}}" sizes="any">-->
-    <link rel="icon" type="image/svg+xml" href="{{secure_asset('img/CNE_logo.svg')}}" sizes="any">
+    <link rel="icon" type="image/svg+xml" href="{{asset('img/CNE_logo.svg')}}" sizes="any">
+    <!--<link rel="icon" type="image/svg+xml" href="{{secure_asset('img/CNE_logo.svg')}}" sizes="any">-->
 </head>
 <body>
     <div id="app" style="height:100%;">
